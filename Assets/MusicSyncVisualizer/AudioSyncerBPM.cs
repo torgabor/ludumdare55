@@ -13,12 +13,12 @@ public class AudioSyncerBPM : MonoBehaviour
 {
     private int lastBeat = 0;
     public AudioClip Clip;
-    public float BeatsPerMinute = 120f;
+    
     public int CurrentBeat
     {
         get
         {
-            float beatsPerSecond = BeatsPerMinute / 60;
+            float beatsPerSecond = 120 / 60;
             return (int)Mathf.Floor(beatsPerSecond * Time.realtimeSinceStartup);
         }
     }

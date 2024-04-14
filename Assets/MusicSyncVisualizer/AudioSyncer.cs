@@ -11,60 +11,85 @@ using UnityEngine;
 public class AudioSyncer : MonoBehaviour
 {
 
-	public Action Beat;
-	
-	/// <summary>
-	/// Inherit this to cause some behavior on each beat
-	/// </summary>
-	public virtual void OnBeat()
-	{
-		Beat?.Invoke();
-		m_timer = 0;
-		m_isBeat = true;
-	}
+    public Action Beat;
 
-	/// <summary>
-	/// Inherit this to do whatever you want in Unity's update function
-	/// Typically, this is used to arrive at some rest state..
-	/// ..defined by the child class
-	/// </summary>
-	public virtual void OnUpdate()
-	{ 
-		// update audio value
-		m_previousAudioValue = m_audioValue;
-		m_audioValue = AudioSpectrum.spectrumValue;
+    private int lastBeat = 0;
+    public int CurrentBeat
+    {
+        get
+        {
+            return (int)Mathf.Floor((float)(AudioSettings.dspTime / 60 * AudioManager.Instance.BPM));
+        }
+    }
 
-		// if audio value went below the bias during this frame
-		if (m_previousAudioValue > m_settings.bias &&
-			m_audioValue <= m_settings.bias)
-		{
-			// if minimum beat interval is reached
-			if (m_timer > m_settings.timeStep)
-				OnBeat();
-		}
+    public virtual void OnStart()
+    {
+        lastBeat = CurrentBeat;
+    }
 
-		// if audio value went above the bias during this frame
-		if (m_previousAudioValue <= m_settings.bias &&
-			m_audioValue > m_settings.bias)
-		{
-			// if minimum beat interval is reached
-			if (m_timer > m_settings.timeStep)
-				OnBeat();
-		}
+    private void Start()
+    {
+        OnStart();
+    }
 
-		m_timer += Time.deltaTime;
-	}
+    /// <summary>
+    /// Inherit this to cause some behavior on each beat
+    /// </summary>
+    public virtual void OnBeat()
+    {
+        Beat?.Invoke();
+        m_timer = 0;
+        m_isBeat = true;
+    }
 
-	private void Update()
-	{
-		OnUpdate();
-	}
+    /// <summary>
+    /// Inherit this to do whatever you want in Unity's update function
+    /// Typically, this is used to arrive at some rest state..
+    /// ..defined by the child class
+    /// </summary>
+    public virtual void OnUpdate()
+    {
+        if (CurrentBeat != lastBeat)
+        {
+            OnBeat();
+            lastBeat = CurrentBeat;
+        }
 
-	public AudioSyncSettings m_settings;
+        //// update audio value
+        //m_previousAudioValue = m_audioValue;
+        //m_audioValue = AudioSpectrum.spectrumValue;
 
-	private float m_previousAudioValue;
-	private float m_audioValue;
-	private float m_timer;
+        //// if audio value went below the bias during this frame
+        //if (m_previousAudioValue > m_settings.bias &&
+        //	m_audioValue <= m_settings.bias)
+        //{
+        //	// if minimum beat interval is reached
+        //	if (m_timer > m_settings.timeStep)
+        //		OnBeat();
+        //}
 
-	protected bool m_isBeat;
+        //// if audio value went above the bias during this frame
+        //if (m_previousAudioValue <= m_settings.bias &&
+        //	m_audioValue > m_settings.bias)
+        //{
+        //	// if minimum beat interval is reached
+        //	if (m_timer > m_settings.timeStep)
+        //		OnBeat();
+        //}
+
+        //m_timer += Time.deltaTime;
+    }
+
+    private void Update()
+    {
+        OnUpdate();
+    }
+
+    public AudioSyncSettings m_settings;
+
+    private float m_previousAudioValue;
+    private float m_audioValue;
+    private float m_timer;
+
+    protected bool m_isBeat;
 }
