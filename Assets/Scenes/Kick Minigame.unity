@@ -291,7 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioListener: {fileID: 0}
   source: {fileID: 0}
-  BeatsPerMinute: 120
+  BPM: 120
 --- !u!4 &565728920
 Transform:
   m_ObjectHideFlags: 0
@@ -668,9 +668,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987d32eb795872845abd5b3f3cecfeca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bpm: 120
-  StepsPerBeat: 4
-  clip: {fileID: 8300000, guid: 73c842043d0b9e146aa02ace17fa5576, type: 3}
+  m_settings: {fileID: 0}
+  StepsPerBeat: 1
+  Clip: {fileID: 8300000, guid: 73c842043d0b9e146aa02ace17fa5576, type: 3}
+  HitTime: 0
+  Threshold: 0.2
 --- !u!1 &1406907819
 GameObject:
   m_ObjectHideFlags: 0

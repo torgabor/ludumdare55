@@ -12,7 +12,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioListener audioListener;
     public AudioSource source;
-    public float BeatsPerMinute = 120f;
+    public int BPM = 120;
 
     // Start is called before the first frame update
     void Start()
