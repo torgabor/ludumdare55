@@ -14,13 +14,8 @@ public class AudioSyncer : MonoBehaviour
     public Action Beat;
 
     private int lastBeat = 0;
-    public int CurrentBeat
-    {
-        get
-        {
-            return (int)Mathf.Floor((float)(AudioSettings.dspTime / 60 * AudioManager.Instance.BPM));
-        }
-    }
+    public int CurrentBeat => (int)Mathf.Floor((float)(AudioSettings.dspTime / 60d * AudioManager.Instance.BPM)) + 1;
+    public double BeatInterval => 60d / AudioManager.Instance.BPM;
 
     public virtual void OnStart()
     {
