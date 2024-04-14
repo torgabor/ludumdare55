@@ -25,7 +25,7 @@ public class ProjectileController : MonoBehaviour
 
         var target = transform.position + beatMove;
         mover.MoveToTarget(target);
-        CheckForCollision();
+        // CheckForCollision();
     }
 
     bool CheckForCollision()
@@ -39,5 +39,13 @@ public class ProjectileController : MonoBehaviour
         }
 
         return false;
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<MonsterController>() is { } m)
+        {
+            m.Die();
+            _isDying = true;
+        }
     }
 }

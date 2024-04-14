@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 
 public enum MoveState
@@ -30,7 +32,7 @@ public class MonsterController : MonoBehaviour
     {
         if (_isDying)
         {
-            Destroy(this.gameObject);
+            DoDie();
             return;
         }
 
@@ -69,10 +71,16 @@ public class MonsterController : MonoBehaviour
         }
     }
 
+    private void DoDie()
+    {
+        var dieSound = dieSounds[Random.Range(0, dieSounds.Length)];
+        AudioManager.Instance.Play(dieSound);
+        Destroy(this.gameObject);
+    }
+
     public void Die()
     {
         _isDying = true;
-        var dieSound = dieSounds[Random.Range(0, dieSounds.Length)];
-        AudioManager.Instance.Play(dieSound);
     }
+    
 }
