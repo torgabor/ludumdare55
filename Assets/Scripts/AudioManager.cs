@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioListener audioListener;
     public AudioSource source;
+    public float BeatsPerMinute = 120f;
 
     // Start is called before the first frame update
     void Start()
