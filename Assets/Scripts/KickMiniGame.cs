@@ -81,7 +81,8 @@ public class PlayKickOnBeat : AudioSyncer
     public override void OnUpdate()
     {
         base.OnUpdate();
-
+        
+        
         // dim center animation
         var c = beatSpriteRenderer.color;
         beatSpriteRenderer.color = new Color(c.r, c.g, c.b, beatOpacity);

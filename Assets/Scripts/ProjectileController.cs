@@ -30,10 +30,10 @@ public class ProjectileController : MonoBehaviour
 
     bool CheckForCollision()
     {
-        var hit = Physics2D.Raycast(transform.position, beatMove, beatMove.magnitude);
+        var hit = Physics2D.Raycast(transform.position, beatMove, beatMove.magnitude, collisionMask);
         if (hit.collider != null && hit.collider.GetComponent<MonsterController>() is {} m)
         {
-            m.Die();
+            m.Hit();
             _isDying = true;
             return true;
         }
@@ -44,7 +44,7 @@ public class ProjectileController : MonoBehaviour
     {
         if (other.GetComponent<MonsterController>() is { } m)
         {
-            m.Die();
+            m.Hit();
             _isDying = true;
         }
     }

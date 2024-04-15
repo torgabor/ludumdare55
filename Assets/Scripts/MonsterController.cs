@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using DefaultNamespace;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -19,6 +23,25 @@ public class MonsterController : MonoBehaviour
     public MoveState State = MoveState.MoveDown;
     private AudioSyncMove mover;
     public AudioClip[] dieSounds;
+    public SpriteRenderer shieldRenderer;
+    public float shieldFadeTime = 0.2f;
+    public float shootChance = 0.1f;
+    public Transform shootPosition;
+    public ShooterController shootPrefab;
+
+    private void Shoot()
+    {
+        var projectile = Instantiate(shootPrefab, shootPosition.position, quaternion.identity);
+        projectile.moveExtents = moveExtents;
+        projectile.OnBeat();
+    }
+
+    public bool HasShield
+    {
+        get => shieldRenderer.gameObject.activeInHierarchy;
+        set => shieldRenderer.gameObject.SetActive(value);
+    }
+
     private bool _isDying;
 
     public void Start()
@@ -27,13 +50,18 @@ public class MonsterController : MonoBehaviour
         mover.Beat += OnBeat;
     }
 
-
     public void OnBeat()
     {
         if (_isDying)
         {
             DoDie();
             return;
+        }
+
+        bool shouldShoot = Random.value < shootChance;
+        if (shouldShoot)
+        {
+            Shoot();
         }
 
         if (State == MoveState.MoveLeft)
@@ -78,9 +106,33 @@ public class MonsterController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void Die()
+    public void Hit()
     {
         _isDying = true;
+        if (HasShield)
+        {
+            StartCoroutine(nameof(DestroyShield), true);
+        }
     }
-    
+
+    IEnumerable DestroyShield(bool turnOn)
+    {
+        HasShield = true;
+        var time = 0f;
+        var targetTime = shieldFadeTime;
+        while (time < targetTime)
+        {
+            var t = turnOn ? time / targetTime : 1.0f - time / targetTime;
+            var color = shieldRenderer.color;
+            color.a = t;
+            shieldRenderer.color = color;
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        if (!turnOn)
+        {
+            HasShield = false;
+        }
+    }
 }

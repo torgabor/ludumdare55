@@ -15,7 +15,7 @@ namespace DefaultNamespace
         public Transform shootPosition;
         public ProjectileController shootPrefab;
         public Transform enemies;
-
+        
         public void Start()
         {
             mover = GetComponent<AudioSyncMove>();
