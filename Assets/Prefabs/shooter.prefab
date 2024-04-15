@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.04, y: -4.44, z: 0}
-  m_LocalScale: {x: 1.1494888, y: 1.1494888, z: 1.1494888}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3400468968312662543}
   m_Father: {fileID: 0}
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b06b7c10e940af9804891fef2b4ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatMoveDistance: 1
+  beatMoveDistance: 0
   moveExtents: {fileID: 0}
   shootChance: 0.5
   shootPosition: {fileID: 3400468968312662543}
@@ -173,7 +173,7 @@ Transform:
   m_GameObject: {fileID: 6292987703305323840}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.65, z: 0}
+  m_LocalPosition: {x: 0.037, y: 0.691, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

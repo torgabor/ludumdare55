@@ -27,7 +27,7 @@ public class MonsterController : MonoBehaviour
     public float shieldFadeTime = 0.2f;
     public float shootChance = 0.1f;
     public Transform shootPosition;
-    public ShooterController shootPrefab;
+    public ProjectileController shootPrefab;
 
     private void Shoot()
     {
