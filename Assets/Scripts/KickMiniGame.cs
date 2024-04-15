@@ -7,23 +7,31 @@ using UnityEngine;
 public class PlayKickOnBeat : AudioSyncer
 {
     public AudioClip Kick;
+    public AudioClip Startup;
+    public AudioClip KickBad;
     public AudioClip BaseMusicLoop;
+    public AudioClip BassLoop;
     public double Threshold = 0.2;
     public bool IsRunning = false;
-    public SpriteRenderer beatSpriteRenderer;
+    public SpriteRenderer BeatSpriteRenderer;
+    public SpriteRenderer Indicator;
     public float OpacitySpeed = 1;
+    public SpriteMask Mask;
 
     private List<AudioSource> audioSources;
     private float beatOpacity = 0f;
-    private int currentBeat = 0;
+    private int nextBeat = 0;
     private int currentBaseMusicStartBeat = 0;
+    private int currentBassLoopStartBeat = 0;
+    private double countDownStartTime = AudioSettings.dspTime;
 
     public override void OnStart()
     {
         base.OnStart();
         audioSources = new List<AudioSource>();
-        currentBeat = CurrentBeat + 5;
-        currentBaseMusicStartBeat = CurrentBeat + 5;
+        nextBeat = CurrentBeat + 5;
+        currentBaseMusicStartBeat = nextBeat;
+        currentBassLoopStartBeat = nextBeat;
     }
 
     private AudioSource GetAudioSource()
@@ -38,20 +46,75 @@ public class PlayKickOnBeat : AudioSyncer
         return source;
     }
 
+    private int prevHitCount = 0;
+    private int hitCount = 0;
+
     public void OnMouseDown()
     {
+        OnClick();
+    }
+
+    void OnClick()
+    {
         double hitTime = AudioSettings.dspTime;
-        double nextTime = (currentBeat - 1) * BeatInterval;
+        double nextTime = (nextBeat - 1) * BeatInterval;
         if (Mathf.Abs((float)(nextTime - hitTime)) < Threshold)
         {
+            Hit();
+        }
+        else
+        {
+            Miss();
+        }
+    }
+
+    private void Hit()
+    {
+        beatOpacity = 1f;
+        if (!IsRunning)
+        {
             Play(Kick);
-            beatOpacity = 1f;
+            hitCount++;
+            Mask.alphaCutoff = hitCount * 0.25f;
+        }
+        else
+        {
+            Mask.alphaCutoff += 0.25f;
+        }
+
+        if (!IsRunning && hitCount == 4)
+        {
+            audioSources.ForEach(s => { s.Stop(); });
+            int closestBeat = ClosestBeat;
+            nextBeat = closestBeat + 2;
+            currentBaseMusicStartBeat = nextBeat;
+            currentBassLoopStartBeat = nextBeat;
+            Play(Startup, closestBeat * BeatInterval);
+            IsRunning = true;
+            countDownStartTime = nextBeat * BeatInterval;
+        }
+    }
+
+    private void Miss()
+    {
+        Play(KickBad);
+        Indicator.color = Color.red;
+        if (!IsRunning)
+        {
+            hitCount = 0;
+            Mask.alphaCutoff = hitCount * 0.25f;
+        }
+        else
+        {
+            Mask.alphaCutoff -= 0.25f;
         }
     }
 
     public override void OnBeat()
     {
         base.OnBeat();
+
+        Indicator.color = Color.white;
 
         // animate center
         if (IsRunning)
@@ -81,34 +144,56 @@ public class PlayKickOnBeat : AudioSyncer
     public override void OnUpdate()
     {
         base.OnUpdate();
-        
-        
+
+        if (IsRunning && countDownStartTime - AudioSettings.dspTime < 0)
+        {
+            Mask.alphaCutoff -= Time.deltaTime / ((float)BeatInterval * 16);
+        }
+
+        if (Mask.alphaCutoff <= 0)
+        {
+            IsRunning = false;
+        }
+
         // dim center animation
-        var c = beatSpriteRenderer.color;
-        beatSpriteRenderer.color = new Color(c.r, c.g, c.b, beatOpacity);
+        var c = BeatSpriteRenderer.color;
+        BeatSpriteRenderer.color = new Color(c.r, c.g, c.b, beatOpacity);
         beatOpacity = Mathf.Max(0, beatOpacity - Time.deltaTime * beatOpacity * OpacitySpeed);
 
         // trigger kick on each beat
         double time = AudioSettings.dspTime;
-        double nextTime = currentBeat * BeatInterval;
-        if (time + 0.2d > nextTime) // load 0.2 seconds before next beat
+        double nextTime = nextBeat * BeatInterval;
+        if (time + BeatInterval / 2 > nextTime) // load 0.2 seconds before next beat
         {
             if (IsRunning)
             {
                 Play(Kick, nextTime);
             }
-            currentBeat += 1;
-            Debug.Log(CurrentBeat);
+            else if (hitCount != 0 && hitCount == prevHitCount)
+            {
+                Miss();
+            }
+            nextBeat += 1;
+            prevHitCount = hitCount;
         }
 
-        // trigger base music on every 32 beat
-        time = AudioSettings.dspTime;
+        // trigger base music
         nextTime = currentBaseMusicStartBeat * BeatInterval;
-        if (time + 2d > nextTime) // load 2 seconds before next loop
+        if (time + 1d > nextTime)
         {
             Play(BaseMusicLoop, nextTime);
             currentBaseMusicStartBeat += 32;
-            Debug.Log(CurrentBeat);
+        }
+
+        // trigger base music
+        nextTime = currentBassLoopStartBeat * BeatInterval;
+        if (time + 1d > nextTime)
+        {
+            if (IsRunning)
+            {
+                Play(BassLoop, nextTime);
+            }
+            currentBassLoopStartBeat += 8;
         }
     }
 }
