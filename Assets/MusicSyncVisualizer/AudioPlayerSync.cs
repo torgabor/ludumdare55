@@ -42,6 +42,7 @@ public class AudioPlayerSync : MonoBehaviour
     public void Play()
     {
         var audioSource = GetAudioSource();
+        audioSource.clip = Clip;
         audioSource.volume = Volume;
         audioSource.Play();
         isLooping = false;
@@ -56,6 +57,7 @@ public class AudioPlayerSync : MonoBehaviour
     public void Play(int startBeat = 0, int stopBeat = 0)
     {
         var audioSource = GetAudioSource();
+        audioSource.clip = Clip;
         audioSource.volume = Volume;
         audioSource.PlayScheduled(startBeat * AudioSyncer.BeatInterval);
         if (stopBeat > AudioSyncer.CurrentBeat)
