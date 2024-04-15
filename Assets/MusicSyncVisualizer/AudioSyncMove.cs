@@ -29,5 +29,4 @@ public class AudioSyncMove: AudioSyncer {
 		StopCoroutine(nameof(MoveToPos));
 		StartCoroutine(nameof(MoveToPos), target);
 	}
-
 }

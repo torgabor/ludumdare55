@@ -30,6 +30,7 @@ public class AudioSyncer : MonoBehaviour
 
     }
 
+
     private void Awake()
     {
         OnAwake();
@@ -57,7 +58,7 @@ public class AudioSyncer : MonoBehaviour
     /// </summary>
     public virtual void OnUpdate()
     {
-        if (CurrentBeat != lastBeat)
+        if (CurrentBeat >= GameController.GameStartBeat && CurrentBeat != lastBeat)
         {
             OnBeat();
             lastBeat = CurrentBeat;

@@ -61,7 +61,7 @@ public class MonsterController : MonoBehaviour
         bool shouldShoot = Random.value < shootChance;
         if (shouldShoot)
         {
-            Shoot();
+            //Shoot();
         }
 
         if (State == MoveState.MoveLeft)

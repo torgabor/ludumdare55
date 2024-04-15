@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1181307578125222957}
   - component: {fileID: 4523730890103077150}
   m_Layer: 6
-  m_Name: enemy
+  m_Name: Invader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,9 +31,9 @@ Transform:
   m_GameObject: {fileID: 1290597518293119171}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.002, y: 1.728, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2224926234272413616}
   m_Father: {fileID: 0}
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88329d83f9b43f2ba7bf2b4e0fce287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatMoveDistance: 0
+  beatMoveDistance: 1
   moveExtents: {fileID: 0}
   State: 2
   dieSounds:
@@ -154,8 +154,8 @@ MonoBehaviour:
   shieldRenderer: {fileID: 0}
   shieldFadeTime: 0.2
   shootChance: 0.1
-  shootPosition: {fileID: 0}
-  shootPrefab: {fileID: 0}
+  shootPosition: {fileID: 2224926234272413616}
+  shootPrefab: {fileID: 3475229241892078641, guid: 91a37290694c094439b4fb9ba3d42638, type: 3}
 --- !u!61 &4523730890103077150
 BoxCollider2D:
   m_ObjectHideFlags: 0
