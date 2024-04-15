@@ -102,7 +102,7 @@ public class MonsterController : MonoBehaviour
     private void DoDie()
     {
         var dieSound = dieSounds[Random.Range(0, dieSounds.Length)];
-        AudioManager.Instance.Play(dieSound);
+        //AudioManager.Instance.Play(dieSound);
         Destroy(this.gameObject);
     }
 

@@ -4,45 +4,50 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayKickOnBeat : AudioSyncer
+public class KickMiniGame : AudioSyncer
 {
     public AudioClip Kick;
-    public AudioClip Startup;
     public AudioClip KickBad;
-    public AudioClip BaseMusicLoop;
+    public AudioClip Startup;
     public AudioClip BassLoop;
+
     public double Threshold = 0.2;
     public bool IsRunning = false;
     public SpriteRenderer BeatSpriteRenderer;
     public SpriteRenderer Indicator;
     public float OpacitySpeed = 1;
     public SpriteMask Mask;
+    public float Progress;
 
-    private float beatOpacity = 0f;
-    private int nextBeat = 0;
-    private int currentBaseMusicStartBeat = 0;
-    private int currentBassLoopStartBeat = 0;
-    private double countDownStartTime = AudioSettings.dspTime;
-    private int prevHitCount = 0;
-    private int hitCount = 0;
+    private float beatOpacity;
+    private int nextBeat;
+    private double countDownStartTime;
+    private int prevHitCount;
+    private int hitCount;
+
+    private AudioPlayerSync KickTrack;
+    private AudioPlayerSync KickBadTrack;
+    private AudioPlayerSync StartupTrack;
+    private AudioPlayerSync BassLoopTrack;
 
     public override void OnStart()
     {
         base.OnStart();
-        nextBeat = AudioManager.Instance.CurrentBeat + 6;
-        currentBaseMusicStartBeat = nextBeat;
-        currentBassLoopStartBeat = nextBeat;
+        KickTrack = AudioManager.Instance.GetTrack(Kick);
+        KickTrack.LoopLength = 1;
+
+        KickBadTrack = AudioManager.Instance.GetTrack(KickBad);
+        StartupTrack = AudioManager.Instance.GetTrack(Startup);
+        BassLoopTrack = AudioManager.Instance.GetTrack(BassLoop);
+
+        nextBeat = CurrentBeat + 5;
+        StartupTrack.Loop(nextBeat);
     }
 
     public void OnMouseDown()
     {
-        OnClick();
-    }
-
-    void OnClick()
-    {
-        double hitTime = AudioSettings.dspTime;
-        double beatTime = (AudioManager.Instance.ClosestBeat) * AudioManager.Instance.BeatInterval;
+        double hitTime = DspTime;
+        double beatTime = ClosestBeat * BeatInterval;
         if (Mathf.Abs((float)(beatTime - hitTime)) < Threshold)
         {
             Hit();
@@ -58,40 +63,39 @@ public class PlayKickOnBeat : AudioSyncer
         beatOpacity = 1f;
         if (!IsRunning)
         {
-            AudioManager.Instance.Play(Kick);
+            KickTrack.Play();
             hitCount++;
-            Mask.alphaCutoff = hitCount * 0.25f;
+            Progress = hitCount * 0.25f;
         }
         else
         {
-            Mask.alphaCutoff += 0.25f;
+            Progress += 0.25f;
         }
 
         if (!IsRunning && hitCount == 4)
         {
-            AudioManager.Instance.StopAllAudio();
-            int closestBeat = AudioManager.Instance.ClosestBeat;
-            nextBeat = closestBeat + 2;
-            currentBaseMusicStartBeat = nextBeat;
-            currentBassLoopStartBeat = nextBeat;
-            AudioManager.Instance.Play(Startup, closestBeat * AudioManager.Instance.BeatInterval);
             IsRunning = true;
-            countDownStartTime = nextBeat * AudioManager.Instance.BeatInterval;
+            nextBeat = ClosestBeat + 1;
+            countDownStartTime = nextBeat * BeatInterval;
+            KickTrack.Loop(nextBeat);
+            BassLoopTrack.Loop(nextBeat);
+            StartupTrack.Stop(nextBeat);
+            StartupTrack.Loop(nextBeat);
         }
     }
 
     private void Miss()
     {
-        AudioManager.Instance.Play(KickBad);
+        KickBadTrack.Play();
         Indicator.color = Color.red;
         if (!IsRunning)
         {
             hitCount = 0;
-            Mask.alphaCutoff = hitCount * 0.25f;
+            Progress = hitCount * 0.25f;
         }
         else
         {
-            Mask.alphaCutoff -= 0.25f;
+            Progress -= 0.25f;
         }
     }
 
@@ -116,15 +120,20 @@ public class PlayKickOnBeat : AudioSyncer
     {
         base.OnUpdate();
 
-        if (IsRunning && countDownStartTime - AudioSettings.dspTime < 0)
+
+        if (IsRunning && countDownStartTime - DspTime < 0)
         {
-            Mask.alphaCutoff -= Time.deltaTime / ((float)AudioManager.Instance.BeatInterval * 16);
+            Progress -= Time.deltaTime / ((float)BeatInterval * 16);
         }
 
-        if (Mask.alphaCutoff <= 0)
+        if (IsRunning && Progress <= 0)
         {
             IsRunning = false;
+            KickTrack.Stop();
+            BassLoopTrack.StopOnLoopEnd();
         }
+
+        Mask.alphaCutoff = Progress;
 
         // dim center animation
         var c = BeatSpriteRenderer.color;
@@ -133,38 +142,15 @@ public class PlayKickOnBeat : AudioSyncer
 
         // trigger kick on each beat
         double time = AudioSettings.dspTime;
-        double nextTime = nextBeat * AudioManager.Instance.BeatInterval;
-        if (time + AudioManager.Instance.BeatInterval / 2 > nextTime) // load 0.2 seconds before next beat
+        double nextTime = nextBeat * BeatInterval;
+        if (time + BeatInterval / 2 > nextTime) // load 0.2 seconds before next beat
         {
-            if (IsRunning)
-            {
-                AudioManager.Instance.Play(Kick, nextTime);
-            }
-            else if (hitCount != 0 && hitCount == prevHitCount)
+            if (!IsRunning && hitCount != 0 && hitCount == prevHitCount)
             {
                 Miss();
             }
             nextBeat += 1;
             prevHitCount = hitCount;
-        }
-
-        // trigger base music
-        nextTime = currentBaseMusicStartBeat * AudioManager.Instance.BeatInterval;
-        if (time + 1d > nextTime)
-        {
-            AudioManager.Instance.Play(BaseMusicLoop, nextTime);
-            currentBaseMusicStartBeat += 32;
-        }
-
-        // trigger base music
-        nextTime = currentBassLoopStartBeat * AudioManager.Instance.BeatInterval;
-        if (time + 1d > nextTime)
-        {
-            if (IsRunning)
-            {
-                AudioManager.Instance.Play(BassLoop, nextTime);
-            }
-            currentBassLoopStartBeat += 8;
         }
     }
 }
