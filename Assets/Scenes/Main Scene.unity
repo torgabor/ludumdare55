@@ -256,7 +256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 343796747}
   - component: {fileID: 343796748}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -540,6 +540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BPM: 120
+  GlobalAudioPlayer: {fileID: 0}
 --- !u!4 &565728920
 Transform:
   m_ObjectHideFlags: 0
@@ -708,6 +709,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &900594574 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 896194129945706770, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
+  m_PrefabInstance: {fileID: 3683406374148188724}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &900594581
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900594574}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.51, y: 1.51}
+    newSize: {x: 1.5, y: 1.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.51, y: 1.51}
+  m_EdgeRadius: 0
 --- !u!1 &910280103
 GameObject:
   m_ObjectHideFlags: 0
@@ -1447,6 +1498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_settings: {fileID: 0}
   beatColor: {r: 0, g: 0, b: 0, a: 0}
+  restColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!222 &1505400830
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1530,7 +1582,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1789976890}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: enemies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1706,22 +1758,6 @@ PrefabInstance:
       propertyPath: moveExtents
       value: 
       objectReference: {fileID: 460508568}
-    - target: {fileID: 3309791145920141794, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
-      propertyPath: shootChance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3309791145920141794, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
-      propertyPath: beatMoveDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3400468968312662543, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3400468968312662543, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6835723810607992307, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1765,7 +1801,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 896194129945706770, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 900594581}
   m_SourcePrefab: {fileID: 100100000, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
 --- !u!1001 &6658753139786379614
 PrefabInstance:
@@ -1782,10 +1821,6 @@ PrefabInstance:
     - target: {fileID: 1290597518293119171, guid: 5a97b4376b745af4794727db0ba7e442, type: 3}
       propertyPath: m_Name
       value: enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 4523730890103077150, guid: 5a97b4376b745af4794727db0ba7e442, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8649406591039283753, guid: 5a97b4376b745af4794727db0ba7e442, type: 3}
       propertyPath: m_LocalPosition.x

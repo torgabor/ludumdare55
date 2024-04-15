@@ -3,42 +3,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioSyncScale : AudioSyncer {
-	
+public class AudioSyncScale : AudioSyncer
+{
 
-	private IEnumerator MoveToScale()
-	{
-		float _timer = 0;
 
-		while (Mathf.Abs(_timer- m_settings.totalTime) > 0.01f)
-		{
-			
-			float t = _timer / m_settings.totalTime;
-			float tmod = m_settings.curve.Evaluate(t);
-			var currScale  = restScale* Mathf.Lerp(1f,this.beatScale,tmod) ;
-			_timer += Time.deltaTime;
+    private IEnumerator MoveToScale()
+    {
+        float _timer = 0;
 
-			transform.localScale = currScale;
+        while (Mathf.Abs(_timer - m_settings.totalTime) > 0.01f)
+        {
 
-			yield return null;
-		}
+            float t = _timer / m_settings.totalTime;
+            float tmod = m_settings.curve.Evaluate(t);
+            var currScale = restScale * Mathf.Lerp(1f, this.beatScale, tmod);
+            _timer += Time.deltaTime;
 
-		m_isBeat = false;
-	}
-	
-	public override void OnBeat()
-	{
-		base.OnBeat();
-		transform.localScale = restScale;
-		StopCoroutine("MoveToScale");
-		StartCoroutine("MoveToScale");
-	}
+            transform.localScale = currScale;
 
-	public void Start()
-	{
-		restScale = transform.localScale;
-	}
+            yield return null;
+        }
 
-	public float beatScale = 1.1f;
-	private Vector3 restScale = Vector3.one;
+        m_isBeat = false;
+    }
+
+    public override void OnBeat()
+    {
+        base.OnBeat();
+        transform.localScale = restScale;
+        StopCoroutine("MoveToScale");
+        StartCoroutine("MoveToScale");
+    }
+
+    public void Start()
+    {
+        restScale = transform.localScale;
+    }
+
+    public float beatScale = 1.1f;
+    public Vector3 restScale = Vector3.one;
 }

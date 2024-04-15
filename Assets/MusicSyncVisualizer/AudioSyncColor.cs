@@ -43,7 +43,7 @@ public class AudioSyncColor : AudioSyncer {
 	}
 
 	public Color beatColor;
-	private Color restColor = Color.white;
+	public Color restColor = Color.white;
 	
 	private SpriteRenderer m_renderer;
 }

@@ -8,8 +8,9 @@ public class AudioPlayerSync : MonoBehaviour
 {
     public AudioClip Clip;
     public bool IsPlaying => Sources.Any(s => s.isPlaying);
-    public int LoopLength;
+    public int LoopLength = 1;
     public List<AudioSource> Sources = new();
+    public float Volume = 1.0f;
 
     private bool isLooping = false;
     private int loopStart = 0;
@@ -32,16 +33,30 @@ public class AudioPlayerSync : MonoBehaviour
         isLooping = false;
     }
 
+    public void Play(AudioClip clip)
+    {
+        Clip = clip;
+        Play();
+    }
+
     public void Play()
     {
         var audioSource = GetAudioSource();
+        audioSource.volume = Volume;
         audioSource.Play();
         isLooping = false;
+    }
+
+    public void Play(AudioClip clip, int startBeat = 0, int stopBeat = 0)
+    {
+        Clip = clip;
+        Play(startBeat, stopBeat);
     }
 
     public void Play(int startBeat = 0, int stopBeat = 0)
     {
         var audioSource = GetAudioSource();
+        audioSource.volume = Volume;
         audioSource.PlayScheduled(startBeat * AudioSyncer.BeatInterval);
         if (stopBeat > AudioSyncer.CurrentBeat)
         {

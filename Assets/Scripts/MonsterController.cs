@@ -28,6 +28,7 @@ public class MonsterController : MonoBehaviour
     public float shootChance = 0.1f;
     public Transform shootPosition;
     public ProjectileController shootPrefab;
+    private AudioPlayerSync audioPlayer;
 
     private void Shoot()
     {
@@ -48,6 +49,7 @@ public class MonsterController : MonoBehaviour
     {
         mover = GetComponent<AudioSyncMove>();
         mover.Beat += OnBeat;
+        audioPlayer = AudioManager.Instance.GlobalAudioPlayer;
     }
 
     public void OnBeat()
@@ -102,17 +104,25 @@ public class MonsterController : MonoBehaviour
     private void DoDie()
     {
         var dieSound = dieSounds[Random.Range(0, dieSounds.Length)];
-        //AudioManager.Instance.Play(dieSound);
+        audioPlayer.Volume = 0.4f;
+        audioPlayer.Play(dieSound);
         Destroy(this.gameObject);
     }
 
     public void Hit()
     {
         _isDying = true;
-        if (HasShield)
-        {
-            StartCoroutine(nameof(DestroyShield), true);
-        }
+        GetComponent<SpriteRenderer>().color = Color.red;
+        var colorAnim = GetComponent<AudioSyncColor>();
+        colorAnim.beatColor = Color.Lerp(Color.red, Color.white, 0.3f);
+        colorAnim.restColor = Color.red;
+        var scaleAnim = GetComponent<AudioSyncScale>();
+        scaleAnim.beatScale = scaleAnim.beatScale * 1.2f;
+        scaleAnim.restScale = scaleAnim.restScale * 1.2f;
+        //if (HasShield)
+        //{
+        //    StartCoroutine(nameof(DestroyShield), true);
+        //}
     }
 
     IEnumerable DestroyShield(bool turnOn)

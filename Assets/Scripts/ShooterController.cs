@@ -9,34 +9,44 @@ namespace DefaultNamespace
     {
         public float beatMoveDistance;
         public SpriteRenderer moveExtents;
-        
+
         private AudioSyncMove mover;
         public float shootChance = 0.5f;
         public Transform shootPosition;
         public ProjectileController shootPrefab;
         public Transform enemies;
-        
+
         public void Start()
         {
             mover = GetComponent<AudioSyncMove>();
-            mover.Beat+=OnBeat;
+            mover.Beat += OnBeat;
         }
-        
+
         public void OnBeat()
         {
             var left = transform.position + Vector3.left * beatMoveDistance;
             var right = transform.position + Vector3.right * beatMoveDistance;
             bool leftBlocked = !moveExtents.bounds.Contains(left);
-            
-            bool randomLeft = Random.value < 0.5;
-            if (randomLeft && !leftBlocked)
+            bool rightBlocked = !moveExtents.bounds.Contains(right);
+
+            bool isMoving = Random.value > 0.3;
+            bool isLeft = Random.value < 0.5;
+            if (isMoving)
             {
-                mover.MoveToTarget(left);
+                if (leftBlocked)
+                {
+                    mover.MoveToTarget(right);
+                }
+                else if (rightBlocked)
+                {
+                    mover.MoveToTarget(left);
+                }
+                else
+                {
+                    mover.MoveToTarget(isLeft ? left : right);
+                }
             }
-            else
-            {
-                mover.MoveToTarget(right);
-            }
+
             if (Random.value < shootChance)
             {
                 Shoot();
@@ -45,7 +55,7 @@ namespace DefaultNamespace
 
         private void Shoot()
         {
-            var projectile = Instantiate(shootPrefab, shootPosition.position, quaternion.identity );
+            var projectile = Instantiate(shootPrefab, shootPosition.position, quaternion.identity);
             projectile.moveExtents = moveExtents;
             projectile.OnBeat();
         }

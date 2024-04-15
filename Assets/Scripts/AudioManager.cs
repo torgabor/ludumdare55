@@ -12,20 +12,27 @@ public class AudioManager : MonoBehaviour
 
     public int BPM = 120;
 
+    public AudioPlayerSync GlobalAudioPlayer;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
         }
+
+        GlobalAudioPlayer = GetTrack();
     }
 
-    public AudioPlayerSync GetTrack(AudioClip clip)
+    public AudioPlayerSync GetTrack(AudioClip clip = null)
     {
         var track = gameObject.AddComponent<AudioPlayerSync>();
         track.Clip = clip;
         track.enabled = true;
-        track.LoopLength = (int)Mathf.Round((float)(clip.length / 60d * BPM));
+        if (clip != null)
+        {
+            track.LoopLength = (int)Mathf.Round((float)(clip.length / 60d * BPM));
+        }
 
         return track;
     }
