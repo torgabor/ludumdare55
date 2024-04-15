@@ -14,13 +14,10 @@ public class AudioSyncer : MonoBehaviour
     public Action Beat;
 
     private int lastBeat = 0;
-    public int CurrentBeat => (int)Mathf.Floor((float)(AudioSettings.dspTime / 60d * AudioManager.Instance.BPM)) + 1;
-    public int ClosestBeat => (int)Mathf.Round((float)(AudioSettings.dspTime / 60d * AudioManager.Instance.BPM));
-    public double BeatInterval => 60d / AudioManager.Instance.BPM;
 
     public virtual void OnStart()
     {
-        lastBeat = CurrentBeat;
+        lastBeat = AudioManager.Instance.CurrentBeat;
     }
 
     private void Start()
@@ -45,10 +42,10 @@ public class AudioSyncer : MonoBehaviour
     /// </summary>
     public virtual void OnUpdate()
     {
-        if (CurrentBeat != lastBeat)
+        if (AudioManager.Instance.CurrentBeat != lastBeat)
         {
             OnBeat();
-            lastBeat = CurrentBeat;
+            lastBeat = AudioManager.Instance.CurrentBeat;
         }
 
         //// update audio value

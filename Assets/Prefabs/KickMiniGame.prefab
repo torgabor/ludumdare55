@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1520718805853985418}
   - component: {fileID: 8493066326184836489}
   m_Layer: 6
-  m_Name: kick_center_off
+  m_Name: kick_center_indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,11 +219,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_settings: {fileID: 0}
   Kick: {fileID: 8300000, guid: 73c842043d0b9e146aa02ace17fa5576, type: 3}
+  Startup: {fileID: 8300000, guid: ab00379288712a342b4aaec6e0d84972, type: 3}
+  KickBad: {fileID: 8300000, guid: fd656eee7417058408c4982d5f74cc7a, type: 3}
   BaseMusicLoop: {fileID: 8300000, guid: 1414cb23218c2754aac85414d7384c9c, type: 3}
+  BassLoop: {fileID: 8300000, guid: da72921e5d4cb8e459f9555f7936563d, type: 3}
   Threshold: 0.1
-  IsRunning: 1
-  beatSpriteRenderer: {fileID: 2738940009740652093}
+  IsRunning: 0
+  BeatSpriteRenderer: {fileID: 2738940009740652093}
+  Indicator: {fileID: 8493066326184836489}
   OpacitySpeed: 8
+  Mask: {fileID: 634639033669513469}
 --- !u!61 &662734064992931710
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -343,7 +348,7 @@ SpriteMask:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3ef8efd91f70c094fad8509011ad5c8d, type: 3}
-  m_MaskAlphaCutoff: 1
+  m_MaskAlphaCutoff: 0
   m_FrontSortingLayerID: 0
   m_BackSortingLayerID: 0
   m_FrontSortingLayer: 0

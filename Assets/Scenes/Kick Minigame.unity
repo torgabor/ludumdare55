@@ -123,16 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!212 &180630784 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8493066326184836489, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-  m_PrefabInstance: {fileID: 1292854592}
-  m_PrefabAsset: {fileID: 0}
---- !u!331 &198662613 stripped
-SpriteMask:
-  m_CorrespondingSourceObject: {fileID: 634639033669513469, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-  m_PrefabInstance: {fileID: 1292854592}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,53 +591,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 35273277968203794, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: Mask
-      value: 
-      objectReference: {fileID: 198662613}
-    - target: {fileID: 35273277968203794, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: KickBad
-      value: 
-      objectReference: {fileID: 8300000, guid: fd656eee7417058408c4982d5f74cc7a, type: 3}
-    - target: {fileID: 35273277968203794, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: Startup
-      value: 
-      objectReference: {fileID: 8300000, guid: ab00379288712a342b4aaec6e0d84972, type: 3}
-    - target: {fileID: 35273277968203794, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: BassLoop
-      value: 
-      objectReference: {fileID: 8300000, guid: da72921e5d4cb8e459f9555f7936563d, type: 3}
-    - target: {fileID: 35273277968203794, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: Indicator
-      value: 
-      objectReference: {fileID: 180630784}
-    - target: {fileID: 35273277968203794, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: IsRunning
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 35273277968203794, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: BeatSpriteRenderer
-      value: 
-      objectReference: {fileID: 1531387212}
-    - target: {fileID: 108892058855420866, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: m_Name
-      value: kick_center_indicator
-      objectReference: {fileID: 0}
-    - target: {fileID: 108892058855420866, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 634639033669513469, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-      propertyPath: m_MaskAlphaCutoff
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3988234908056076724, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 3988234908056076724, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.38
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3988234908056076724, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
       propertyPath: m_LocalPosition.z
@@ -943,11 +893,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505400825}
   m_CullTransparentMesh: 1
---- !u!212 &1531387212 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 2738940009740652093, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
-  m_PrefabInstance: {fileID: 1292854592}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
