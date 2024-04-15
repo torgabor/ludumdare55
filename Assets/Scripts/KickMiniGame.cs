@@ -31,12 +31,6 @@ public class KickMiniGame : AudioSyncer
     private AudioPlayerSync InitLoopTrack;
     private AudioPlayerSync BassLoopTrack;
 
-    public override void OnAwake()
-    {
-        base.OnAwake();
-        GameController.OnStartGame += OnGameStart;
-    }
-
     public void OnGameStart()
     {
         KickTrack = AudioManager.Instance.GetTrack(Kick);

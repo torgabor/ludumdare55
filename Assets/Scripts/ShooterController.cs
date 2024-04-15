@@ -9,17 +9,20 @@ namespace DefaultNamespace
     {
         public float beatMoveDistance;
         public SpriteRenderer moveExtents;
-
-        private AudioSyncMove mover;
         public float shootChance = 0.5f;
         public Transform shootPosition;
         public ProjectileController shootPrefab;
         public Transform enemies;
+        public AudioClip DamageClip;
+
+        private AudioSyncMove mover;
+        private AudioPlayerSync damage;
 
         public void Start()
         {
             mover = GetComponent<AudioSyncMove>();
             mover.Beat += OnBeat;
+            damage = AudioManager.Instance.GetTrack(DamageClip);
         }
 
         public void OnBeat()
@@ -58,6 +61,18 @@ namespace DefaultNamespace
             var projectile = Instantiate(shootPrefab, shootPosition.position, quaternion.identity);
             projectile.moveExtents = moveExtents;
             projectile.OnBeat();
+        }
+
+
+
+        void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.GetComponent<MonsterController>() is { } m)
+            {
+                m.Hit();
+                GameController.Instance.Damage();
+                damage.Play();
+            }
         }
     }
 }

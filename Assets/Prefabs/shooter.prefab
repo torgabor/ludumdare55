@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -209440605455663541}
   - component: {fileID: 5402740124031688530}
   - component: {fileID: 3309791145920141794}
+  - component: {fileID: 1718014194972024620}
   m_Layer: 6
   m_Name: shooter
   m_TagString: Untagged
@@ -103,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
   beatScale: 1.1
+  restScale: {x: 1, y: 1, z: 1}
 --- !u!114 &-209440605455663541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
   beatColor: {r: 1, g: 0.77924526, b: 0.63207537, a: 1}
+  restColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &5402740124031688530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,10 +147,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatMoveDistance: 1
   moveExtents: {fileID: 0}
-  shootChance: 1
+  shootChance: 0
   shootPosition: {fileID: 3400468968312662543}
   shootPrefab: {fileID: 3475229241892078641, guid: 91a37290694c094439b4fb9ba3d42638, type: 3}
   enemies: {fileID: 0}
+  DamageClip: {fileID: 8300000, guid: 28baefad682caf44595e95fecca58a9e, type: 3}
+--- !u!61 &1718014194972024620
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896194129945706770}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.51, y: 1.51}
+    newSize: {x: 1.5, y: 1.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.51, y: 1.51}
+  m_EdgeRadius: 0
 --- !u!1 &6292987703305323840
 GameObject:
   m_ObjectHideFlags: 0
