@@ -22,6 +22,7 @@ public class KickMiniGame : AudioSyncer
 
     public float OpacitySpeed = 1;
     public float Progress;
+    private float displayProgress;
     public int NextBeat;
 
     private double countDownStartTime;
@@ -149,7 +150,8 @@ public class KickMiniGame : AudioSyncer
             BassLoopTrack.StopOnLoopEnd();
         }
 
-        progressBlock.SetFloat("_Progress", Progress);
+        displayProgress = Mathf.MoveTowards(displayProgress, Progress, 2f * Time.deltaTime);
+        progressBlock.SetFloat("_Progress", displayProgress);
         ProgressIndicator.SetPropertyBlock(progressBlock);
 
 
