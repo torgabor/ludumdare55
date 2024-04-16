@@ -284,6 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BPM: 120
+  GlobalAudioPlayer: {fileID: 0}
 --- !u!4 &565728920
 Transform:
   m_ObjectHideFlags: 0
@@ -786,6 +787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_settings: {fileID: 0}
   beatColor: {r: 0, g: 0, b: 0, a: 0}
+  restColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!222 &1505400830
 CanvasRenderer:
   m_ObjectHideFlags: 0
