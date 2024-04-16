@@ -1461,8 +1461,8 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "r": 0.0,
-        "g": 0.049764156341552737,
+        "r": 0.1540878415107727,
+        "g": 0.2933902442455292,
         "b": 1.0,
         "a": 1.0
     },
@@ -2146,7 +2146,7 @@
     "m_Value": {
         "r": 1.0,
         "g": 0.0,
-        "b": 0.2788943350315094,
+        "b": 0.040810585021972659,
         "a": 1.0
     },
     "isMainColor": false,
@@ -3032,7 +3032,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "X",
     "m_StageCapability": 3,
-    "m_Value": 0.014999999664723874,
+    "m_Value": 0.009999999776482582,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }
