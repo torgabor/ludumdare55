@@ -43,16 +43,17 @@ public class KickMiniGame : AudioSyncer
         indicatorBlock = new MaterialPropertyBlock();
         ProgressIndicator.GetPropertyBlock(progressBlock);
         Indicator.GetPropertyBlock(indicatorBlock);
-    }
-
-    public void OnGameStart()
-    {
         KickTrack = AudioManager.Instance.GetTrack(Kick);
         KickTrack.LoopLength = 1;
 
         OneShots = AudioManager.Instance.GetTrack();
         InitLoopTrack = AudioManager.Instance.GetTrack(InitLoop);
         BassLoopTrack = AudioManager.Instance.GetTrack(BassLoop);
+
+    }
+
+    public void OnGameStart()
+    {
 
         NextBeat = GameController.GameStartBeat;
         InitLoopTrack.Loop(NextBeat);
@@ -77,6 +78,7 @@ public class KickMiniGame : AudioSyncer
             IsRunning = true;
             OneShots.Play(Startup);
             InitLoopTrack.Stop(NextBeat);
+            BassLoopTrack.Stop(NextBeat);
             NextBeat = ClosestBeat + 2;
             countDownStartTime = NextBeat * BeatInterval;
             KickTrack.Loop(NextBeat);

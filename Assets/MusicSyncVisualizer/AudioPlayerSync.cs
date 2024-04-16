@@ -14,6 +14,13 @@ public class AudioPlayerSync : MonoBehaviour
 
     private bool isLooping = false;
     private int loopStart = 0;
+    private float[] m_audioSpectrum;
+    public float m_spectrum;
+
+    public void Awake()
+    {
+        m_audioSpectrum = new float[128];
+    }
 
     public void Stop()
     {
@@ -89,6 +96,22 @@ public class AudioPlayerSync : MonoBehaviour
             Sources.Add(source);
         }
         return source;
+    }
+
+    public float GetSpectrumData()
+    {
+        var source = Sources.FirstOrDefault(s => s.isPlaying);
+        if (source != null)
+        {
+            source.GetSpectrumData(m_audioSpectrum, 0, FFTWindow.Hamming);
+            m_spectrum =  m_audioSpectrum[0] * 100;
+        }
+        else
+        {
+            m_spectrum = 0;
+        }
+
+        return m_spectrum;
     }
 
     public void Update()

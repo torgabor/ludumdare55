@@ -3,8 +3,8 @@ using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace DefaultNamespace
-{
+
+
     public class ShooterController : MonoBehaviour
     {
         public float beatMoveDistance;
@@ -75,4 +75,3 @@ namespace DefaultNamespace
             }
         }
     }
-}
