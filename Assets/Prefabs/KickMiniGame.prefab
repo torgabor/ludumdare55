@@ -189,7 +189,7 @@ MonoBehaviour:
   Kick: {fileID: 8300000, guid: 73c842043d0b9e146aa02ace17fa5576, type: 3}
   KickBad: {fileID: 8300000, guid: fd656eee7417058408c4982d5f74cc7a, type: 3}
   InitLoop: {fileID: 8300000, guid: 1414cb23218c2754aac85414d7384c9c, type: 3}
-  Startup: {fileID: 8300000, guid: 1414cb23218c2754aac85414d7384c9c, type: 3}
+  Startup: {fileID: 8300000, guid: ab00379288712a342b4aaec6e0d84972, type: 3}
   BassLoop: {fileID: 8300000, guid: da72921e5d4cb8e459f9555f7936563d, type: 3}
   Threshold: 0.1
   IsRunning: 0
