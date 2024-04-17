@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Mask 1
+    uniqueID: 2038679225
+    locked: 0
+  - name: Mask2
+    uniqueID: 4201711745
+    locked: 0

@@ -14,11 +14,15 @@ public class KickMiniGame : AudioSyncer
 
     public double Threshold = 0.2;
     public bool IsRunning = false;
+    public SpriteRenderer ProgressIndicator;
     public SpriteRenderer BeatSpriteRenderer;
     public SpriteRenderer Indicator;
+    public Color indicatorOrigColor1;
+    public  Color indicatorOrigColor2;
+
     public float OpacitySpeed = 1;
-    public SpriteMask Mask;
     public float Progress;
+    private float displayProgress;
     public int NextBeat;
 
     private double countDownStartTime;
@@ -30,36 +34,29 @@ public class KickMiniGame : AudioSyncer
     private AudioPlayerSync KickTrack;
     private AudioPlayerSync InitLoopTrack;
     private AudioPlayerSync BassLoopTrack;
+    private MaterialPropertyBlock indicatorBlock;
+    private MaterialPropertyBlock progressBlock;
 
-    public override void OnStart()
+    void Start()
     {
-        base.OnStart();
+        progressBlock = new MaterialPropertyBlock();
+        indicatorBlock = new MaterialPropertyBlock();
+        ProgressIndicator.GetPropertyBlock(progressBlock);
+        Indicator.GetPropertyBlock(indicatorBlock);
         KickTrack = AudioManager.Instance.GetTrack(Kick);
         KickTrack.LoopLength = 1;
 
         OneShots = AudioManager.Instance.GetTrack();
         InitLoopTrack = AudioManager.Instance.GetTrack(InitLoop);
         BassLoopTrack = AudioManager.Instance.GetTrack(BassLoop);
+
     }
 
     public void OnGameStart()
     {
+
         NextBeat = GameController.GameStartBeat;
         InitLoopTrack.Loop(NextBeat);
-    }
-
-    public void OnMouseDown()
-    {
-        double hitTime = DspTime;
-        double beatTime = ClosestBeat * BeatInterval;
-        if (Mathf.Abs((float)(beatTime - hitTime)) < Threshold)
-        {
-            Hit();
-        }
-        else
-        {
-            Miss();
-        }
     }
 
     private void Hit()
@@ -85,7 +82,7 @@ public class KickMiniGame : AudioSyncer
             NextBeat = ClosestBeat + 2;
             countDownStartTime = NextBeat * BeatInterval;
             KickTrack.Loop(NextBeat);
-            BassLoopTrack.Loop(NextBeat); 
+            BassLoopTrack.Loop(NextBeat);
             InitLoopTrack.Loop(NextBeat);
         }
     }
@@ -93,7 +90,9 @@ public class KickMiniGame : AudioSyncer
     private void Miss()
     {
         OneShots.Play(KickBad);
-        Indicator.color = Color.red;
+        indicatorBlock.SetColor("_Color1", Color.red);
+        indicatorBlock.SetColor("_Color2", Color.red);
+        Indicator.SetPropertyBlock(indicatorBlock);
         if (!IsRunning)
         {
             hitCount = 0;
@@ -109,7 +108,9 @@ public class KickMiniGame : AudioSyncer
     {
         base.OnBeat();
 
-        Indicator.color = Color.white;
+        indicatorBlock.SetColor("_Color1", indicatorOrigColor1);
+        indicatorBlock.SetColor("_Color2", indicatorOrigColor2);
+        Indicator.SetPropertyBlock(indicatorBlock);
 
         // animate center
         if (IsRunning)
@@ -125,7 +126,19 @@ public class KickMiniGame : AudioSyncer
     public override void OnUpdate()
     {
         base.OnUpdate();
-
+        if (Input.GetMouseButtonDown(0))
+        {
+            double hitTime = DspTime;
+            double beatTime = ClosestBeat * BeatInterval;
+            if (Mathf.Abs((float)(beatTime - hitTime)) < Threshold)
+            {
+                Hit();
+            }
+            else
+            {
+                Miss();
+            }
+        }
 
         if (IsRunning && countDownStartTime - DspTime < 0)
         {
@@ -139,11 +152,15 @@ public class KickMiniGame : AudioSyncer
             BassLoopTrack.StopOnLoopEnd();
         }
 
-        Mask.alphaCutoff = Progress;
+        displayProgress = Mathf.MoveTowards(displayProgress, Progress, 2f * Time.deltaTime);
+        progressBlock.SetFloat("_Progress", displayProgress);
+        ProgressIndicator.SetPropertyBlock(progressBlock);
+
 
         // dim center animation
         var c = BeatSpriteRenderer.color;
-        BeatSpriteRenderer.color = new Color(c.r, c.g, c.b, beatOpacity);
+        c.a = beatOpacity;
+        BeatSpriteRenderer.color = c;
         beatOpacity = Mathf.Max(0, beatOpacity - Time.deltaTime * beatOpacity * OpacitySpeed);
 
         // trigger kick on each beat
@@ -155,6 +172,7 @@ public class KickMiniGame : AudioSyncer
             {
                 Miss();
             }
+
             NextBeat += 1;
             prevHitCount = hitCount;
         }
