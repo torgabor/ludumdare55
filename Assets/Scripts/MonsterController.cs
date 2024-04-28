@@ -114,12 +114,15 @@ public class MonsterController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void Hit()
+    public void Hit(bool forceDie)
     {
-        if (HasShield)
+        if (HasShield )
         {
             StartCoroutine(nameof(FadeShield), false);
-            return;
+            if (!forceDie)
+            {
+                return;
+            }
         }
 
         _isDying = true;

@@ -1,13 +1,10 @@
-﻿
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShieldMiniGame : AudioSyncer
 {
     public LightningRenderer lightningRenderer;
     public bool isActive;
-    [Range(0,1)]
-    public float shieldChance;
+    [Range(0, 1)] public float shieldChance;
 
     public float startOffset;
     public float endOffset;
@@ -22,6 +19,7 @@ public class ShieldMiniGame : AudioSyncer
 
         return null;
     }
+
     public override void OnBeat()
     {
         var addShield = Random.value < shieldChance;
@@ -29,14 +27,14 @@ public class ShieldMiniGame : AudioSyncer
         if (isActive && addShield && noShieldMonster != null)
         {
             noShieldMonster.AddShield();
-            var startPos = transform.position;
+            var startPos = lightningRenderer.transform.position;
             var endPos = noShieldMonster.transform.position;
             var dir = (endPos - startPos).normalized;
             var startPosOffs = startPos + dir * startOffset;
             var endPosOffs = endPos - dir * endOffset;
-            lightningRenderer.Shoot(startPosOffs,endPosOffs);
-
+            lightningRenderer.Shoot(startPosOffs, endPosOffs);
         }
+
         base.OnBeat();
     }
 }

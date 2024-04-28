@@ -156,14 +156,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f78e59818e3e7f24688d2b09196c34ab, type: 3}
   - {fileID: 8300000, guid: a867807373974d34084bd32952ddf599, type: 3}
   shieldRenderer: {fileID: 7905190389106441422}
-  shieldFadeTime: 0.2
+  shieldFadeTime: 0.4
   shootChance: 0.1
   shootActive: 0
   shootPosition: {fileID: 2224926234272413616}
   shootPrefab: {fileID: 3475229241892078641, guid: 91a37290694c094439b4fb9ba3d42638, type: 3}
   shieldGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 1, g: 1, b: 1, a: 0}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -191,7 +191,6 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  spawner: {fileID: 0}
 --- !u!61 &3759996724553530276
 BoxCollider2D:
   m_ObjectHideFlags: 0
