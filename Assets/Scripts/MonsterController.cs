@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -31,7 +32,7 @@ public class MonsterController : MonoBehaviour
     public Gradient shieldGradient;
     private AudioPlayerSync audioPlayer;
 
-    public SpawnController spawner;
+    public static int shieldMatCounter = 0;
 
 
     private void Shoot()
@@ -50,6 +51,9 @@ public class MonsterController : MonoBehaviour
         mover = GetComponent<AudioSyncMove>();
         mover.Beat += OnBeat;
         audioPlayer = AudioManager.Instance.GlobalAudioPlayer;
+        var mat = new Material(shieldRenderer.material);
+        mat.name += shieldMatCounter++;
+        shieldRenderer.material = mat;
     }
 
     public void OnBeat()
@@ -106,7 +110,7 @@ public class MonsterController : MonoBehaviour
         var dieSound = dieSounds[Random.Range(0, dieSounds.Length)];
         audioPlayer.Volume = 0.4f;
         audioPlayer.Play(dieSound);
-        spawner.OnDie(this);
+        SpawnController.Instance?.OnDie(this);
         Destroy(this.gameObject);
     }
 
@@ -133,7 +137,7 @@ public class MonsterController : MonoBehaviour
         StartCoroutine(nameof(FadeShield), true);
     }
 
-    public IEnumerable FadeShield(bool turnOn)
+    public IEnumerator FadeShield(bool turnOn)
     {
         shieldRenderer.gameObject.SetActive(true);
         var time = 0f;
