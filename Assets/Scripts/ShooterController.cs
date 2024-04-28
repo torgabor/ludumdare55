@@ -17,9 +17,10 @@ using Random = UnityEngine.Random;
 
         private AudioSyncMove mover;
         private AudioPlayerSync damage;
-
+        private BoxCollider2D boxCollider;
         public void Start()
         {
+            boxCollider = GetComponent<BoxCollider2D>();
             mover = GetComponent<AudioSyncMove>();
             mover.Beat += OnBeat;
             damage = AudioManager.Instance.GetTrack(DamageClip);
@@ -29,8 +30,8 @@ using Random = UnityEngine.Random;
         {
             var left = transform.position + Vector3.left * beatMoveDistance;
             var right = transform.position + Vector3.right * beatMoveDistance;
-            bool leftBlocked = !moveExtents.bounds.Contains(left);
-            bool rightBlocked = !moveExtents.bounds.Contains(right);
+            bool leftBlocked = !CanMoveTo(left);
+            bool rightBlocked = !CanMoveTo(right);
 
             bool isMoving = Random.value > 0.3;
             bool isLeft = Random.value < 0.5;
@@ -54,6 +55,21 @@ using Random = UnityEngine.Random;
             {
                 Shoot();
             }
+        }
+
+        private bool CanMoveTo(Vector3 pos)
+        {
+            if (!moveExtents.bounds.Contains(pos))
+            {
+                return false;
+            }
+
+            var hit2D = Physics2D.Raycast(transform.position, Vector3.left, beatMoveDistance);
+            if (hit2D.transform != null && hit2D.transform.GetComponent<ShooterController>() != null)
+            {
+                return false;
+            }
+            return true;
         }
 
         private void Shoot()

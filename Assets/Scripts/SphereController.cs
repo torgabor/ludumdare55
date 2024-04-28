@@ -84,7 +84,6 @@ public class SphereController : MonoBehaviour
         }
         
         materialBlock.SetVector("_Displace", displacement);
-        Debug.Log(displacement);
         m_renderer.SetPropertyBlock(materialBlock);
 
         //Rotate the sphere

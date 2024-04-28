@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioSyncMove: AudioSyncer {
+public class AudioSyncMove: AudioSyncBase {
 
 	private IEnumerator MoveToPos(Vector3 target)
 	{
@@ -19,8 +19,6 @@ public class AudioSyncMove: AudioSyncer {
 
 			yield return null;
 		}
-
-		m_isBeat = false;
 	}
 	
 

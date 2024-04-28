@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioSyncScale : AudioSyncer
+public class AudioSyncScale : AudioSyncBase
 {
 
 
@@ -23,8 +23,6 @@ public class AudioSyncScale : AudioSyncer
 
             yield return null;
         }
-
-        m_isBeat = false;
     }
 
     public override void OnBeat()
