@@ -29,7 +29,9 @@ public class MonsterController : MonoBehaviour
     public bool shootActive;
     public Transform shootPosition;
     public ProjectileController shootPrefab;
-    public Gradient shieldGradient;
+    public Gradient shieldGradient1;
+    public Gradient shieldGradient2;
+    private MaterialPropertyBlock shieldPropertyBlock;
     private AudioPlayerSync audioPlayer;
 
     public static int shieldMatCounter = 0;
@@ -52,6 +54,8 @@ public class MonsterController : MonoBehaviour
         mover.Beat += OnBeat;
         audioPlayer = AudioManager.Instance.GlobalAudioPlayer;
         var mat = new Material(shieldRenderer.material);
+        shieldPropertyBlock = new MaterialPropertyBlock();
+        
         mat.name += shieldMatCounter++;
         shieldRenderer.material = mat;
     }
@@ -148,8 +152,11 @@ public class MonsterController : MonoBehaviour
         while (time < targetTime)
         {
             var t = turnOn ? time / targetTime : 1.0f - time / targetTime;
-            var color = shieldGradient.Evaluate(t);
-            shieldRenderer.color = color;
+            var color1 = shieldGradient1.Evaluate(t);
+            var color2 = shieldGradient2.Evaluate(t);
+            shieldPropertyBlock.SetColor("_Color1", color1);
+            shieldPropertyBlock.SetColor("_Color2", color2);
+            shieldRenderer.SetPropertyBlock(shieldPropertyBlock);
             time += Time.deltaTime;
             yield return null;
         }
