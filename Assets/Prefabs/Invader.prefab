@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1181307578125222957}
   - component: {fileID: 3759996724553530276}
   - component: {fileID: 4675769390295343021}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Invader
   m_TagString: Mob
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2224926234272413616}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: shootPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,7 +334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3666989244237942576}
   - component: {fileID: 7905190389106441422}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
