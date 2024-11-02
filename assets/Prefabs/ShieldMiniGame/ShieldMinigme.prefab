@@ -46,15 +46,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72b020a26d6844fd87ff1f0bee3e5b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BeatMultiplier: 1
+  PartialBeats: 1
   lightningRenderer: {fileID: 0}
   isActive: 0
+  isEnabled: 0
   shieldChance: 0
   startOffset: 0
   endOffset: 0
+  activationDistance: 1.7
   ShieldCount: 12
   ShieldArcPrefab: {fileID: 972253174256311175, guid: 2a770f48c4d56f441956b7605c73a27c, type: 3}
   BulletPrefab: {fileID: 980449887703925889, guid: e073fc950789f734fa4bf58f88dd45fe, type: 3}
+  Catcher: {fileID: 2993794115301287743}
+  PatternResetBeatInterval: 16
+  ArpLoop: {fileID: 8300000, guid: 67f12db0fa5a2b247a69a50e21a05139, type: 3}
 --- !u!1 &2188070721712557556
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,7 +71,7 @@ GameObject:
   - component: {fileID: 5343407906581479186}
   - component: {fileID: 4852584445636182500}
   m_Layer: 6
-  m_Name: center dot
+  m_Name: CenterDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,7 +157,7 @@ GameObject:
   - component: {fileID: 3619676965925372077}
   - component: {fileID: 3072569491790581254}
   m_Layer: 6
-  m_Name: catcher
+  m_Name: Catcher
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -282,3 +287,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3a1380646966440ae4212611ca1c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}

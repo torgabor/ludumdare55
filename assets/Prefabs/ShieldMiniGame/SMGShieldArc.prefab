@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 8637064932172049185}
   - component: {fileID: 6792669740632831196}
   - component: {fileID: 5018432693164750863}
+  - component: {fileID: -1738125317195839678}
   m_Layer: 6
-  m_Name: SMGArc
+  m_Name: SMGShieldArc
   m_TagString: Arc
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c83add257bef94f8a8b540e64c5bb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShieldNum: 0
 --- !u!50 &5018432693164750863
 Rigidbody2D:
   serializedVersion: 4
@@ -171,3 +173,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-1738125317195839678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972253174256311175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f6654395346b1469931a3e00ba81fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PartialBeats: 1
+  m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
+  initialDelay: 0
+  beatScale: 1.1
+  restScale: {x: 1, y: 1, z: 1}

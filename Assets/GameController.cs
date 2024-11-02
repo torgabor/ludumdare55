@@ -12,6 +12,7 @@ public class GameController : AudioSyncer
 
     public static int GameStartBeat = int.MaxValue;
     public int GameStartDelayBeats = 4;
+    public int GameMainLoopStartBeat = int.MaxValue;
     public HealthController EnemyHealthController;
     public HealthController PlayerHealthController;
     public KickMiniGame KickMiniGame;
@@ -20,8 +21,10 @@ public class GameController : AudioSyncer
     public GameObject Instructions;
     public AudioClip Noice;
     public AudioClip Whatt;
+    public ShieldMiniGame ShieldMiniGame;
 
     public bool GameOver = false;
+    public bool isBaseGameRunning = false;
 
     private float enemyHP = 1f;
     private float playerHP = 1f;
@@ -87,6 +90,22 @@ public class GameController : AudioSyncer
         Menu.SetActive(false);
         GameStartBeat = CurrentBeat + GameStartDelayBeats;
         Instructions.SetActive(false);
-        KickMiniGame.OnGameStart();
+        KickMiniGame.Enable();
+    }
+
+    public void StartMainGameLoop(int beat)
+    {
+        if (isBaseGameRunning) { return; }
+        isBaseGameRunning = true;
+        ShieldMiniGame.Enable();
+        GameMainLoopStartBeat = beat;
+    }
+
+    public void StopMainGameLoop()
+    {
+        if (!isBaseGameRunning) { return; }
+        isBaseGameRunning = false;
+        ShieldMiniGame.Disable();
+        GameMainLoopStartBeat = int.MaxValue;
     }
 }

@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d0ffef390a9444ea7b6e5a15185acf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BeatMultiplier: 1
+  PartialBeats: 1
   KickMiniGame: {fileID: 2062726187}
   InvaderPrefab: {fileID: 1181307578125222957, guid: 5a97b4376b745af4794727db0ba7e442, type: 3}
   MoveExtents: {fileID: 460508568}
@@ -847,6 +847,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619365521}
   m_CullTransparentMesh: 1
+--- !u!1 &666837806 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2188070721712557556, guid: f2784369919012d49b284198ac8015a5, type: 3}
+  m_PrefabInstance: {fileID: 7821908348269190474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &666837809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666837806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f6654395346b1469931a3e00ba81fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PartialBeats: 1
+  m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
+  initialDelay: 0
+  beatScale: 1.1
+  restScale: {x: 1, y: 1, z: 1}
 --- !u!1 &675497815
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,6 +1002,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &702111313 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7923563164601297468, guid: f2784369919012d49b284198ac8015a5, type: 3}
+  m_PrefabInstance: {fileID: 7821908348269190474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72b020a26d6844fd87ff1f0bee3e5b72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &910280103
 GameObject:
   m_ObjectHideFlags: 0
@@ -1858,7 +1891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa4bf75f3f05fa4ba34e8f9172a514d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BeatMultiplier: 1
+  PartialBeats: 1
   m_settings: {fileID: 0}
   beatColor: {r: 0, g: 0, b: 0, a: 0}
   restColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2126,8 +2159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36ce4c0e2600f1c40be9fb274867e101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BeatMultiplier: 1
+  PartialBeats: 1
   GameStartDelayBeats: 4
+  GameMainLoopStartBeat: 2147483647
   EnemyHealthController: {fileID: 2015489183}
   PlayerHealthController: {fileID: 1225791574}
   KickMiniGame: {fileID: 2062726187}
@@ -2136,7 +2170,9 @@ MonoBehaviour:
   Instructions: {fileID: 410712184}
   Noice: {fileID: 8300000, guid: 2b5349c7ef02ead4289d89c500628892, type: 3}
   Whatt: {fileID: 8300000, guid: 9873283b2ce85f648987eb1cfb2c2748, type: 3}
+  ShieldMiniGame: {fileID: 702111313}
   GameOver: 0
+  isBaseGameRunning: 0
 --- !u!4 &1962050297
 Transform:
   m_ObjectHideFlags: 0
@@ -2532,7 +2568,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2188070721712557556, guid: f2784369919012d49b284198ac8015a5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 666837809}
   m_SourcePrefab: {fileID: 100100000, guid: f2784369919012d49b284198ac8015a5, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

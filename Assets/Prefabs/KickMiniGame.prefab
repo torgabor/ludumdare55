@@ -44,10 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c20ecd0f13a7e4288ed677f03ab6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   Clip: {fileID: 0}
   LoopLength: 0
   Sources: []
   Volume: 1
+  m_spectrum: 0
 --- !u!1 &4441244218128784662
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,13 +187,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987d32eb795872845abd5b3f3cecfeca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_settings: {fileID: 0}
+  PartialBeats: 1
   Kick: {fileID: 8300000, guid: 73c842043d0b9e146aa02ace17fa5576, type: 3}
   KickBad: {fileID: 8300000, guid: fd656eee7417058408c4982d5f74cc7a, type: 3}
   InitLoop: {fileID: 8300000, guid: 1414cb23218c2754aac85414d7384c9c, type: 3}
   Startup: {fileID: 8300000, guid: ab00379288712a342b4aaec6e0d84972, type: 3}
   BassLoop: {fileID: 8300000, guid: da72921e5d4cb8e459f9555f7936563d, type: 3}
-  Threshold: 0.1
+  Threshold: 0.13
   IsRunning: 0
   ProgressIndicator: {fileID: 3145658763861023177}
   BeatSpriteRenderer: {fileID: 6854048637013086213}
@@ -258,7 +260,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f6654395346b1469931a3e00ba81fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
+  initialDelay: 0
   beatScale: 1.1
   restScale: {x: 1, y: 1, z: 1}
 --- !u!1 &5424596892987669199
@@ -473,10 +477,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c20ecd0f13a7e4288ed677f03ab6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   Clip: {fileID: 0}
   LoopLength: 0
   Sources: []
   Volume: 1
+  m_spectrum: 0
 --- !u!1 &8240856094921828013
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,10 +527,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c20ecd0f13a7e4288ed677f03ab6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   Clip: {fileID: 0}
   LoopLength: 0
   Sources: []
   Volume: 1
+  m_spectrum: 0
 --- !u!1 &8988389637729630713
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +577,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c20ecd0f13a7e4288ed677f03ab6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   Clip: {fileID: 0}
   LoopLength: 0
   Sources: []
   Volume: 1
+  m_spectrum: 0

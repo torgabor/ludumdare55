@@ -1,10 +1,11 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class KickMiniGame : AudioSyncer
+public class KickMiniGame : AudioSyncer, IMiniGame
 {
     public AudioClip Kick;
     public AudioClip KickBad;
@@ -18,12 +19,13 @@ public class KickMiniGame : AudioSyncer
     public SpriteRenderer BeatSpriteRenderer;
     public SpriteRenderer Indicator;
     public Color indicatorOrigColor1;
-    public  Color indicatorOrigColor2;
+    public Color indicatorOrigColor2;
 
     public float OpacitySpeed = 1;
     public float Progress;
-    private float displayProgress;
     public int NextBeat;
+    private bool isEnabled = false;
+    private float displayProgress;
 
     private double countDownStartTime;
     private float beatOpacity;
@@ -53,14 +55,6 @@ public class KickMiniGame : AudioSyncer
         OneShots = AudioManager.Instance.GetTrack();
         InitLoopTrack = AudioManager.Instance.GetTrack(InitLoop);
         BassLoopTrack = AudioManager.Instance.GetTrack(BassLoop);
-
-    }
-
-    public void OnGameStart()
-    {
-
-        NextBeat = GameController.GameStartBeat;
-        InitLoopTrack.Loop(NextBeat);
     }
 
     private void Hit()
@@ -79,6 +73,7 @@ public class KickMiniGame : AudioSyncer
 
         if (!IsRunning && hitCount == 4)
         {
+            // start loop
             IsRunning = true;
             OneShots.Play(Startup);
             InitLoopTrack.Stop(NextBeat);
@@ -88,6 +83,7 @@ public class KickMiniGame : AudioSyncer
             KickTrack.Loop(NextBeat);
             BassLoopTrack.Loop(NextBeat);
             InitLoopTrack.Loop(NextBeat);
+            GameController.Instance.StartMainGameLoop(NextBeat);
         }
     }
 
@@ -130,7 +126,7 @@ public class KickMiniGame : AudioSyncer
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (inputActions.Player.Kick.WasPerformedThisFrame())
+        if (isEnabled && inputActions.Player.Kick.WasPerformedThisFrame())
         {
             double hitTime = DspTime;
             double beatTime = ClosestBeat * BeatInterval;
@@ -151,9 +147,7 @@ public class KickMiniGame : AudioSyncer
 
         if (IsRunning && Progress <= 0)
         {
-            IsRunning = false;
-            KickTrack.Stop();
-            BassLoopTrack.StopOnLoopEnd();
+            StopMiniGame();
         }
 
         displayProgress = Mathf.MoveTowards(displayProgress, Progress, 2f * Time.deltaTime);
@@ -180,5 +174,26 @@ public class KickMiniGame : AudioSyncer
             NextBeat += 1;
             prevHitCount = hitCount;
         }
+    }
+
+    public void StopMiniGame()
+    {
+        IsRunning = false;
+        KickTrack.Stop();
+        BassLoopTrack.StopOnLoopEnd();
+        GameController.Instance.StopMainGameLoop();
+    }
+
+    public void Enable()
+    {
+        isEnabled = true;
+        NextBeat = GameController.GameStartBeat;
+        InitLoopTrack.Loop(NextBeat);
+    }
+
+    public void Disable()
+    {
+        isEnabled = false;
+        StopMiniGame();
     }
 }

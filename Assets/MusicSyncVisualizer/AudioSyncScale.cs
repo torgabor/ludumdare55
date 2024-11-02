@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class AudioSyncScale : AudioSyncBase
 {
+    public float initialDelay = 0;
+
+    //private IEnumerator MoveToScaleWithDelay()
+    //{
+    //    yield return new WaitForSeconds(initialDelay);
+    //    yield return MoveToScale();
+    //}
 
 
     private IEnumerator MoveToScale()
