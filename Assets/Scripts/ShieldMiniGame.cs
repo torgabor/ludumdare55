@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class ShieldMiniGame : AudioSyncer
 {
@@ -8,6 +10,41 @@ public class ShieldMiniGame : AudioSyncer
 
     public float startOffset;
     public float endOffset;
+
+    public int ShieldCount = 12;
+    public GameObject ShieldArcPrefab;
+    public GameObject BulletPrefab;
+
+    private List<GameObject> arcs = new();
+    private List<GameObject> bullets = new();
+    private int activeArcs = 0;
+
+
+    private void Start()
+    {
+        PartialBeats = 2;
+        for (int i = 0; i < ShieldCount; i++)
+        {
+            // place arcs in a circle
+            var arc = Instantiate(ShieldArcPrefab, transform);
+            arc.transform.rotation = Quaternion.Euler(0f, 0f, 360f / ShieldCount * i);
+            arcs.Add(arc);
+        }
+    }
+
+    public void ActivateArc()
+    {
+        activeArcs++;
+        if (activeArcs == ShieldCount)
+        {
+            isActive = true;
+        }
+    }
+
+    public void DeactivateArc()
+    {
+        activeArcs--;
+    }
 
     MonsterController MobWithoutShield()
     {
@@ -22,9 +59,24 @@ public class ShieldMiniGame : AudioSyncer
 
     public override void OnBeat()
     {
+        // spawn bullets
+        var bullet = bullets.FirstOrDefault(b => b.activeSelf);
+        if (bullet == null)
+        {
+            bullet = Instantiate(BulletPrefab, transform);
+        }
+        float angle = 360f / ShieldCount * Random.Range(0, ShieldCount);
+        bullet.GetComponent<SMGBulletController>().Launch(angle);
+
+        if (!isActive)
+        {
+            return;
+        }
+
         var addShield = Random.value < shieldChance;
         var noShieldMonster = MobWithoutShield();
-        if (isActive && addShield && noShieldMonster != null)
+
+        if (addShield && noShieldMonster != null)
         {
             noShieldMonster.AddShield();
             var startPos = lightningRenderer.transform.position;

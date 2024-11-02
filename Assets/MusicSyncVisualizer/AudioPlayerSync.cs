@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AudioPlayerSync : MonoBehaviour
+public class AudioPlayerSync : AudioSyncer
 {
     public AudioClip Clip;
     public bool IsPlaying => Sources.Any(s => s.isPlaying);
@@ -30,11 +30,11 @@ public class AudioPlayerSync : MonoBehaviour
 
     public void Stop(int stopBeat)
     {
-        if (stopBeat > AudioSyncer.CurrentBeat)
+        if (stopBeat > CurrentBeat)
         {
             Sources.ForEach(s =>
             {
-                s.SetScheduledEndTime(stopBeat * AudioSyncer.BeatInterval);
+                s.SetScheduledEndTime(stopBeat * BeatInterval);
             });
         }
         isLooping = false;
@@ -66,10 +66,10 @@ public class AudioPlayerSync : MonoBehaviour
         var audioSource = GetAudioSource();
         audioSource.clip = Clip;
         audioSource.volume = Volume;
-        audioSource.PlayScheduled(startBeat * AudioSyncer.BeatInterval);
-        if (stopBeat > AudioSyncer.CurrentBeat)
+        audioSource.PlayScheduled(startBeat * BeatInterval);
+        if (stopBeat > CurrentBeat)
         {
-            audioSource.SetScheduledEndTime(stopBeat * AudioSyncer.BeatInterval);
+            audioSource.SetScheduledEndTime(stopBeat * BeatInterval);
         }
         loopStart = startBeat + LoopLength;
         isLooping = false;
@@ -120,8 +120,8 @@ public class AudioPlayerSync : MonoBehaviour
 
         // trigger kick on each beat
         double time = AudioSettings.dspTime;
-        double nextTime = loopStart * AudioSyncer.BeatInterval;
-        double lookAhead = Mathf.Clamp((float)(LoopLength * AudioSyncer.BeatInterval / 2), 0.15f, 2f);
+        double nextTime = loopStart * BeatInterval;
+        double lookAhead = Mathf.Clamp((float)(LoopLength * BeatInterval / 2), 0.15f, 2f);
         if (time + lookAhead > nextTime)
         {
             Loop(loopStart);

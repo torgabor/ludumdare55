@@ -9,7 +9,7 @@
                     "name": "Kick",
                     "type": "Button",
                     "id": "2cdc4f6b-7345-4300-9275-b43e3472e27c",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
