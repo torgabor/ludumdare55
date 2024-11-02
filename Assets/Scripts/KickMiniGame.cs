@@ -37,8 +37,12 @@ public class KickMiniGame : AudioSyncer
     private MaterialPropertyBlock indicatorBlock;
     private MaterialPropertyBlock progressBlock;
 
+    private InputActions inputActions;
+
     void Start()
     {
+        inputActions = new InputActions();
+        inputActions.Enable();
         progressBlock = new MaterialPropertyBlock();
         indicatorBlock = new MaterialPropertyBlock();
         ProgressIndicator.GetPropertyBlock(progressBlock);
@@ -126,7 +130,7 @@ public class KickMiniGame : AudioSyncer
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (Input.GetMouseButtonDown(0))
+        if (inputActions.Player.Kick.WasPerformedThisFrame())
         {
             double hitTime = DspTime;
             double beatTime = ClosestBeat * BeatInterval;

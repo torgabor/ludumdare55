@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -25,9 +26,16 @@ public class MonsterController : MonoBehaviour
     public SpriteRenderer shieldRenderer;
     public float shieldFadeTime = 0.2f;
     public float shootChance = 0.1f;
+    public bool shootActive;
     public Transform shootPosition;
     public ProjectileController shootPrefab;
+    public Gradient shieldGradient1;
+    public Gradient shieldGradient2;
+    private MaterialPropertyBlock shieldPropertyBlock;
     private AudioPlayerSync audioPlayer;
+
+    public static int shieldMatCounter = 0;
+
 
     private void Shoot()
     {
@@ -36,11 +44,7 @@ public class MonsterController : MonoBehaviour
         projectile.OnBeat();
     }
 
-    public bool HasShield
-    {
-        get => shieldRenderer.gameObject.activeInHierarchy;
-        set => shieldRenderer.gameObject.SetActive(value);
-    }
+    public bool HasShield => shieldRenderer.gameObject.activeInHierarchy;
 
     private bool _isDying;
 
@@ -49,6 +53,11 @@ public class MonsterController : MonoBehaviour
         mover = GetComponent<AudioSyncMove>();
         mover.Beat += OnBeat;
         audioPlayer = AudioManager.Instance.GlobalAudioPlayer;
+        var mat = new Material(shieldRenderer.material);
+        shieldPropertyBlock = new MaterialPropertyBlock();
+        
+        mat.name += shieldMatCounter++;
+        shieldRenderer.material = mat;
     }
 
     public void OnBeat()
@@ -105,11 +114,21 @@ public class MonsterController : MonoBehaviour
         var dieSound = dieSounds[Random.Range(0, dieSounds.Length)];
         audioPlayer.Volume = 0.4f;
         audioPlayer.Play(dieSound);
+        SpawnController.Instance?.OnDie(this);
         Destroy(this.gameObject);
     }
 
-    public void Hit()
+    public void Hit(bool forceDie)
     {
+        if (HasShield )
+        {
+            StartCoroutine(nameof(FadeShield), false);
+            if (!forceDie)
+            {
+                return;
+            }
+        }
+
         _isDying = true;
         GetComponent<SpriteRenderer>().color = Color.red;
         var colorAnim = GetComponent<AudioSyncColor>();
@@ -118,30 +137,33 @@ public class MonsterController : MonoBehaviour
         var scaleAnim = GetComponent<AudioSyncScale>();
         scaleAnim.beatScale = scaleAnim.beatScale * 1.2f;
         scaleAnim.restScale = scaleAnim.restScale * 1.2f;
-        //if (HasShield)
-        //{
-        //    StartCoroutine(nameof(DestroyShield), true);
-        //}
     }
 
-    IEnumerable DestroyShield(bool turnOn)
+    public void AddShield()
     {
-        HasShield = true;
+        StartCoroutine(nameof(FadeShield), true);
+    }
+
+    public IEnumerator FadeShield(bool turnOn)
+    {
+        shieldRenderer.gameObject.SetActive(true);
         var time = 0f;
         var targetTime = shieldFadeTime;
         while (time < targetTime)
         {
             var t = turnOn ? time / targetTime : 1.0f - time / targetTime;
-            var color = shieldRenderer.color;
-            color.a = t;
-            shieldRenderer.color = color;
+            var color1 = shieldGradient1.Evaluate(t);
+            var color2 = shieldGradient2.Evaluate(t);
+            shieldPropertyBlock.SetColor("_Color1", color1);
+            shieldPropertyBlock.SetColor("_Color2", color2);
+            shieldRenderer.SetPropertyBlock(shieldPropertyBlock);
             time += Time.deltaTime;
             yield return null;
         }
 
         if (!turnOn)
         {
-            HasShield = false;
+            shieldRenderer.gameObject.SetActive(false);
         }
     }
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3475229241892078641}
   - component: {fileID: -8458108051621137070}
   - component: {fileID: -7272697323255562409}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
   beatScale: 1.1
+  restScale: {x: 1, y: 1, z: 1}
 --- !u!114 &-5748693528232544836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
   beatColor: {r: 1, g: 0.77924526, b: 0.63207537, a: 1}
+  restColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1576027591217831897
 MonoBehaviour:
   m_ObjectHideFlags: 0

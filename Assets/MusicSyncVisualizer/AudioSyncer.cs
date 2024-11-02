@@ -47,8 +47,6 @@ public class AudioSyncer : MonoBehaviour
     public virtual void OnBeat()
     {
         Beat?.Invoke();
-        m_timer = 0;
-        m_isBeat = true;
     }
 
     /// <summary>
@@ -94,11 +92,8 @@ public class AudioSyncer : MonoBehaviour
         OnUpdate();
     }
 
-    public AudioSyncSettings m_settings;
 
-    private float m_previousAudioValue;
-    private float m_audioValue;
-    private float m_timer;
 
-    protected bool m_isBeat;
+
+    
 }

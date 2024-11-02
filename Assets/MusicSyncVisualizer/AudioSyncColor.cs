@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class AudioSyncColor : AudioSyncer {
+public class AudioSyncColor : AudioSyncBase {
 	
 	private IEnumerator MoveToColor()
 	{
@@ -21,8 +21,6 @@ public class AudioSyncColor : AudioSyncer {
 
 			yield return null;
 		}
-
-		m_isBeat = false;
 	}
 	
 

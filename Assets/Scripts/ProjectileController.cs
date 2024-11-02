@@ -29,7 +29,7 @@ public class ProjectileController : MonoBehaviour
     {
         if (collision.GetComponent<MonsterController>() is { } m)
         {
-            m.Hit();
+            m.Hit(false);
             Destroy(gameObject);
         }
     }
