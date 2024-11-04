@@ -109,21 +109,31 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             isActive = true;
             RandomizeBulletOrder();
             startBeatActive = GetNextClosestBar(16);
-            Debug.Log($"Starting Arp looop in {startBeatActive - GameController.Instance.GameMainLoopStartBeat} beats..");
             ArpLoopTrack.Loop(startBeatActive);
             bullets.ForEach(b => b.GetComponent<SMGBulletController>().Disable());
         }
+        Debug.Log($"Shield activated. Active shields: {activeShields}");
     }
 
     public void DeactivateShield(SMGShieldController shield)
     {
-        activeShields--;
-        shield.Deactivate();
-        if (activeShields == 0 && isActive)
+        if (!shield.IsActive)
+        {
+            shieldArcs.FirstOrDefault(s => s.IsActive)?.Deactivate();
+        } else
+        {
+            shield.Deactivate();
+        }
+        if (activeShields > 0)
+        {
+            activeShields--;
+        }
+        else if (isActive)
         {
             StopMiniGame();
             RandomizeBulletOrder();
         }
+        Debug.Log($"Shield deactivated. Active shields: {activeShields}");
     }
 
     public void StopMiniGame()
@@ -143,7 +153,6 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     {
         isEnabled = false;
         StopMiniGame();
-        Catcher.SetActive(false);
         shieldArcs.ForEach(arc => arc.Deactivate());
     }
 
@@ -176,7 +185,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
 
     void AddShieldToMonster()
     {
-        if (!isActive)
+        if (!isActive || CurrentBeat < startBeatActive)
         {
             return;
         }
