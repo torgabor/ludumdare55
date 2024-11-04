@@ -22,6 +22,8 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     public GameObject Catcher;
     public int PatternResetBeatInterval = 16;
     public AudioClip ArpLoop;
+    public AudioClip ShieldUpSound;
+    public AudioClip ShieldDownSound;
 
     private List<SMGShieldController> shieldArcs = new();
     private List<GameObject> bullets = new();
@@ -30,6 +32,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     private List<int> bulletOrder = new();
     private int currentBullet = 0;
     private AudioPlayerSync ArpLoopTrack;
+    private AudioPlayerSync OneShotTrack;
     private int startBeatActive = 0;
 
     private void Awake()
@@ -85,6 +88,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         RandomizeBulletOrder();
         mainCamera = Camera.main;
         ArpLoopTrack = AudioManager.Instance.GetTrack(ArpLoop);
+        OneShotTrack = AudioManager.Instance.GetTrack();
         for (int i = 0; i < ShieldCount; i++)
         {
             // place arcs in a circle
@@ -93,7 +97,6 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             shield.GetComponent<SMGShieldController>().ShieldNum = i;
             shieldArcs.Add(shield.GetComponent<SMGShieldController>());
         }
-        Disable();
     }
 
     public void ActivateShield(int shieldNum)
@@ -111,6 +114,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             startBeatActive = GetNextClosestBar(16);
             ArpLoopTrack.Loop(startBeatActive);
             bullets.ForEach(b => b.GetComponent<SMGBulletController>().Disable());
+            OneShotTrack.Play(ShieldUpSound);
         }
         Debug.Log($"Shield activated. Active shields: {activeShields}");
     }
@@ -141,12 +145,14 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         activeShields = 0;
         isActive = false;
         ArpLoopTrack.Stop(GetNextClosestBar(4));
+        OneShotTrack.Play(ShieldDownSound);
     }
 
     public void Enable()
     {
-        StopMiniGame();
         isEnabled = true;
+        isActive = false;
+        activeShields = 0;
     }
 
     public void Disable()
