@@ -10,7 +10,7 @@ using UnityEngine;
 /// </summary>
 public class AudioSyncer : MonoBehaviour
 {
-    public static double DspTime => AudioSettings.dspTime;
+    public static int CurrentDoubleBeat => (int)Mathf.Floor((float)(AudioSettings.dspTime / 60d * AudioManager.Instance.BPM * 2));
     public static int CurrentBeat => (int)Mathf.Floor((float)(AudioSettings.dspTime / 60d * AudioManager.Instance.BPM));
     public static int ClosestBeat => TimeToBeat(AudioSettings.dspTime);
     public static int TimeToBeat(double seconds) => (int)Mathf.Round((float)(seconds / 60d * AudioManager.Instance.BPM));
@@ -31,9 +31,12 @@ public class AudioSyncer : MonoBehaviour
 
     private int lastBeat = 0;
 
+    private int lastDoubleBeat = 0;
+
     public virtual void OnStart()
     {
         lastBeat = CurrentBeat;
+        lastDoubleBeat = CurrentDoubleBeat;
     }
 
     public virtual void OnAwake()
@@ -52,9 +55,6 @@ public class AudioSyncer : MonoBehaviour
         OnStart();
     }
 
-    /// <summary>
-    /// Inherit this to cause some behavior on each beat
-    /// </summary>
     public virtual void OnBeat()
     {
         Beat?.Invoke();
@@ -70,7 +70,7 @@ public class AudioSyncer : MonoBehaviour
         if (CurrentBeat >= GameController.GameStartBeat && CurrentPartialBeat != lastBeat)
         {
             OnBeat();
-            lastBeat = CurrentPartialBeat;
+            lastBeat = CurrentBeat;
         }
 
         //// update audio value
