@@ -25,6 +25,7 @@ public class GameController : AudioSyncer
 
     public bool GameOver = false;
     public bool isBaseGameRunning = false;
+    public bool Sandbox = false;
 
     private float enemyHP = 1f;
     private float playerHP = 1f;
@@ -40,11 +41,21 @@ public class GameController : AudioSyncer
     public override void OnBeat()
     {
         base.OnBeat();
+        if (Sandbox) return;
         playerHP -= 1f / 120;
         PlayerHealthController.SetHealth(playerHP);
         if (playerHP < 0f)
         {
             Lose();
+        }
+    }
+
+    public override void OnStart()
+    {
+        base.OnStart();
+        if (Sandbox)
+        {
+            StartGame();
         }
     }
 
