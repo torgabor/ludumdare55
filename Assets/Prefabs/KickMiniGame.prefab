@@ -194,14 +194,14 @@ MonoBehaviour:
   Startup: {fileID: 8300000, guid: ab00379288712a342b4aaec6e0d84972, type: 3}
   BassLoop: {fileID: 8300000, guid: faffb78f413d91e47b0075df553602ff, type: 3}
   BassLoop2: {fileID: 8300000, guid: 8ebf06aa882a8a94994043ff185879e7, type: 3}
-  Threshold: 0.5
+  Threshold: 0.15
   IsRunning: 0
   ProgressIndicator: {fileID: 3145658763861023177}
   BeatSpriteRenderer: {fileID: 6854048637013086213}
   Indicator: {fileID: 554705750802330237}
   indicatorOrigColor1: {r: 0, g: 0.049764156, b: 1, a: 1}
   indicatorOrigColor2: {r: 1, g: 0, b: 0.27889434, a: 1}
-  LevelBeats: 64
+  LevelBeats: 96
   Level: 0
   OpacitySpeed: 8
   Progress: 0
