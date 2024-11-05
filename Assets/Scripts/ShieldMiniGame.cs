@@ -183,8 +183,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
 
     void FireBullet()
     {
-        int currentBeat = CurrentPartialBeat;
-        if (!isEnabled || (isActive && currentBeat < StartBeat) || (currentBeat % 2 == 1)) { return; }
+        if (!isEnabled || (isActive && CurrentBeat < StartBeat) || (CurrentPartialBeat % 2 == 1)) { return; }
         var bullet = bullets.FirstOrDefault(b => !b.activeSelf);
         if (bullet == null)
         {
