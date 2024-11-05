@@ -22,6 +22,7 @@ public class GameController : AudioSyncer
     public AudioClip Noice;
     public AudioClip Whatt;
     public ShieldMiniGame ShieldMiniGame;
+    public int TimerSeconds = 180;
 
     public bool GameOver = false;
     public bool isBaseGameRunning = false;
@@ -42,7 +43,7 @@ public class GameController : AudioSyncer
     {
         base.OnBeat();
         if (Sandbox) return;
-        playerHP -= 1f / 180;
+        playerHP -= 1f / TimerSeconds;
         PlayerHealthController.SetHealth(playerHP);
         if (playerHP < 0f)
         {
