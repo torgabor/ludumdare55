@@ -45,6 +45,8 @@ public class KickMiniGame : AudioSyncer, IMiniGame
 
     private InputActions inputActions;
 
+    public SphereController sphereController;
+
     void Start()
     {
         inputActions = new InputActions();
@@ -55,6 +57,7 @@ public class KickMiniGame : AudioSyncer, IMiniGame
         Indicator.GetPropertyBlock(indicatorBlock);
         KickTrack = AudioManager.Instance.GetTrack(Kick);
         KickTrack.LoopLength = 1;
+        sphereController.soundEffectController.player = KickTrack;
 
         OneShots = AudioManager.Instance.GetTrack(KickBad);
         InitLoopTrack = AudioManager.Instance.GetTrack(InitLoop);

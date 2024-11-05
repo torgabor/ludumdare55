@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa4bf75f3f05fa4ba34e8f9172a514d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
   beatColor: {r: 0.68238986, g: 1, b: 0.7288241, a: 1}
   restColor: {r: 1, g: 1, b: 1, a: 1}
@@ -119,7 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f6654395346b1469931a3e00ba81fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
+  initialDelay: 0
   beatScale: 1.1
   restScale: {x: 1, y: 1, z: 1}
 --- !u!114 &4627261127752618000
@@ -134,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699ddd3f510a419bafa63096b14c6d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   m_settings: {fileID: 11400000, guid: 4e480ba5ccab9a54b9af5823037ba5d3, type: 2}
 --- !u!114 &1181307578125222957
 MonoBehaviour:
@@ -160,7 +164,7 @@ MonoBehaviour:
   shootChance: 0.1
   shootActive: 0
   shootPosition: {fileID: 2224926234272413616}
-  shootPrefab: {fileID: 3475229241892078641, guid: 91a37290694c094439b4fb9ba3d42638, type: 3}
+  shootPrefab: {fileID: 0}
   shieldGradient1:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 0}
@@ -221,6 +225,8 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  shootColorBeat: {r: 1, g: 1, b: 1, a: 1}
+  shootColorRest: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &3759996724553530276
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -87,5 +87,11 @@ public class ShooterController : MonoBehaviour
             GameController.Instance.Damage();
             damage.Play();
         }
+        if (collision.GetComponent<InvaderProjectileController>() is { } p)
+        {
+            GameController.Instance.Damage();
+            damage.Play();
+            Destroy(p.gameObject);
+        }
     }
 }

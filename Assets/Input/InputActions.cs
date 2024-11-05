@@ -44,6 +44,42 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TunnelUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d54f14b-437c-44be-aebf-f8ed7c10f365"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TunnelDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""13e88d0b-a0d3-4a58-aa78-980e5eed788e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TunnelLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""1feed3a0-695d-4736-beae-15e481e5a56c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TunnelRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""82b1d60a-ea9f-4b67-ae1b-2476fe359f1e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -83,7 +119,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fba5d46d-4781-4513-ae0c-738216908830"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -92,59 +128,92 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""53115022-576d-41ab-8fd9-cc179e78f1c7"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Arpeggio"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""e246dafb-3902-40c9-8aa6-572326564c36"",
+                    ""name"": """",
+                    ""id"": ""3abedc72-2ac5-40e2-a70c-6f126f11e0ed"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Arpeggio"",
+                    ""action"": ""TunnelUp"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""down"",
-                    ""id"": ""d8d6b65b-9de4-4fe1-8051-a08ae16423de"",
+                    ""name"": """",
+                    ""id"": ""9669ef5a-cfbc-4a6e-babf-370a39e82f16"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TunnelUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3f5a199-87dc-4733-a286-8fa0adc98e4c"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Arpeggio"",
+                    ""action"": ""TunnelDown"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""be762ff2-eab0-45bd-8c4f-cf2eb8558a5d"",
+                    ""name"": """",
+                    ""id"": ""959cf0e7-0563-4d6e-9dc4-9febff445854"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TunnelDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""424ba695-bd58-4fe9-a98e-663a9cedcdb2"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Arpeggio"",
+                    ""action"": ""TunnelLeft"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""right"",
-                    ""id"": ""de9b688f-9cdb-4208-8e06-f6d1741893c9"",
+                    ""name"": """",
+                    ""id"": ""711f55dd-0baa-415b-8458-9f89d4403135"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TunnelLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61d33e3d-a37e-44ac-b96d-7885953e2636"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TunnelRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""053cd4f6-be69-4a52-bbcc-d3ee5dca696f"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Arpeggio"",
+                    ""action"": ""TunnelRight"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -155,6 +224,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Kick = m_Player.FindAction("Kick", throwIfNotFound: true);
         m_Player_Arpeggio = m_Player.FindAction("Arpeggio", throwIfNotFound: true);
+        m_Player_TunnelUp = m_Player.FindAction("TunnelUp", throwIfNotFound: true);
+        m_Player_TunnelDown = m_Player.FindAction("TunnelDown", throwIfNotFound: true);
+        m_Player_TunnelLeft = m_Player.FindAction("TunnelLeft", throwIfNotFound: true);
+        m_Player_TunnelRight = m_Player.FindAction("TunnelRight", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -223,12 +296,20 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Kick;
     private readonly InputAction m_Player_Arpeggio;
+    private readonly InputAction m_Player_TunnelUp;
+    private readonly InputAction m_Player_TunnelDown;
+    private readonly InputAction m_Player_TunnelLeft;
+    private readonly InputAction m_Player_TunnelRight;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
         public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Kick => m_Wrapper.m_Player_Kick;
         public InputAction @Arpeggio => m_Wrapper.m_Player_Arpeggio;
+        public InputAction @TunnelUp => m_Wrapper.m_Player_TunnelUp;
+        public InputAction @TunnelDown => m_Wrapper.m_Player_TunnelDown;
+        public InputAction @TunnelLeft => m_Wrapper.m_Player_TunnelLeft;
+        public InputAction @TunnelRight => m_Wrapper.m_Player_TunnelRight;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -244,6 +325,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Arpeggio.started += instance.OnArpeggio;
             @Arpeggio.performed += instance.OnArpeggio;
             @Arpeggio.canceled += instance.OnArpeggio;
+            @TunnelUp.started += instance.OnTunnelUp;
+            @TunnelUp.performed += instance.OnTunnelUp;
+            @TunnelUp.canceled += instance.OnTunnelUp;
+            @TunnelDown.started += instance.OnTunnelDown;
+            @TunnelDown.performed += instance.OnTunnelDown;
+            @TunnelDown.canceled += instance.OnTunnelDown;
+            @TunnelLeft.started += instance.OnTunnelLeft;
+            @TunnelLeft.performed += instance.OnTunnelLeft;
+            @TunnelLeft.canceled += instance.OnTunnelLeft;
+            @TunnelRight.started += instance.OnTunnelRight;
+            @TunnelRight.performed += instance.OnTunnelRight;
+            @TunnelRight.canceled += instance.OnTunnelRight;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -254,6 +347,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Arpeggio.started -= instance.OnArpeggio;
             @Arpeggio.performed -= instance.OnArpeggio;
             @Arpeggio.canceled -= instance.OnArpeggio;
+            @TunnelUp.started -= instance.OnTunnelUp;
+            @TunnelUp.performed -= instance.OnTunnelUp;
+            @TunnelUp.canceled -= instance.OnTunnelUp;
+            @TunnelDown.started -= instance.OnTunnelDown;
+            @TunnelDown.performed -= instance.OnTunnelDown;
+            @TunnelDown.canceled -= instance.OnTunnelDown;
+            @TunnelLeft.started -= instance.OnTunnelLeft;
+            @TunnelLeft.performed -= instance.OnTunnelLeft;
+            @TunnelLeft.canceled -= instance.OnTunnelLeft;
+            @TunnelRight.started -= instance.OnTunnelRight;
+            @TunnelRight.performed -= instance.OnTunnelRight;
+            @TunnelRight.canceled -= instance.OnTunnelRight;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -275,5 +380,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     {
         void OnKick(InputAction.CallbackContext context);
         void OnArpeggio(InputAction.CallbackContext context);
+        void OnTunnelUp(InputAction.CallbackContext context);
+        void OnTunnelDown(InputAction.CallbackContext context);
+        void OnTunnelLeft(InputAction.CallbackContext context);
+        void OnTunnelRight(InputAction.CallbackContext context);
     }
 }
