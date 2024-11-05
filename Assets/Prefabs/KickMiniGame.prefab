@@ -192,7 +192,8 @@ MonoBehaviour:
   KickBad: {fileID: 8300000, guid: fd656eee7417058408c4982d5f74cc7a, type: 3}
   InitLoop: {fileID: 8300000, guid: 1414cb23218c2754aac85414d7384c9c, type: 3}
   Startup: {fileID: 8300000, guid: ab00379288712a342b4aaec6e0d84972, type: 3}
-  BassLoop: {fileID: 8300000, guid: da72921e5d4cb8e459f9555f7936563d, type: 3}
+  BassLoop: {fileID: 8300000, guid: faffb78f413d91e47b0075df553602ff, type: 3}
+  BassLoop2: {fileID: 8300000, guid: 8ebf06aa882a8a94994043ff185879e7, type: 3}
   Threshold: 0.13
   IsRunning: 0
   ProgressIndicator: {fileID: 3145658763861023177}
@@ -200,9 +201,10 @@ MonoBehaviour:
   Indicator: {fileID: 554705750802330237}
   indicatorOrigColor1: {r: 0, g: 0.049764156, b: 1, a: 1}
   indicatorOrigColor2: {r: 1, g: 0, b: 0.27889434, a: 1}
+  LevelBeats: 64
+  Level: 0
   OpacitySpeed: 8
   Progress: 0
-  NextBeat: 0
 --- !u!61 &662734064992931710
 BoxCollider2D:
   m_ObjectHideFlags: 0
