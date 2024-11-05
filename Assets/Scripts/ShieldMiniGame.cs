@@ -128,7 +128,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         inputActions = new InputActions();
         inputActions.Enable();
         ArpLoopTrack = AudioManager.Instance.GetTrack(ArpLoops[0]);
-        ArpBackground.player = ArpLoopTrack;
+        ArpBackground.soundEffectController.player = ArpLoopTrack;
         OneShotTrack = AudioManager.Instance.GetTrack(ShieldDownSound);
         OneShotTrack.Volume = 0.6f;
         for (int i = 0; i < ShieldCount; i++)

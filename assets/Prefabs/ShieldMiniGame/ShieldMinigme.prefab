@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1716829906717420809}
   - component: {fileID: 7923563164601297468}
+  - component: {fileID: 1739088660350013968}
   m_Layer: 6
   m_Name: ShieldMinigme
   m_TagString: Untagged
@@ -49,12 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PartialBeats: 2
-  lightningRenderer1: {fileID: 5127327000355778073}
-  lightningRenderer2: {fileID: 5686836752399661792}
   isActive: 0
   isEnabled: 0
-  startOffset: 0
-  endOffset: 0
   activationDistance: 1.7
   ShieldCount: 12
   ShieldArcPrefab: {fileID: 972253174256311175, guid: 2a770f48c4d56f441956b7605c73a27c, type: 3}
@@ -68,8 +65,25 @@ MonoBehaviour:
   ShieldDownSound: {fileID: 8300000, guid: ef2e184b1e1a951419d8a2aa5ed853a3, type: 3}
   PatternLength: 16
   LevelBeats: 32
-  Level: 1
   StartBeat: 0
+  ArpBackground: {fileID: 0}
+  lightningController: {fileID: 1739088660350013968}
+--- !u!114 &1739088660350013968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250774469207617892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6be7efdd81a24c4f96315e4dc163727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightningRenderer1: {fileID: 5127327000355778073}
+  lightningRenderer2: {fileID: 5686836752399661792}
+  startOffset: 0
+  endOffset: 0
 --- !u!1 &2188070721712557556
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +311,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3a1380646966440ae4212611ca1c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
 --- !u!1 &5311999635921159335
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +324,7 @@ GameObject:
   - component: {fileID: 2488796088360698131}
   - component: {fileID: 5127327000355778073}
   m_Layer: 6
-  m_Name: LightningSource1
+  m_Name: LightningSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

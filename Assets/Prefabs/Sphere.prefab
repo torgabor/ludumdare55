@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8810307500302182732}
   - component: {fileID: 7352068067629265426}
   - component: {fileID: 7319624264299182386}
+  - component: {fileID: 4127291536447999319}
   m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
@@ -97,13 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f463f46e16843a59439aab9b7409caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_settings:
-  - {fileID: 11400000, guid: e8f100bafc229ad40a5f004990272bb3, type: 2}
-  - {fileID: 11400000, guid: fbbe9c509f3040a429ea816662164810, type: 2}
-  - {fileID: 11400000, guid: 18e7523cb205ea947b053691bf14ffb9, type: 2}
   rotation: {x: 1, y: 1, z: 1}
   targetClip: {fileID: 8300000, guid: da72921e5d4cb8e459f9555f7936563d, type: 3}
-  beatWeights: {x: 0.1, y: 0.2, z: 0.1}
+  soundEffectController: {fileID: 0}
 --- !u!114 &7319624264299182386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,3 +115,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inset: 0.1
   originalMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &4127291536447999319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5670818395837370144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07307cc7a49dcd54f9f33779daf5353d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_settings:
+  - {fileID: 11400000, guid: e8f100bafc229ad40a5f004990272bb3, type: 2}
+  - {fileID: 11400000, guid: fbbe9c509f3040a429ea816662164810, type: 2}
+  - {fileID: 11400000, guid: 18e7523cb205ea947b053691bf14ffb9, type: 2}
+  m_previousAudioValue: 0
+  m_audioValue: 0
+  player: {fileID: 0}
+  beatWeights: {x: 0.1, y: 0.2, z: 0.1}
+  beatTime: {x: 0, y: 0, z: 0}
+  displacement: {x: 0, y: 0, z: 0}

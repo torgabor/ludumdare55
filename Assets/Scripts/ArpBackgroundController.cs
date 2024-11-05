@@ -22,6 +22,7 @@ public class StarLayer{
     public float zOffset = 0f;
 }
 
+[RequireComponent(typeof(SoundEffectController))]
 public class ArpBackgroundController : MonoBehaviour
 {
     public Bounds bounds;
@@ -47,28 +48,20 @@ public class ArpBackgroundController : MonoBehaviour
 
     public bool enableStars = true;
 
-     public AudioSyncSettings[] m_settings;
-
-    private float m_previousAudioValue;
-    private float m_audioValue;
-
-
-    public AudioPlayerSync player;
-
     
-    public Vector3 beatWeights;
-    private Vector3 beatTime;
-
     public StarLayer[] layers;
 
-    public Vector3 displacement;
+    public SoundEffectController soundEffectController;
 
-
+    public void Awake(){
+           soundEffectController = GetComponent<SoundEffectController>();
+    }
     // Start is called before the first frame update
     void Start()
     {
         stars.Clear();
         lastSpawnTime = Time.time;
+     
     }
 
     [ContextMenu("Set Bounds To Screen")]
@@ -105,7 +98,7 @@ public class ArpBackgroundController : MonoBehaviour
         var star = stars[idx];
         var layerInfo = layers[star.layer];
         star.timer += Time.deltaTime;
-        star.sprite.transform.localScale = Vector3.one * scaleCurve.Evaluate(star.timer / lifeTime) * layerInfo.scale * displacement[star.layer];
+        star.sprite.transform.localScale = Vector3.one * scaleCurve.Evaluate(star.timer / lifeTime) * layerInfo.scale * soundEffectController.displacement[star.layer];
         var starColor = star.color * colorCurve.Evaluate(star.timer / lifeTime) * layerInfo.alpha;
         star.mpb.SetColor("_Color", starColor);
         star.sprite.SetPropertyBlock(star.mpb);
@@ -117,61 +110,11 @@ public class ArpBackgroundController : MonoBehaviour
         }
     }
 
-    public void  Update(){
+    public void  LateUpdate(){
 
         SpawnStars();
-        //// update audio value
-        m_previousAudioValue = m_audioValue;
-        var currentTime = Time.time;
-        // get the data
-        m_audioValue = player.GetSpectrumData();
-        
-        for (var i = 0; i < m_settings.Length; i++)
-        {
-            var setting = m_settings[i];
-            var nextValidActivationTime = setting.timeStep + beatTime[i] + setting.totalTime;
-            // if audio value went below the bias during this frame
-            if (m_previousAudioValue > setting.bias &&
-                m_audioValue <= setting.bias)
-            {
-                // if minimum beat interval is reached
-                
-                if (currentTime > nextValidActivationTime)
-                    beatTime[i] = Time.time;
-            }
 
-            // if audio value went above the bias during this frame
-            if (m_previousAudioValue <= setting.bias &&
-                m_audioValue > setting.bias)
-            {
-                // if minimum beat interval is reached
-                if (currentTime > nextValidActivationTime)
-                    beatTime[i] = Time.time;
-            }
-        }
-
-        
-        
-        displacement = Vector3.zero;
-        for (var i = 0; i < m_settings.Length; i++)
-        {
-            var setting = m_settings[i];
-            var timeElapsed = currentTime - beatTime[i];
-            if (timeElapsed > setting.totalTime)
-            {
-                displacement[i] = 0;
-                continue;
-            }
-            else
-            {
-                float t = timeElapsed / setting.totalTime;
-                var val = setting.curve.Evaluate(t);
-                displacement[i] = val * beatWeights[i];
-            }
-        }
-        
-
-             for (int i = 0; i < stars.Count; i++)
+        for (int i = 0; i < stars.Count; i++)
         {
             UpdateStar(i);
         }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5058542688929195866
+--- !u!1 &7613241643716066884
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4826269672334955787}
-  - component: {fileID: 2000721145635599773}
+  - component: {fileID: 450403360066708359}
+  - component: {fileID: 7948851214641719171}
+  - component: {fileID: 7919040894157772739}
   m_Layer: 0
   m_Name: ArpBackground
   m_TagString: Untagged
@@ -17,13 +18,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4826269672334955787
+--- !u!4 &450403360066708359
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5058542688929195866}
+  m_GameObject: {fileID: 7613241643716066884}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.034609456, y: 0.03, z: -2.7728941}
@@ -32,23 +33,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2000721145635599773
+--- !u!114 &7948851214641719171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5058542688929195866}
+  m_GameObject: {fileID: 7613241643716066884}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4fdff184c9c5ed448bf700c0231309f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PartialBeats: 1
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 3.56, y: 4.2, z: 0}
   spawnCount: 20
+  maxStars: 200
+  spawnCooloff: 0.2
+  lastSpawnTime: 0
   starPrefab: {fileID: 7618997561117564909, guid: 3b514649fd19d424785ead4d56fd2b98, type: 3}
   spawnColor:
     serializedVersion: 2
@@ -94,17 +97,35 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.13684845
-      value: 0.7113745
-      inSlope: 0
-      outSlope: 0
+      time: -0.005592346
+      value: 0.57329774
+      inSlope: 3.836249
+      outSlope: 3.836249
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.6138262
-      value: 0.0073069446
+      time: 0.23531409
+      value: 0.9691717
+      inSlope: 0.09771065
+      outSlope: 0.09771065
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8788222
+      value: 0.58401316
+      inSlope: -2.717949
+      outSlope: -2.717949
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.23586231
+    - serializedVersion: 3
+      time: 0.9555468
+      value: 0.0026987903
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -118,62 +139,85 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.006369427
-      value: -0.007075472
+      time: -0.0148619935
+      value: 0.009433962
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.07218552
-      value: 0.016498566
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.21499841
-      value: 1.1431756
-      inSlope: 1.2674676
-      outSlope: 1.2674676
-      tangentMode: 0
+      tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.65876573
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.39803347
-      value: 1.1504276
-      inSlope: -2.0126889
-      outSlope: -2.0126889
+      time: -0.005592346
+      value: 0.57329774
+      inSlope: 3.836249
+      outSlope: 3.836249
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.23531409
+      value: 0.9691717
+      inSlope: 0.09771065
+      outSlope: 0.09771065
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.7929193
-      value: 0.09781751
-      inSlope: -0.078298904
-      outSlope: -0.078298904
+      time: 0.8788222
+      value: 0.58401316
+      inSlope: -2.717949
+      outSlope: -2.717949
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.6121857
+      outWeight: 0.23586231
     - serializedVersion: 3
-      time: 1.044586
-      value: 0.028301895
-      inSlope: 0.12474216
-      outSlope: 0.12474216
-      tangentMode: 0
+      time: 0.9555468
+      value: 0.0026987903
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 1
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   stars: []
   enableStars: 1
-  scale: 1.42
+  layers:
+  - scale: 1
+    alpha: 1
+    zOffset: 0
+  - scale: 0.5
+    alpha: 0.5
+    zOffset: 0
+  - scale: 0.2
+    alpha: 0.2
+    zOffset: 0
+  soundEffectController: {fileID: 7919040894157772739}
+--- !u!114 &7919040894157772739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7613241643716066884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07307cc7a49dcd54f9f33779daf5353d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_settings:
+  - {fileID: 11400000, guid: b8345089cc3684a4c827150c6d14ab9c, type: 2}
+  - {fileID: 11400000, guid: 46d6ed12726dfb841a4c0cb0ca4caf2f, type: 2}
+  - {fileID: 11400000, guid: 0ab2f5a873540ec4a956a622bd28ad3c, type: 2}
+  m_previousAudioValue: 0
+  m_audioValue: 0
+  player: {fileID: 0}
+  beatWeights: {x: 1, y: 1, z: 1}
+  beatTime: {x: 0, y: 0, z: 0}
+  displacement: {x: 0, y: 0, z: 0}
