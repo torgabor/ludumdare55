@@ -386,7 +386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 896194129945706770, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3309791145920141794, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
       propertyPath: enemies
@@ -445,7 +445,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
---- !u!43 &191880181
+--- !u!43 &209910436
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3021,7 +3021,7 @@ MonoBehaviour:
   Menu: {fileID: 1759810757}
   GameOverText: {fileID: 2018033466}
   Instructions: {fileID: 410712184}
-  Noice: {fileID: 8300000, guid: 2b5349c7ef02ead4289d89c500628892, type: 3}
+  Noice: {fileID: 8300000, guid: 9cac3e3d163f5934499dd6033050d24d, type: 3}
   Whatt: {fileID: 8300000, guid: 9873283b2ce85f648987eb1cfb2c2748, type: 3}
   ShieldMiniGame: {fileID: 1030439640}
   GameOver: 0
@@ -3435,6 +3435,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: shooter
       objectReference: {fileID: 0}
+    - target: {fileID: 896194129945706770, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3309791145920141794, guid: 4746a931cb3a5634b9280636b3de10b5, type: 3}
       propertyPath: enemies
       value: 
@@ -3615,6 +3619,10 @@ PrefabInstance:
     - target: {fileID: 8271736248407041911, guid: ba3d95a2eec732e4e8f4230dfcd44fd0, type: 3}
       propertyPath: m_Name
       value: Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8271736248407041911, guid: ba3d95a2eec732e4e8f4230dfcd44fd0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
