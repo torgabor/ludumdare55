@@ -5,8 +5,11 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main Scene.unity
     guid: a43da41264d51134c860a99cd363a254
+  - enabled: 1
+    path: Assets/Scenes/ExtraSounds.unity
+    guid: 6e64275a77db6f24f94c8432324433b5
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c27b8429cea459944a28341b33cc72be, type: 3}
