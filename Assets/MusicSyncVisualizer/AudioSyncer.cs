@@ -19,6 +19,9 @@ public class AudioSyncer : MonoBehaviour
     public int ClosestPartialBeat => TimeToPartialBeat(AudioSettings.dspTime);
     public int TimeToPartialBeat(double seconds) => (int)Mathf.Round((float)(seconds / 60d * AudioManager.Instance.BPM * PartialBeats));
     public double PartialBeatInterval => 60d / (AudioManager.Instance.BPM * PartialBeats);
+
+    private static readonly Queue<(Action action, int beat)> scheduledActions = new();
+     
     public static int GetNextClosestBar(int beatsPerBar)
     {
         var currentBeatRelativeToStart = CurrentBeat - GameController.Instance.GameMainLoopStartBeat;
@@ -26,11 +29,10 @@ public class AudioSyncer : MonoBehaviour
         return startActive + GameController.Instance.GameMainLoopStartBeat;
     }
 
-    public static double GetNextClosestTime(int patternLength)
-    {
-        var closestBar = GetNextClosestBar(patternLength);
-        return closestBar * BeatInterval;
+    public static void ScheduleAction(Action action, int beat){
+        scheduledActions.Enqueue((action, beat));
     }
+
 
     public Action Beat;
     public int PartialBeats = 1;
@@ -77,6 +79,17 @@ public class AudioSyncer : MonoBehaviour
         {
             OnBeat();
             lastBeat = CurrentPartialBeat;
+        }
+        while (scheduledActions.Count > 0)
+        {        
+            var (action, beat) = scheduledActions.Peek();
+            if(beat == CurrentBeat){
+                action();
+                scheduledActions.Dequeue();
+            }
+            else{
+                break;
+            }
         }
 
         //// update audio value

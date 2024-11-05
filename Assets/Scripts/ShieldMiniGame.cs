@@ -6,15 +6,13 @@ using UnityEngine.InputSystem;
 
 public class ShieldMiniGame : AudioSyncer, IMiniGame
 {
+
+
     public static ShieldMiniGame Instance;
 
-    public LightningRenderer lightningRenderer1;
-    public LightningRenderer lightningRenderer2;
     public bool isActive = false;
     public bool isEnabled = false;
 
-    public float startOffset;
-    public float endOffset;
     public float activationDistance = 0.8f;
     public int ShieldCount = 12;
     public GameObject ShieldArcPrefab;
@@ -29,9 +27,9 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     private List<SMGShieldController> shieldArcs = new();
     private List<GameObject> bullets = new();
     private int Level = 0;
-    private int ActiveShields = 0;
+    private int ActiveShields => shieldArcs.Count(s => s.IsActive);
     private Camera mainCamera;
-    //private List<int> bulletOrder = new();
+    private List<int> bulletOrder = new();
     private int currentBullet = 0;
     private AudioPlayerSync ArpLoopTrack;
     private AudioPlayerSync OneShotTrack;
@@ -39,7 +37,9 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
 
     public ArpBackgroundController ArpBackground;
 
-    private double nextBackgroundEnableTime = 0;
+    private InputActions inputActions;
+    
+    public LightningController lightningController;
 
     private void Awake()
     {
@@ -49,31 +49,57 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         }
     }
 
-    // void RandomizeBulletOrder()
-    // {
-    //     // Create a list of integers
-    //     if (!bulletOrder.Any())
-    //     {
-    //         for (int i = 0; i < ShieldCount; i++)
-    //         {
-    //             bulletOrder.Add(i);
-    //         }
-    //     }
+    void RandomizeBulletOrder()
+    {
+        bulletOrder.Clear();
+        for (int i = 0; i < ShieldCount; i++)
+        {
+            bulletOrder.Add(i);
+        }
+        RandomizeList(bulletOrder);
+    }
 
-    //     // Shuffle the list
-    //     bulletOrder = bulletOrder.OrderBy(x => Random.value).ToList();
-    // }
+    private static void RandomizeList(List<int> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = Random.Range(0, n + 1);
+            int temp = list[k];
+            list[k] = list[n];
+            list[n] = temp;
+        }
+    }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if(ArpBackground){
-            if(DspTime > nextBackgroundEnableTime){
-                ArpBackground.enableStars = isActive;
-            }
-        }
 
         if (!isEnabled) return;
+        var catcherRot = GetCatcherRot();
+        if (!Catcher.activeSelf && catcherRot != null)
+        {
+            Catcher.SetActive(true);
+        }
+        else if (Catcher.activeSelf && catcherRot == null)
+        {
+            Catcher.SetActive(false);
+        }
+        if(catcherRot != null){
+            Catcher.transform.rotation = catcherRot.Value;
+        }
+    }
+
+    private Quaternion? GetCatcherRot()
+    {
+         bool hasGamepad = Gamepad.all.Count > 0;
+         if(hasGamepad){
+            // Get the gamepad position in screen space
+            Vector3 gamepadPosition = inputActions.Player.Arpeggio.ReadValue<Vector2>();
+            gamepadPosition.z = 0;
+            return Quaternion.LookRotation(Vector3.forward, gamepadPosition);
+         }
         if (Mouse.current != null && mainCamera != null)
         {
             // Get the mouse position in screen space
@@ -82,24 +108,27 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             // Convert the screen position of the mouse to world position
             Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, transform.position.z));
             mouseWorldPosition.z = transform.position.z;
-            float distance = (mouseWorldPosition - transform.position).magnitude;
-            if (!Catcher.activeSelf && distance < activationDistance)
+            Vector3 direction = (mouseWorldPosition - transform.position);
+            direction.z = 0;
+            float distance = direction.magnitude;
+            if (distance < activationDistance)
             {
-                Catcher.SetActive(true);
-            }
-            else if (Catcher.activeSelf && distance > activationDistance)
-            {
-                Catcher.SetActive(false);
-            }
+                return Quaternion.LookRotation(Vector3.forward, direction);
+            }            
         }
+
+        return null;
     }
 
     public override void OnStart()
     {
         base.OnStart();
-       // RandomizeBulletOrder();
+        RandomizeBulletOrder();
         mainCamera = Camera.main;
+        inputActions = new InputActions();
+        inputActions.Enable();
         ArpLoopTrack = AudioManager.Instance.GetTrack(ArpLoops[0]);
+        ArpBackground.player = ArpLoopTrack;
         OneShotTrack = AudioManager.Instance.GetTrack(ShieldDownSound);
         OneShotTrack.Volume = 0.6f;
         for (int i = 0; i < ShieldCount; i++)
@@ -116,13 +145,12 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     {
         var shield = shieldArcs[shieldNum];
         if (!shield.IsActive)
-        {
-            ActiveShields++;
+        {            
             shield.Activate();
         }
         if (ActiveShields == ShieldCount && !isActive)
         {
-       //     RandomizeBulletOrder();
+            RandomizeBulletOrder();
             StartBeat = GetNextClosestBar(PatternLength);
             isActive = true;
             ArpLoopTrack.Loop(ArpLoops[0], StartBeat, StartBeat + LevelBeats);
@@ -130,7 +158,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             ArpLoopTrack.Loop(ArpLoops[2], StartBeat + LevelBeats * 2);
             bullets.ForEach(b => b.GetComponent<SMGBulletController>().Disable());
             OneShotTrack.Play(ShieldUpSound);
-            nextBackgroundEnableTime = GetNextClosestTime(16);
+            AudioSyncer.ScheduleAction(()=>{ ArpBackground.enableStars = true; }, GetNextClosestBar(16));
         }
     }
 
@@ -145,8 +173,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             shield.Deactivate();
         }
         if (ActiveShields > 0)
-        {
-            ActiveShields--;
+        {            
         }
         else if (isActive)
         {
@@ -156,8 +183,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
 
     public void StopMiniGame()
     {
-        nextBackgroundEnableTime = 0;
-        ActiveShields = 0;
+        ArpBackground.enableStars = false;        
         Level = 0;
         if (isActive)
         {
@@ -171,7 +197,6 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     {
         isEnabled = true;
         isActive = false;
-        ActiveShields = 0;
     }
 
     public void Disable()
@@ -217,8 +242,6 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         bullet.GetComponent<SMGBulletController>().Launch(shieldTarget, angle, transform.position);
     }
 
-    private bool alternate = false;
-
     void AddShieldToMonster()
     {
         if (!isActive || CurrentBeat < StartBeat)
@@ -230,14 +253,10 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         if (noShieldMonster != null)
         {
             noShieldMonster.AddShield();
-            var renderer = alternate ? lightningRenderer1 : lightningRenderer2;
-            alternate = !alternate;
-            var startPos = renderer.transform.position;
-            var endPos = noShieldMonster.transform.position;
-            var dir = (endPos - startPos).normalized;
-            var startPosOffs = startPos + dir * startOffset;
-            var endPosOffs = endPos - dir * endOffset;
-            renderer.Shoot(startPosOffs, endPosOffs);
+            lightningController.ShootLightning(
+                lightningController.transform.position,
+                noShieldMonster.transform.position
+            );
         }
     }
 

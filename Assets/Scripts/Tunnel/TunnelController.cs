@@ -1,67 +1,71 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO.Compression;
+using JetBrains.Annotations;
 
-public class TunnelController : MonoBehaviour
+public enum SpawnSide
 {
-    [Header("Tunnel Settings")]
-    [SerializeField] private float tunnelSpeed = 10f;
-    [SerializeField] private float tunnelLength = 20f;
-    [SerializeField] private float tunnelWidth = 10f;
-    [SerializeField] private float centerSpawnDistance = 2f;
-    [SerializeField] private float segmentPauseTime = 0.2f;
-    [SerializeField] private int numberOfSegments = 3;
-    [SerializeField] private AnimationCurve movementCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
+    Left = 0,
+    Right = 1,
+    Top = 2,
+    Bottom = 3
+}
     
-    [Header("Obstacle Settings")]
-    [SerializeField] private GameObject obstaclePrefab;
-    [SerializeField] private float spawnInterval = 1f;
-    [SerializeField] private float minScale = 0.2f;
-    [SerializeField] private float maxScale = 2f;
+
+public class TunnelController : AudioSyncer
+{
+    [SerializeField] private float tunnelZSpeed = 10f;        // Speed at which objects move through the tunnel    
+    [SerializeField] private float tunnelWidth = 10f;        // Width of the tunnel (distance between opposite walls)
+    [SerializeField] private float centerSpawnDistance = 2f; // Distance from center where objects initially spawn
+    [SerializeField] private float segmentPauseTime = 0.2f;  // Time to pause between tunnel segments
+    [SerializeField] private int numberOfSegments = 3;       // Number of segments the tunnel is divided into    
     
-    [Header("Visualization Settings")]
-    [SerializeField] private Color previewObstacleColor = new Color(1f, 1f, 1f, 0.3f); // White with 30% opacity
+    [SerializeField] private TunnelMonoBehavior obstaclePrefab;      // Prefab to spawn as obstacles
+    [SerializeField] private float spawnInterval = 1f;       // Time between obstacle spawns
+    [SerializeField] private float minScale = 0.2f;          // Minimum scale of obstacles (when far away)
+    [SerializeField] private float maxScale = 2f;            // Maximum scale of obstacles (when close to camera)
     
-    [Header("Lingering Settings")]
-    [SerializeField] private float lingerTime = 1f;
-    
+    [SerializeField] private int lingerBeats = 1;          
+
+    public float tunnelZLength => tunnelZfar - tunnelZnear;
+
+    public int faultClearBeats;
+
+    public int requiredMatches = 3;
+
     private float spawnTimer;
+
+    public float tunnelZfar = 20f;
+    public float tunnelZnear = 10f;
 
     public float tickTime = 0.5f;
     private List<TunnelObject> tunnelObjects = new List<TunnelObject>();
+
+    public InputActions inputActions;
+
+    public int matchCount = 0;
+    
+    public LightningController lightningController;
     
     [System.Serializable]
     private class TunnelObject
     {
-        public GameObject gameObject;
+        public TunnelMonoBehavior gameObject;
         public float zPosition; // Virtual Z position for perspective calculation
         public Vector2 startPosition; // Initial spawn position
         public Vector2 targetPosition; // Target position for perspective calculation
         public SpawnSide spawnSide;
         public int currentSegment = 0;
         public float segmentTimer = 0f;
-        public float lingerTimer = 0f;
+        public int lingerEndBeat = 0;
         public bool isLingering = false;
-
-        // Calculate position within current segment as a Vector2
-        public Vector2 GetSegmentPosition(float tunnelLength, float tunnelWidth)
-        {
-            float segmentLength = tunnelLength / currentSegment;
-            float segmentStart = currentSegment * segmentLength;
-            
-            // Get relative position within segment (0 to 1)
-            float relativePos = (zPosition - segmentStart) / segmentLength;
-            relativePos = Mathf.Clamp01(relativePos);
-            
-            // Lerp between start and target positions based on segment progress
-            return Vector2.Lerp(startPosition, targetPosition, relativePos);
-        }
-
-
         
+        public bool pauseMovement = false;
     }
+
     
-    private void Update()
+    
+    public override void OnUpdate()
     {
         // Spawn new objects
         spawnTimer += Time.deltaTime;
@@ -73,19 +77,88 @@ public class TunnelController : MonoBehaviour
         
         // Update existing objects
         UpdateTunnelObjects();
-        
+
         // Clean up objects that are too close (passed the camera)
         CleanupObjects();
     }
-    
-    private enum SpawnSide
+
+    public override void OnBeat()
     {
-        Left = 0,
-        Right = 1,
-        Top = 2,
-        Bottom = 3
+        HandleInput();
+    }
+
+    private void HandleInput()
+    {
+        // Check for input on key down only
+        if (inputActions.Player.TunnelUp.triggered)
+        {
+            HandleMatch(SpawnSide.Top);
+        }
+        if (inputActions.Player.TunnelDown.triggered)
+        {
+            HandleMatch(SpawnSide.Bottom);
+        }
+        if (inputActions.Player.TunnelLeft.triggered)
+        {
+            HandleMatch(SpawnSide.Left);
+        }
+        if (inputActions.Player.TunnelRight.triggered)
+        {
+            HandleMatch(SpawnSide.Right);
+        }
+    }
+
+    private void HandleMatch(SpawnSide side)
+    {
+        Debug.Log("Match on " + side);
+        if( tunnelObjects.Count > 0 )        
+        {
+            var obj = tunnelObjects[tunnelObjects.Count - 1];
+            if(obj.spawnSide == side ){
+                obj.gameObject.TriggerResult(true);
+                AddMatch();
+            }
+            else
+            {
+                obj.gameObject.TriggerResult(false);
+                TriggerFault();
+            }
+            obj.pauseMovement = true;
+            tunnelObjects.RemoveAt(tunnelObjects.Count - 1);
+        }
+    }
+
+    private MonsterController MobWithoutShoot()
+    {
+        foreach (var monster in SpawnController.Instance.Monsters)
+        {
+            if (!monster.shootActive)
+                return monster;
+        }
+
+        return null;
+    }
+
+    private void AddMatch()
+    {
+        //TODO: Add anims here
+        matchCount++;
+        if (matchCount == requiredMatches){
+            var mob = MobWithoutShoot();
+            if (mob != null){
+                mob.SetShootActive();
+                lightningController.ShootLightning(transform.position, mob.transform.position);
+            }
+        }
+    }
+
+    public override void OnStart()
+    {
+        inputActions = new InputActions();
+        inputActions.Enable();
     }
     
+
     private void SpawnObstacle()
     {
         if (obstaclePrefab == null) return;
@@ -120,13 +193,13 @@ public class TunnelController : MonoBehaviour
                 break;
         }
         
-        GameObject newObj = Instantiate(obstaclePrefab, transform.TransformPoint(spawnPosition), Quaternion.Euler(0, 0, rotation), transform);
+        var newObj = Instantiate(obstaclePrefab, transform.TransformPoint(spawnPosition), Quaternion.Euler(0, 0, rotation), transform);
         
 
         TunnelObject tunnelObj = new TunnelObject
         {
             gameObject = newObj,
-            zPosition = tunnelLength,
+            zPosition = tunnelZfar,
             startPosition = spawnPosition,
             targetPosition = targetPosition,
             spawnSide = wall
@@ -140,10 +213,11 @@ public class TunnelController : MonoBehaviour
     {
         foreach (var obj in tunnelObjects)
         {
+            if(obj.pauseMovement) continue;
             // Calculate segment boundaries based on numberOfSegments
-            float segmentLength = tunnelLength / numberOfSegments;
-            float segmentStart = tunnelLength - (obj.currentSegment + 1) * segmentLength;
-            float segmentEnd = tunnelLength - obj.currentSegment * segmentLength;
+            float segmentLength = (tunnelZfar - tunnelZnear) / numberOfSegments;
+            float segmentStart = tunnelZfar - (obj.currentSegment + 1) * segmentLength;
+            float segmentEnd = tunnelZfar - obj.currentSegment * segmentLength;
 
             // Check if we need to pause between segments
             if (obj.zPosition <= segmentEnd && obj.currentSegment < numberOfSegments - 1)
@@ -164,61 +238,69 @@ public class TunnelController : MonoBehaviour
     private void SetObjectPosition(TunnelObject obj)
     {
         // Calculate segment boundaries using numberOfSegments
-        float segmentLength = tunnelLength / numberOfSegments;
-        float segmentStart = tunnelLength - (obj.currentSegment + 1) * segmentLength;
-        float segmentEnd = tunnelLength - obj.currentSegment * segmentLength;
+        float segmentZLength = tunnelZLength / numberOfSegments;
+        float segmentStart = tunnelZLength - (obj.currentSegment + 1) * segmentZLength;
+        float segmentEnd = tunnelZLength - obj.currentSegment * segmentZLength;
         
         // Move object closer (decrease Z)
-        obj.zPosition -= tunnelSpeed * Time.deltaTime;
+        obj.zPosition -= tunnelZSpeed * Time.deltaTime;
 
         // Calculate progress within current segment
-        float segmentProgress = 1f - ((obj.zPosition - segmentStart) / segmentLength);
-        segmentProgress = Mathf.Clamp01(segmentProgress);
+        float segmentZProgress = 1f - ((obj.zPosition - segmentStart) / segmentZLength);
+        segmentZProgress = Mathf.Clamp01(segmentZProgress);
 
         // Calculate overall progress for scaling
-        float progressToCamera = 1f - (obj.zPosition / tunnelLength);
-        float currentScale = Mathf.Lerp(minScale, maxScale, progressToCamera);
+        float zProgress = 1f-(obj.zPosition / tunnelZfar);
+        float currentScale = Mathf.Lerp(minScale, maxScale, zProgress);
 
         // Calculate position (objects move toward edges as they get closer)
-        Vector2 newPosition = Vector2.Lerp(obj.startPosition, obj.targetPosition, progressToCamera);
+        Vector2 newPosition = Vector2.Lerp(obj.startPosition, obj.targetPosition, zProgress);
 
         // Apply transformations
         obj.gameObject.transform.localPosition = newPosition;
         obj.gameObject.transform.localScale = new Vector3(currentScale, currentScale, 1f);
     }
 
+    public void TriggerFault()
+    {
+        matchCount = 0;
+
+        Debug.Log("Fault triggered");
+        //TODO: Add fault animation 
+    }
+
     private void CleanupObjects()
     {
-        tunnelObjects.RemoveAll(obj =>
+        bool faultTriggered = false;
+        foreach (var obj in tunnelObjects)
         {
-            if (obj.zPosition <= 0f)
+            if (obj.isLingering && obj.lingerEndBeat > this.CurrentPartialBeat)
             {
-                if (!obj.isLingering)
-                {
-                    obj.isLingering = true;
-                    return false;
-                }
-
-                obj.lingerTimer += Time.deltaTime;
-                if (obj.lingerTimer >= lingerTime)
-                {
-                    Destroy(obj.gameObject);
-                    return true;
-                }
+                faultTriggered = true;
             }
-            return false;
-        });
+        }
+
+        if ( faultTriggered )
+        {            
+            foreach (var obj in tunnelObjects)
+            {
+                Destroy(obj.gameObject);
+            }
+            tunnelObjects.Clear();
+
+            TriggerFault();
+        }      
     }
     
     private void OnDrawGizmos()
     {
         // Draw inner rectangle (spawn positions)
         Gizmos.color = Color.cyan;
-        DrawRectangle(centerSpawnDistance);
+        Helpers.DrawRectangle(centerSpawnDistance, transform);
         
         // Draw outer rectangle (target positions)
         Gizmos.color = Color.red;
-        DrawRectangle(tunnelWidth/2f);
+        Helpers.DrawRectangle(tunnelWidth/2f, transform);
         
         float dotSize = 0.1f;
         
@@ -247,7 +329,7 @@ public class TunnelController : MonoBehaviour
 
         // Draw segment boundary markers
         Gizmos.color = Color.magenta;
-        float segmentLength = tunnelLength / numberOfSegments;        
+        float segmentLength = tunnelZLength / numberOfSegments;        
         
         // Draw a sphere at each segment boundary
         for (int i = 0; i <= numberOfSegments; i++)
@@ -259,21 +341,5 @@ public class TunnelController : MonoBehaviour
     }
 
 
-    private void DrawRectangle(float size)
-    {
-        Vector3[] points = new Vector3[]
-        {
-            new Vector3(-size, size, 0),
-            new Vector3(size, size, 0),
-            new Vector3(size, -size, 0),
-            new Vector3(-size, -size, 0)
-        };
-        
-        for (int i = 0; i < 4; i++)
-        {
-            Vector3 worldPoint1 = transform.TransformPoint(points[i]);
-            Vector3 worldPoint2 = transform.TransformPoint(points[(i + 1) % 4]);
-            Gizmos.DrawLine(worldPoint1, worldPoint2);
-        }
-    }
+
 }

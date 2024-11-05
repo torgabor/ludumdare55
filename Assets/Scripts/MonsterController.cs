@@ -26,7 +26,7 @@ public class MonsterController : MonoBehaviour
     public SpriteRenderer shieldRenderer;
     public float shieldFadeTime = 0.2f;
     public float shootChance = 0.1f;
-    public bool shootActive;
+    public bool shootActive = false;
     public Transform shootPosition;
     public ProjectileController shootPrefab;
     public Gradient shieldGradient1;
@@ -36,6 +36,9 @@ public class MonsterController : MonoBehaviour
 
     public static int shieldMatCounter = 0;
 
+
+    public Color shootColorBeat = Color.white;
+    public Color shootColorRest = Color.white;
 
     private void Shoot()
     {
@@ -60,6 +63,14 @@ public class MonsterController : MonoBehaviour
         shieldRenderer.material = mat;
     }
 
+    public void SetShootActive()
+    {
+        shootActive = true;
+        var colorAnim = GetComponent<AudioSyncColor>();
+        colorAnim.beatColor = shootColorBeat;
+        colorAnim.restColor = shootColorRest;
+    }
+
     public void OnBeat()
     {
         if (_isDying)
@@ -68,10 +79,10 @@ public class MonsterController : MonoBehaviour
             return;
         }
 
-        bool shouldShoot = Random.value < shootChance;
+        bool shouldShoot = Random.value < shootChance && shootActive;
         if (shouldShoot)
         {
-            //Shoot();
+            Shoot();
         }
 
         if (State == MoveState.MoveLeft)
@@ -107,7 +118,7 @@ public class MonsterController : MonoBehaviour
             var left = transform.position + Vector3.left * beatMoveDistance;
             State = moveExtents.bounds.Contains(left) ? MoveState.MoveLeft : MoveState.MoveRight;
         }
-    }
+    }   
 
     private void DoDie()
     {
