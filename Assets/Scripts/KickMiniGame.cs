@@ -12,6 +12,7 @@ public class KickMiniGame : AudioSyncer, IMiniGame
     public AudioClip InitLoop;
     public AudioClip Startup;
     public AudioClip BassLoop;
+    public AudioClip BassLoop2;
 
     public double Threshold = 0.2;
     public bool IsRunning = false;
@@ -20,10 +21,12 @@ public class KickMiniGame : AudioSyncer, IMiniGame
     public SpriteRenderer Indicator;
     public Color indicatorOrigColor1;
     public Color indicatorOrigColor2;
+    public int LevelBeats = 64;
+    public int Level = 0;
 
     public float OpacitySpeed = 1;
     public float Progress;
-    public int NextBeat;
+    private int startBeat;
     private bool isEnabled = false;
     private float displayProgress;
 
@@ -36,6 +39,7 @@ public class KickMiniGame : AudioSyncer, IMiniGame
     private AudioPlayerSync KickTrack;
     private AudioPlayerSync InitLoopTrack;
     private AudioPlayerSync BassLoopTrack;
+    private AudioPlayerSync Bass2LoopTrack;
     private MaterialPropertyBlock indicatorBlock;
     private MaterialPropertyBlock progressBlock;
 
@@ -52,9 +56,10 @@ public class KickMiniGame : AudioSyncer, IMiniGame
         KickTrack = AudioManager.Instance.GetTrack(Kick);
         KickTrack.LoopLength = 1;
 
-        OneShots = AudioManager.Instance.GetTrack();
+        OneShots = AudioManager.Instance.GetTrack(KickBad);
         InitLoopTrack = AudioManager.Instance.GetTrack(InitLoop);
         BassLoopTrack = AudioManager.Instance.GetTrack(BassLoop);
+        Bass2LoopTrack = AudioManager.Instance.GetTrack(BassLoop2);
 
         if (GameController.Instance.Sandbox)
         {
@@ -87,14 +92,16 @@ public class KickMiniGame : AudioSyncer, IMiniGame
         // start loop
         IsRunning = true;
         OneShots.Play(Startup);
-        InitLoopTrack.Stop(NextBeat);
-        BassLoopTrack.Stop(NextBeat);
-        NextBeat = ClosestBeat + 2;
-        countDownStartTime = NextBeat * BeatInterval;
-        KickTrack.Loop(NextBeat);
-        BassLoopTrack.Loop(NextBeat);
-        InitLoopTrack.Loop(NextBeat);
-        GameController.Instance.StartMainGameLoop(NextBeat);
+        InitLoopTrack.Stop(startBeat);
+        BassLoopTrack.Stop(startBeat);
+        Bass2LoopTrack.Stop(startBeat);
+        startBeat = ClosestBeat + 2;
+        countDownStartTime = startBeat * BeatInterval;
+        KickTrack.Loop(startBeat);
+        BassLoopTrack.Loop(startBeat, startBeat + LevelBeats);
+        Bass2LoopTrack.Loop(startBeat + LevelBeats);
+        InitLoopTrack.Loop(startBeat);
+        GameController.Instance.StartMainGameLoop(startBeat);
     }
 
     private void Miss()
@@ -177,7 +184,7 @@ public class KickMiniGame : AudioSyncer, IMiniGame
 
         // trigger kick on each beat
         double time = AudioSettings.dspTime;
-        double nextTime = NextBeat * BeatInterval;
+        double nextTime = startBeat * BeatInterval;
         if (time + BeatInterval / 2 > nextTime) // load 0.2 seconds before next beat
         {
             if (!IsRunning && hitCount != 0 && hitCount == prevHitCount)
@@ -185,7 +192,7 @@ public class KickMiniGame : AudioSyncer, IMiniGame
                 Miss();
             }
 
-            NextBeat += 1;
+            startBeat += 1;
             prevHitCount = hitCount;
         }
     }
@@ -194,15 +201,16 @@ public class KickMiniGame : AudioSyncer, IMiniGame
     {
         IsRunning = false;
         KickTrack.Stop();
-        BassLoopTrack.StopOnLoopEnd();
+        BassLoopTrack.Stop(GetNextClosestBar(8));
+        Bass2LoopTrack.Stop(GetNextClosestBar(8));
         GameController.Instance.StopMainGameLoop();
     }
 
     public void Enable()
     {
         isEnabled = true;
-        NextBeat = GameController.GameStartBeat;
-        InitLoopTrack.Loop(NextBeat);
+        startBeat = GameController.GameStartBeat;
+        InitLoopTrack.Loop(startBeat);
     }
 
     public void Disable()
