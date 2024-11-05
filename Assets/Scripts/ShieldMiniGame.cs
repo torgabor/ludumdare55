@@ -21,6 +21,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     public List<AudioClip> ArpLoops;
     public AudioClip ShieldUpSound;
     public AudioClip ShieldDownSound;
+    public List<AudioClip> LightningSounds = new();
     public int PatternLength = 16;
     public int LevelBeats = 32;
 
@@ -31,6 +32,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     private Camera mainCamera;
     private AudioPlayerSync ArpLoopTrack;
     private AudioPlayerSync OneShotTrack;
+    private AudioPlayerSync LightningSoundsTrack;
     public int StartBeat = 0;
 
     public ArpBackgroundController ArpBackground;
@@ -104,6 +106,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         inputActions = new InputActions();
         inputActions.Enable();
         ArpLoopTrack = AudioManager.Instance.GetTrack(ArpLoops[0]);
+        LightningSoundsTrack = AudioManager.Instance.GetTrack();
         ArpBackground.soundEffectController.player = ArpLoopTrack;
         ArpBackground.gameObject.SetActive(true);
         OneShotTrack = AudioManager.Instance.GetTrack(ShieldDownSound);
@@ -127,7 +130,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             isActive = true;
             ArpLoopTrack.Loop(ArpLoops[0], StartBeat, StartBeat + LevelBeats);
             ArpLoopTrack.Loop(ArpLoops[1], StartBeat + LevelBeats, StartBeat + LevelBeats * 2);
-            ArpLoopTrack.Loop(ArpLoops[2], StartBeat + LevelBeats * 2);
+            ArpLoopTrack.Loop(ArpLoops[2], StartBeat + LevelBeats * 2, int.MaxValue);
             bullets.ForEach(b => b.GetComponent<SMGBulletController>().Disable());
             OneShotTrack.Play(ShieldUpSound);
             AudioSyncer.ScheduleAction(() => { ArpBackground.enableStars = true; }, GetNextClosestBar(16));
@@ -209,6 +212,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
                 lightningController.transform.position,
                 noShieldMonster.transform.position
             );
+            LightningSoundsTrack.Play(LightningSounds[Random.Range(0, LightningSounds.Count - 1)]);
         }
     }
 

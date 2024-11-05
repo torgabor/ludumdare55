@@ -80,6 +80,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Start"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee4b0acd-8af8-4753-8036-63f66bd04fa3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,7 +117,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8fc38a95-88d3-46b4-a868-93ae48dc0424"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Kick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75cb78d5-08da-4eb9-9bd5-8945b6bd4bae"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -214,6 +234,61 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""TunnelRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88e7c43e-d03f-4c99-8ce7-e045f2061674"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2885fec0-2783-45b4-bb03-268c9a6a8a98"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94ba3283-2365-45d6-b2d3-9b885bf5846c"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8263d73a-dbb6-4a70-aa8e-47a5b60cabc7"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59b55efa-2e3e-4687-90a4-a578d088dab9"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -228,6 +303,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_TunnelDown = m_Player.FindAction("TunnelDown", throwIfNotFound: true);
         m_Player_TunnelLeft = m_Player.FindAction("TunnelLeft", throwIfNotFound: true);
         m_Player_TunnelRight = m_Player.FindAction("TunnelRight", throwIfNotFound: true);
+        m_Player_Start = m_Player.FindAction("Start", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -300,6 +376,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TunnelDown;
     private readonly InputAction m_Player_TunnelLeft;
     private readonly InputAction m_Player_TunnelRight;
+    private readonly InputAction m_Player_Start;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -310,6 +387,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @TunnelDown => m_Wrapper.m_Player_TunnelDown;
         public InputAction @TunnelLeft => m_Wrapper.m_Player_TunnelLeft;
         public InputAction @TunnelRight => m_Wrapper.m_Player_TunnelRight;
+        public InputAction @Start => m_Wrapper.m_Player_Start;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -337,6 +415,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @TunnelRight.started += instance.OnTunnelRight;
             @TunnelRight.performed += instance.OnTunnelRight;
             @TunnelRight.canceled += instance.OnTunnelRight;
+            @Start.started += instance.OnStart;
+            @Start.performed += instance.OnStart;
+            @Start.canceled += instance.OnStart;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -359,6 +440,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @TunnelRight.started -= instance.OnTunnelRight;
             @TunnelRight.performed -= instance.OnTunnelRight;
             @TunnelRight.canceled -= instance.OnTunnelRight;
+            @Start.started -= instance.OnStart;
+            @Start.performed -= instance.OnStart;
+            @Start.canceled -= instance.OnStart;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -384,5 +468,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnTunnelDown(InputAction.CallbackContext context);
         void OnTunnelLeft(InputAction.CallbackContext context);
         void OnTunnelRight(InputAction.CallbackContext context);
+        void OnStart(InputAction.CallbackContext context);
     }
 }

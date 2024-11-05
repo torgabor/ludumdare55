@@ -192,15 +192,15 @@ MonoBehaviour:
   KickBad: {fileID: 8300000, guid: fd656eee7417058408c4982d5f74cc7a, type: 3}
   InitLoop: {fileID: 8300000, guid: 1414cb23218c2754aac85414d7384c9c, type: 3}
   Startup: {fileID: 8300000, guid: ab00379288712a342b4aaec6e0d84972, type: 3}
-  BassLoop: {fileID: 8300000, guid: faffb78f413d91e47b0075df553602ff, type: 3}
-  BassLoop2: {fileID: 8300000, guid: 8ebf06aa882a8a94994043ff185879e7, type: 3}
+  BassLoop: {fileID: 8300000, guid: 840567592ad21ba478fa4cdb1954fc94, type: 3}
+  BassLoop2: {fileID: 8300000, guid: 8248272fd92e065488e002f1b7fc2f5e, type: 3}
   Threshold: 0.15
   IsRunning: 0
   ProgressIndicator: {fileID: 3145658763861023177}
   BeatSpriteRenderer: {fileID: 6854048637013086213}
   Indicator: {fileID: 554705750802330237}
   indicatorOrigColor1: {r: 0, g: 0.049764156, b: 1, a: 1}
-  indicatorOrigColor2: {r: 1, g: 0, b: 0.27889434, a: 1}
+  indicatorOrigColor2: {r: 0.60784316, g: 1, b: 0.3647059, a: 1}
   LevelBeats: 96
   Level: 0
   OpacitySpeed: 8
@@ -295,7 +295,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.38, y: 0.05, z: -1.0448469}
-  m_LocalScale: {x: 0.92835796, y: 0.92835796, z: 0.92835796}
+  m_LocalScale: {x: 1.176299, y: 1.176299, z: 1.176299}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3988234908056076724}
@@ -378,9 +378,9 @@ Transform:
   m_GameObject: {fileID: 5540599925711975467}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.411, y: 0.04, z: -1.0448469}
-  m_LocalScale: {x: 6.2517695, y: 6.2517695, z: 6.2517695}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.38, y: 0.04, z: -1.0448469}
+  m_LocalScale: {x: 5.79, y: 5.79, z: 5.79}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3988234908056076724}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

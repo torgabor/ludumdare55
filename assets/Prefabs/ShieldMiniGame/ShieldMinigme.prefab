@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1716829906717420809
 Transform:
   m_ObjectHideFlags: 0
@@ -63,6 +63,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 487d127f5a90df34380c301e488e2cba, type: 3}
   ShieldUpSound: {fileID: 8300000, guid: b017bf70f08c3174d9daebb41285affa, type: 3}
   ShieldDownSound: {fileID: 8300000, guid: ef2e184b1e1a951419d8a2aa5ed853a3, type: 3}
+  LightningSounds:
+  - {fileID: 8300000, guid: 6d9571bdfb84a0047b6a9b060e93d1fd, type: 3}
+  - {fileID: 8300000, guid: 240723fd85869a4429d11bbcc2305812, type: 3}
+  - {fileID: 8300000, guid: 422a0ba2c5baac74a8b401969c0d8bf2, type: 3}
   PatternLength: 16
   LevelBeats: 32
   StartBeat: 0

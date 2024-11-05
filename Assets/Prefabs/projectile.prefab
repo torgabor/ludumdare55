@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.63759553, b: 0.39308167, a: 1}
+  m_Color: {r: 1, g: 0.30980393, b: 0.3137255, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -102,7 +102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f6654395346b1469931a3e00ba81fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
+  initialDelay: 0
   beatScale: 1.1
   restScale: {x: 1, y: 1, z: 1}
 --- !u!114 &-5748693528232544836
@@ -117,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa4bf75f3f05fa4ba34e8f9172a514d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
   beatColor: {r: 1, g: 0.77924526, b: 0.63207537, a: 1}
   restColor: {r: 1, g: 1, b: 1, a: 1}
@@ -132,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699ddd3f510a419bafa63096b14c6d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PartialBeats: 1
   m_settings: {fileID: 11400000, guid: 4e480ba5ccab9a54b9af5823037ba5d3, type: 2}
 --- !u!114 &3475229241892078641
 MonoBehaviour:

@@ -30,6 +30,8 @@ public class GameController : AudioSyncer
 
     private float enemyHP = 1f;
     private float playerHP = 1f;
+    private InputActions inputActions;
+    private bool isStarted = false;
 
     private void Awake()
     {
@@ -54,6 +56,8 @@ public class GameController : AudioSyncer
     public override void OnStart()
     {
         base.OnStart();
+        inputActions = new InputActions();
+        inputActions.Enable();
         if (Sandbox)
         {
             StartGame();
@@ -99,10 +103,15 @@ public class GameController : AudioSyncer
 
     public void StartGame()
     {
+        if (isStarted)
+        {
+            return;
+        }
         Menu.SetActive(false);
         GameStartBeat = CurrentBeat + GameStartDelayBeats;
         Instructions.SetActive(false);
         KickMiniGame.Enable();
+        isStarted = true;
     }
 
     public void StartMainGameLoop(int beat)
@@ -119,5 +128,14 @@ public class GameController : AudioSyncer
         isBaseGameRunning = false;
         ShieldMiniGame.Disable();
         GameMainLoopStartBeat = int.MaxValue;
+    }
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        if (inputActions.Player.Start.WasPerformedThisFrame())
+        {
+            StartGame();
+        }
     }
 }
