@@ -68,7 +68,6 @@ MonoBehaviour:
   ShieldDownSound: {fileID: 8300000, guid: ef2e184b1e1a951419d8a2aa5ed853a3, type: 3}
   PatternLength: 16
   LevelBeats: 32
-  Level: 1
   StartBeat: 0
 --- !u!1 &2188070721712557556
 GameObject:
