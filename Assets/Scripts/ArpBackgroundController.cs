@@ -30,12 +30,15 @@ public class ArpBackgroundController : AudioSyncer
 
     public bool enableStars = true;
 
+    public float scale = 1f;
+
     
 
     // Start is called before the first frame update
     void Start()
     {
         stars.Clear();
+        PartialBeats = 2;
     }
 
     [ContextMenu("Set Bounds To Screen")]
@@ -43,7 +46,7 @@ public class ArpBackgroundController : AudioSyncer
         bounds = new Bounds(Camera.main.transform.position, new Vector3(Screen.width, Screen.height, 10));
     }
 
-    public override void OnDoubleBeat(){
+    public override void OnBeat(){
         if (!enableStars) { return; }
         int spawnAmount = (int)Random.Range(1, spawnCount);
 
@@ -62,7 +65,7 @@ public class ArpBackgroundController : AudioSyncer
     public void UpdateStar(int idx){
         var star = stars[idx];
         star.timer += Time.deltaTime;
-        star.sprite.transform.localScale = Vector3.one * scaleCurve.Evaluate(star.timer / lifeTime);
+        star.sprite.transform.localScale = Vector3.one * scaleCurve.Evaluate(star.timer / lifeTime) * scale;
         star.mpb.SetColor("_Color", star.color * colorCurve.Evaluate(star.timer / lifeTime));
         star.sprite.SetPropertyBlock(star.mpb);
         if (star.timer > lifeTime)

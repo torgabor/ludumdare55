@@ -31,11 +31,15 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     private int Level = 0;
     private int ActiveShields = 0;
     private Camera mainCamera;
-    private List<int> bulletOrder = new();
+    //private List<int> bulletOrder = new();
     private int currentBullet = 0;
     private AudioPlayerSync ArpLoopTrack;
     private AudioPlayerSync OneShotTrack;
     public int StartBeat = 0;
+
+    public ArpBackgroundController ArpBackground;
+
+    private double nextBackgroundEnableTime = 0;
 
     private void Awake()
     {
@@ -45,24 +49,30 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         }
     }
 
-    void RandomizeBulletOrder()
-    {
-        // Create a list of integers
-        if (!bulletOrder.Any())
-        {
-            for (int i = 0; i < ShieldCount; i++)
-            {
-                bulletOrder.Add(i);
-            }
-        }
+    // void RandomizeBulletOrder()
+    // {
+    //     // Create a list of integers
+    //     if (!bulletOrder.Any())
+    //     {
+    //         for (int i = 0; i < ShieldCount; i++)
+    //         {
+    //             bulletOrder.Add(i);
+    //         }
+    //     }
 
-        // Shuffle the list
-        bulletOrder = bulletOrder.OrderBy(x => Random.value).ToList();
-    }
+    //     // Shuffle the list
+    //     bulletOrder = bulletOrder.OrderBy(x => Random.value).ToList();
+    // }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
+        if(ArpBackground){
+            if(DspTime > nextBackgroundEnableTime){
+                ArpBackground.enableStars = isActive;
+            }
+        }
+
         if (!isEnabled) return;
         if (Mouse.current != null && mainCamera != null)
         {
@@ -87,7 +97,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     public override void OnStart()
     {
         base.OnStart();
-        RandomizeBulletOrder();
+       // RandomizeBulletOrder();
         mainCamera = Camera.main;
         ArpLoopTrack = AudioManager.Instance.GetTrack(ArpLoops[0]);
         OneShotTrack = AudioManager.Instance.GetTrack(ShieldDownSound);
@@ -112,7 +122,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         }
         if (ActiveShields == ShieldCount && !isActive)
         {
-            RandomizeBulletOrder();
+       //     RandomizeBulletOrder();
             StartBeat = GetNextClosestBar(PatternLength);
             isActive = true;
             ArpLoopTrack.Loop(ArpLoops[0], StartBeat, StartBeat + LevelBeats);
@@ -120,6 +130,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             ArpLoopTrack.Loop(ArpLoops[2], StartBeat + LevelBeats * 2);
             bullets.ForEach(b => b.GetComponent<SMGBulletController>().Disable());
             OneShotTrack.Play(ShieldUpSound);
+            nextBackgroundEnableTime = GetNextClosestTime(16);
         }
     }
 
@@ -139,13 +150,13 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         }
         else if (isActive)
         {
-            StopMiniGame();
-            RandomizeBulletOrder();
+            StopMiniGame();            
         }
     }
 
     public void StopMiniGame()
     {
+        nextBackgroundEnableTime = 0;
         ActiveShields = 0;
         Level = 0;
         if (isActive)
@@ -190,10 +201,20 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             bullet = Instantiate(BulletPrefab, transform);
             bullets.Add(bullet);
         }
-        int shieldNum = bulletOrder[currentBullet % ShieldCount];
+        bool shootAtActive = Random.value < 0.0f;
+
+        int shieldTarget = Random.Range(0, ShieldCount);
+        for (int i = 0; i < 20; i++){
+            var idx = Random.Range(0, ShieldCount);
+            if(shieldArcs[idx].IsActive == shootAtActive){
+                shieldTarget = idx;
+                break;
+            }
+        }
+        
         currentBullet++;
-        float angle = 360f / ShieldCount * shieldNum;
-        bullet.GetComponent<SMGBulletController>().Launch(shieldNum, angle, transform.position);
+        float angle = 360f / ShieldCount * shieldTarget;
+        bullet.GetComponent<SMGBulletController>().Launch(shieldTarget, angle, transform.position);
     }
 
     private bool alternate = false;

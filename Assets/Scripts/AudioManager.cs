@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioPlayerSync GlobalAudioPlayer;
 
-    private void Start()
+    private void Awake()
     {
         if (Instance == null)
         {

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FireflyMaterial
-  m_Shader: {fileID: 4800000, guid: 886c93b525f7fb44780272b77106c5d6, type: 3}
+  m_Name: SpeedLines
+  m_Shader: {fileID: 4800000, guid: cc2e36462a2f5a14b90cea4ba7c0fd55, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -42,10 +42,14 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _Power: 4.2
-    - _Radius: 0.11
+    - _Intensity: 2.5
+    - _Scale: 45
+    - _Speed: 1
     m_Colors:
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorA: {r: 0, g: 0, b: 1.1, a: 1}
+    - _ColorB: {r: 0, g: 1, b: 1, a: 1}
+    - _ColorC: {r: 1, g: 0.24999997, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
