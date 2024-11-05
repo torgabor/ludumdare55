@@ -42,7 +42,7 @@ public class GameController : AudioSyncer
     {
         base.OnBeat();
         if (Sandbox) return;
-        playerHP -= 1f / 120;
+        playerHP -= 1f / 180;
         PlayerHealthController.SetHealth(playerHP);
         if (playerHP < 0f)
         {
