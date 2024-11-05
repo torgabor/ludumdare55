@@ -11,6 +11,7 @@ using UnityEngine;
 public class AudioSyncer : MonoBehaviour
 {
     public static double DspTime => AudioSettings.dspTime;
+    
     public static int CurrentBeat => (int)Mathf.Floor((float)(AudioSettings.dspTime / 60d * AudioManager.Instance.BPM));
     public static int ClosestBeat => TimeToBeat(AudioSettings.dspTime);
     public static int TimeToBeat(double seconds) => (int)Mathf.Round((float)(seconds / 60d * AudioManager.Instance.BPM));
@@ -20,7 +21,7 @@ public class AudioSyncer : MonoBehaviour
     public int TimeToPartialBeat(double seconds) => (int)Mathf.Round((float)(seconds / 60d * AudioManager.Instance.BPM * PartialBeats));
     public double PartialBeatInterval => 60d / (AudioManager.Instance.BPM * PartialBeats);
 
-    private static readonly Queue<(Action action, int beat)> scheduledActions = new();
+    private readonly Queue<(Action action, int beat)> scheduledActions = new();
      
     public static int GetNextClosestBar(int beatsPerBar)
     {
@@ -29,7 +30,7 @@ public class AudioSyncer : MonoBehaviour
         return startActive + GameController.Instance.GameMainLoopStartBeat;
     }
 
-    public static void ScheduleAction(Action action, int beat){
+    public void ScheduleAction(Action action, int beat){
         scheduledActions.Enqueue((action, beat));
     }
 

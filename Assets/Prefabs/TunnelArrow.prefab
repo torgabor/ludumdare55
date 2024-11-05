@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5334094277367286734}
   - component: {fileID: 2799723821024684856}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4863452896543131386}
   - component: {fileID: 1696870278513090554}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 794337856947099122}
   - component: {fileID: 7835459663111160738}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TunnelArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,15 +230,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: -0.005592346
       value: 0.57329774
-      inSlope: 3.836249
-      outSlope: 3.836249
+      inSlope: 5.1128387
+      outSlope: 5.1128387
       tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.23531409
-      value: 0.9691717
+      time: 0.25162572
+      value: 1.3719428
       inSlope: 0.09771065
       outSlope: 0.09771065
       tangentMode: 0

@@ -158,7 +158,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             ArpLoopTrack.Loop(ArpLoops[2], StartBeat + LevelBeats * 2);
             bullets.ForEach(b => b.GetComponent<SMGBulletController>().Disable());
             OneShotTrack.Play(ShieldUpSound);
-            AudioSyncer.ScheduleAction(()=>{ ArpBackground.enableStars = true; }, GetNextClosestBar(16));
+            ScheduleAction(()=>{ ArpBackground.enableStars = true; }, GetNextClosestBar(16));
         }
     }
 

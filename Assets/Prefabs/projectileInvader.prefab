@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -8458108051621137070}
   - component: {fileID: -7272697323255562409}
   - component: {fileID: 8136863083162735071}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: projectileInvader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,4 +222,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveExtents: {fileID: 0}
-  beatMove: {x: 0, y: 1, z: 0}
+  beatMove: {x: 0, y: -1, z: 0}
