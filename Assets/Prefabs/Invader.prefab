@@ -164,7 +164,7 @@ MonoBehaviour:
   shootChance: 0.1
   shootActive: 0
   shootPosition: {fileID: 2224926234272413616}
-  shootPrefab: {fileID: 3475229241892078641, guid: 0f015a0a547d08f409557f5ab3b8f4a6, type: 3}
+  shootPrefab: {fileID: 0}
   shieldGradient1:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 0}

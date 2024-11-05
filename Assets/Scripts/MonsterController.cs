@@ -28,7 +28,7 @@ public class MonsterController : MonoBehaviour
     public float shootChance = 0.1f;
     public bool shootActive = false;
     public Transform shootPosition;
-    public ProjectileController shootPrefab;
+    public InvaderProjectileController shootPrefab;
     public Gradient shieldGradient1;
     public Gradient shieldGradient2;
     private MaterialPropertyBlock shieldPropertyBlock;
