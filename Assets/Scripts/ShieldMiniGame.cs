@@ -25,11 +25,11 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     public AudioClip ShieldDownSound;
     public int PatternLength = 16;
     public int LevelBeats = 32;
-    public int Level = 0;
 
     private List<SMGShieldController> shieldArcs = new();
     private List<GameObject> bullets = new();
-    private int activeShields = 0;
+    private int Level = 0;
+    private int ActiveShields = 0;
     private Camera mainCamera;
     private List<int> bulletOrder = new();
     private int currentBullet = 0;
@@ -107,10 +107,10 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         var shield = shieldArcs[shieldNum];
         if (!shield.IsActive)
         {
-            activeShields++;
+            ActiveShields++;
             shield.Activate();
         }
-        if (activeShields == ShieldCount && !isActive)
+        if (ActiveShields == ShieldCount && !isActive)
         {
             RandomizeBulletOrder();
             StartBeat = GetNextClosestBar(PatternLength);
@@ -133,9 +133,9 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         {
             shield.Deactivate();
         }
-        if (activeShields > 0)
+        if (ActiveShields > 0)
         {
-            activeShields--;
+            ActiveShields--;
         }
         else if (isActive)
         {
@@ -146,7 +146,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
 
     public void StopMiniGame()
     {
-        activeShields = 0;
+        ActiveShields = 0;
         Level = 0;
         if (isActive)
         {
@@ -160,7 +160,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     {
         isEnabled = true;
         isActive = false;
-        activeShields = 0;
+        ActiveShields = 0;
     }
 
     public void Disable()
