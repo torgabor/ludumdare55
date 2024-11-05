@@ -29,8 +29,6 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     private int Level = 0;
     private int ActiveShields => shieldArcs.Count(s => s.IsActive);
     private Camera mainCamera;
-    private List<int> bulletOrder = new();
-    private int currentBullet = 0;
     private AudioPlayerSync ArpLoopTrack;
     private AudioPlayerSync OneShotTrack;
     public int StartBeat = 0;
@@ -38,7 +36,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     public ArpBackgroundController ArpBackground;
 
     private InputActions inputActions;
-    
+
     public LightningController lightningController;
 
     private void Awake()
@@ -46,29 +44,6 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         if (Instance == null)
         {
             Instance = this;
-        }
-    }
-
-    void RandomizeBulletOrder()
-    {
-        bulletOrder.Clear();
-        for (int i = 0; i < ShieldCount; i++)
-        {
-            bulletOrder.Add(i);
-        }
-        RandomizeList(bulletOrder);
-    }
-
-    private static void RandomizeList(List<int> list)
-    {
-        int n = list.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = Random.Range(0, n + 1);
-            int temp = list[k];
-            list[k] = list[n];
-            list[n] = temp;
         }
     }
 
@@ -86,20 +61,22 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         {
             Catcher.SetActive(false);
         }
-        if(catcherRot != null){
+        if (catcherRot != null)
+        {
             Catcher.transform.rotation = catcherRot.Value;
         }
     }
 
     private Quaternion? GetCatcherRot()
     {
-         bool hasGamepad = Gamepad.all.Count > 0;
-         if(hasGamepad){
+        bool hasGamepad = Gamepad.all.Count > 0;
+        if (hasGamepad)
+        {
             // Get the gamepad position in screen space
             Vector3 gamepadPosition = inputActions.Player.Arpeggio.ReadValue<Vector2>();
             gamepadPosition.z = 0;
             return Quaternion.LookRotation(Vector3.forward, gamepadPosition);
-         }
+        }
         if (Mouse.current != null && mainCamera != null)
         {
             // Get the mouse position in screen space
@@ -114,7 +91,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             if (distance < activationDistance)
             {
                 return Quaternion.LookRotation(Vector3.forward, direction);
-            }            
+            }
         }
 
         return null;
@@ -123,7 +100,6 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     public override void OnStart()
     {
         base.OnStart();
-        RandomizeBulletOrder();
         mainCamera = Camera.main;
         inputActions = new InputActions();
         inputActions.Enable();
@@ -135,22 +111,17 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         {
             // place arcs in a circle
             var shield = Instantiate(ShieldArcPrefab, transform);
-            shield.transform.rotation = Quaternion.Euler(0f, 0f, 360f / ShieldCount * i);
+            shield.transform.rotation = Quaternion.Euler(0f, 0f, -360f / ShieldCount * i);
             shield.GetComponent<SMGShieldController>().ShieldNum = i;
             shieldArcs.Add(shield.GetComponent<SMGShieldController>());
         }
     }
 
-    public void ActivateShield(int shieldNum)
+    public void ActivateShield()
     {
-        var shield = shieldArcs[shieldNum];
-        if (!shield.IsActive)
-        {            
-            shield.Activate();
-        }
+        shieldArcs.FirstOrDefault(s => !s.IsActive)?.Activate();
         if (ActiveShields == ShieldCount && !isActive)
         {
-            RandomizeBulletOrder();
             StartBeat = GetNextClosestBar(PatternLength);
             isActive = true;
             ArpLoopTrack.Loop(ArpLoops[0], StartBeat, StartBeat + LevelBeats);
@@ -158,32 +129,22 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             ArpLoopTrack.Loop(ArpLoops[2], StartBeat + LevelBeats * 2);
             bullets.ForEach(b => b.GetComponent<SMGBulletController>().Disable());
             OneShotTrack.Play(ShieldUpSound);
-            AudioSyncer.ScheduleAction(()=>{ ArpBackground.enableStars = true; }, GetNextClosestBar(16));
+            AudioSyncer.ScheduleAction(() => { ArpBackground.enableStars = true; }, GetNextClosestBar(16));
         }
     }
 
-    public void DeactivateShield(SMGShieldController shield)
+    public void DeactivateShield()
     {
-        if (!shield.IsActive)
+        shieldArcs.LastOrDefault(s => s.IsActive)?.Deactivate();
+        if (ActiveShields == 0 && isActive)
         {
-            shieldArcs.FirstOrDefault(s => s.IsActive)?.Deactivate();
-        }
-        else
-        {
-            shield.Deactivate();
-        }
-        if (ActiveShields > 0)
-        {            
-        }
-        else if (isActive)
-        {
-            StopMiniGame();            
+            StopMiniGame();
         }
     }
 
     public void StopMiniGame()
     {
-        ArpBackground.enableStars = false;        
+        ArpBackground.enableStars = false;
         Level = 0;
         if (isActive)
         {
@@ -226,18 +187,8 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             bullet = Instantiate(BulletPrefab, transform);
             bullets.Add(bullet);
         }
-        bool shootAtActive = Random.value < 0.0f;
 
         int shieldTarget = Random.Range(0, ShieldCount);
-        for (int i = 0; i < 20; i++){
-            var idx = Random.Range(0, ShieldCount);
-            if(shieldArcs[idx].IsActive == shootAtActive){
-                shieldTarget = idx;
-                break;
-            }
-        }
-        
-        currentBullet++;
         float angle = 360f / ShieldCount * shieldTarget;
         bullet.GetComponent<SMGBulletController>().Launch(shieldTarget, angle, transform.position);
     }

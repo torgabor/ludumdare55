@@ -11,7 +11,7 @@ public class SMGCatcherController : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
             int shieldNum = collision.gameObject.GetComponent<SMGBulletController>().ShieldNum;
-            ShieldMiniGame.Instance.ActivateShield(shieldNum);
+            ShieldMiniGame.Instance.ActivateShield();
         }
     }
 }

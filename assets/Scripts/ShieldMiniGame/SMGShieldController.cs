@@ -39,7 +39,7 @@ public class SMGShieldController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            ShieldMiniGame.Instance.DeactivateShield(this);
+            ShieldMiniGame.Instance.DeactivateShield();
         }
     }
 }
