@@ -8,22 +8,20 @@ using UnityEngine;
 public class SphereController : MonoBehaviour
 {
     public Vector3 rotation;
-    public AudioClip targetClip;
+    
 
     private Renderer m_renderer;
     private MaterialPropertyBlock materialBlock;
 
     public SoundEffectController soundEffectController;    
 
- 
-    public void Start()
-    {
+    public void Awake(){
         soundEffectController = GetComponent<SoundEffectController>();
         m_renderer = GetComponent<Renderer>();
         materialBlock = new MaterialPropertyBlock();
-        m_renderer.GetPropertyBlock(materialBlock);
-        soundEffectController.player = AudioManager.Instance.GetTrack(targetClip);
+        m_renderer.GetPropertyBlock(materialBlock);    
     }
+ 
 
     public void LateUpdate()
     {

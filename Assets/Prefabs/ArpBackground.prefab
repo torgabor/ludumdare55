@@ -218,6 +218,6 @@ MonoBehaviour:
   m_previousAudioValue: 0
   m_audioValue: 0
   player: {fileID: 0}
-  beatWeights: {x: 1, y: 1, z: 1}
+  beatWeights: {x: 3, y: 5, z: 3}
   beatTime: {x: 0, y: 0, z: 0}
   displacement: {x: 0, y: 0, z: 0}

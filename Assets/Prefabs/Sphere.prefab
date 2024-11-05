@@ -99,7 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 1, y: 1, z: 1}
-  targetClip: {fileID: 8300000, guid: da72921e5d4cb8e459f9555f7936563d, type: 3}
   soundEffectController: {fileID: 0}
 --- !u!114 &7319624264299182386
 MonoBehaviour:
