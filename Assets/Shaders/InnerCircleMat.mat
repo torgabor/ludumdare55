@@ -47,11 +47,11 @@ Material:
     m_Floats:
     - _AnimSpeed: 0.2
     - _InnerRad: 0.38
-    - _OuterRad: 0.57
+    - _OuterRad: 0.6
     - _Progress: 1
     m_Colors:
     - _Color1: {r: 0, g: 0.04976414, b: 1, a: 1}
-    - _Color2: {r: 1, g: 0, b: 0.27889428, a: 1}
+    - _Color2: {r: 0.60784316, g: 1, b: 0.3647059, a: 1}
     - _ErrorColor: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7170039448981049490
