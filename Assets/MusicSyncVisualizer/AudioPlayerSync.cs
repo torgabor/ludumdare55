@@ -14,6 +14,7 @@ public class AudioPlayerSync : AudioSyncer
 
     private bool isLooping = false;
     private int loopStart = 0;
+    private int loopEnd = int.MaxValue;
     private float[] m_audioSpectrum;
     public float m_spectrum;
 
@@ -70,6 +71,7 @@ public class AudioPlayerSync : AudioSyncer
         if (stopBeat > CurrentBeat)
         {
             audioSource.SetScheduledEndTime(stopBeat * BeatInterval);
+            loopEnd = stopBeat;
         }
         loopStart = startBeat + LoopLength;
         isLooping = false;
@@ -78,6 +80,12 @@ public class AudioPlayerSync : AudioSyncer
     public void Loop(int startBeat = 0, int stopBeat = 0)
     {
         Play(startBeat, stopBeat);
+        isLooping = true;
+    }
+
+    public void Loop(AudioClip clip, int startBeat = 0, int stopBeat = 0)
+    {
+        Play(clip, startBeat, stopBeat);
         isLooping = true;
     }
 
@@ -104,7 +112,7 @@ public class AudioPlayerSync : AudioSyncer
         if (source != null)
         {
             source.GetSpectrumData(m_audioSpectrum, 0, FFTWindow.Hamming);
-            m_spectrum =  m_audioSpectrum[0] * 100;
+            m_spectrum = m_audioSpectrum[0] * 100;
         }
         else
         {
@@ -121,8 +129,9 @@ public class AudioPlayerSync : AudioSyncer
         // trigger kick on each beat
         double time = AudioSettings.dspTime;
         double nextTime = loopStart * BeatInterval;
+        double stopTime = loopEnd * BeatInterval;
         double lookAhead = Mathf.Clamp((float)(LoopLength * BeatInterval / 2), 0.15f, 2f);
-        if (time + lookAhead > nextTime)
+        if (nextTime < stopTime && time + lookAhead > nextTime)
         {
             Loop(loopStart);
         }

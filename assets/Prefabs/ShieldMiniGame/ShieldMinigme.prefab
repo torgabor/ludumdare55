@@ -59,8 +59,15 @@ MonoBehaviour:
   ShieldArcPrefab: {fileID: 972253174256311175, guid: 2a770f48c4d56f441956b7605c73a27c, type: 3}
   BulletPrefab: {fileID: 980449887703925889, guid: e073fc950789f734fa4bf58f88dd45fe, type: 3}
   Catcher: {fileID: 2993794115301287743}
-  PatternResetBeatInterval: 16
-  ArpLoop: {fileID: 8300000, guid: 67f12db0fa5a2b247a69a50e21a05139, type: 3}
+  ArpLoops:
+  - {fileID: 8300000, guid: 67f12db0fa5a2b247a69a50e21a05139, type: 3}
+  - {fileID: 8300000, guid: f8ac584e746c7c546bdd5b7d6190a86e, type: 3}
+  - {fileID: 8300000, guid: 487d127f5a90df34380c301e488e2cba, type: 3}
+  ShieldUpSound: {fileID: 8300000, guid: 2d98de06551edba4da185bfd3af05130, type: 3}
+  ShieldDownSound: {fileID: 8300000, guid: 956d4d323cac70d4fa39bf9e43ca1d54, type: 3}
+  PatternLength: 16
+  LevelLength: 32
+  Level: 0
 --- !u!1 &2188070721712557556
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,7 +309,7 @@ GameObject:
   - component: {fileID: 2488796088360698131}
   - component: {fileID: 5127327000355778073}
   m_Layer: 6
-  m_Name: Child
+  m_Name: LightningSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -317,7 +324,7 @@ Transform:
   m_GameObject: {fileID: 5311999635921159335}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.0334253, y: 0.561841, z: -0.24125154}
+  m_LocalPosition: {x: 0.012, y: 0.027, z: -0.24125154}
   m_LocalScale: {x: 0.291, y: 0.291, z: 0.291}
   m_ConstrainProportionsScale: 0
   m_Children: []

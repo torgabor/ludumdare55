@@ -8,10 +8,10 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
 {
     public static ShieldMiniGame Instance;
 
-    public LightningRenderer lightningRenderer;
+    public LightningRenderer lightningRenderer1;
+    public LightningRenderer lightningRenderer2;
     public bool isActive = false;
     public bool isEnabled = false;
-    [Range(0, 1)] public float shieldChance;
 
     public float startOffset;
     public float endOffset;
@@ -20,10 +20,12 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     public GameObject ShieldArcPrefab;
     public GameObject BulletPrefab;
     public GameObject Catcher;
-    public int PatternResetBeatInterval = 16;
-    public AudioClip ArpLoop;
+    public List<AudioClip> ArpLoops;
     public AudioClip ShieldUpSound;
     public AudioClip ShieldDownSound;
+    public int PatternLength = 16;
+    public int LevelBeats = 32;
+    public int Level = 0;
 
     private List<SMGShieldController> shieldArcs = new();
     private List<GameObject> bullets = new();
@@ -33,7 +35,7 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     private int currentBullet = 0;
     private AudioPlayerSync ArpLoopTrack;
     private AudioPlayerSync OneShotTrack;
-    private int startBeatActive = 0;
+    public int StartBeat = 0;
 
     private void Awake()
     {
@@ -87,8 +89,9 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         base.OnStart();
         RandomizeBulletOrder();
         mainCamera = Camera.main;
-        ArpLoopTrack = AudioManager.Instance.GetTrack(ArpLoop);
-        OneShotTrack = AudioManager.Instance.GetTrack();
+        ArpLoopTrack = AudioManager.Instance.GetTrack(ArpLoops[0]);
+        OneShotTrack = AudioManager.Instance.GetTrack(ShieldDownSound);
+        OneShotTrack.Volume = 0.6f;
         for (int i = 0; i < ShieldCount; i++)
         {
             // place arcs in a circle
@@ -109,14 +112,15 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         }
         if (activeShields == ShieldCount && !isActive)
         {
-            isActive = true;
             RandomizeBulletOrder();
-            startBeatActive = GetNextClosestBar(16);
-            ArpLoopTrack.Loop(startBeatActive);
+            StartBeat = GetNextClosestBar(PatternLength);
+            isActive = true;
+            ArpLoopTrack.Loop(ArpLoops[0], StartBeat, StartBeat + LevelBeats);
+            ArpLoopTrack.Loop(ArpLoops[1], StartBeat + LevelBeats, StartBeat + LevelBeats * 2);
+            ArpLoopTrack.Loop(ArpLoops[2], StartBeat + LevelBeats * 2);
             bullets.ForEach(b => b.GetComponent<SMGBulletController>().Disable());
             OneShotTrack.Play(ShieldUpSound);
         }
-        Debug.Log($"Shield activated. Active shields: {activeShields}");
     }
 
     public void DeactivateShield(SMGShieldController shield)
@@ -124,7 +128,8 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         if (!shield.IsActive)
         {
             shieldArcs.FirstOrDefault(s => s.IsActive)?.Deactivate();
-        } else
+        }
+        else
         {
             shield.Deactivate();
         }
@@ -137,15 +142,18 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
             StopMiniGame();
             RandomizeBulletOrder();
         }
-        Debug.Log($"Shield deactivated. Active shields: {activeShields}");
     }
 
     public void StopMiniGame()
     {
         activeShields = 0;
+        Level = 0;
+        if (isActive)
+        {
+            OneShotTrack.Play(ShieldDownSound);
+        }
         isActive = false;
         ArpLoopTrack.Stop(GetNextClosestBar(4));
-        OneShotTrack.Play(ShieldDownSound);
     }
 
     public void Enable()
@@ -175,8 +183,8 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
 
     void FireBullet()
     {
-        int currentBeat = CurrentBeat;
-        if (!isEnabled || (isActive && currentBeat < startBeatActive)) { return; }
+        int currentBeat = CurrentPartialBeat;
+        if (!isEnabled || (isActive && currentBeat < StartBeat) || (currentBeat % 2 == 1)) { return; }
         var bullet = bullets.FirstOrDefault(b => !b.activeSelf);
         if (bullet == null)
         {
@@ -189,24 +197,27 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
         bullet.GetComponent<SMGBulletController>().Launch(shieldNum, angle, transform.position);
     }
 
+    private bool alternate = false;
+
     void AddShieldToMonster()
     {
-        if (!isActive || CurrentBeat < startBeatActive)
+        if (!isActive || CurrentBeat < StartBeat)
         {
             return;
         }
-        var addShield = Random.value < shieldChance;
         var noShieldMonster = MobWithoutShield();
 
-        if (addShield && noShieldMonster != null)
+        if (noShieldMonster != null)
         {
             noShieldMonster.AddShield();
-            var startPos = lightningRenderer.transform.position;
+            var renderer = alternate ? lightningRenderer1 : lightningRenderer2;
+            alternate = !alternate;
+            var startPos = renderer.transform.position;
             var endPos = noShieldMonster.transform.position;
             var dir = (endPos - startPos).normalized;
             var startPosOffs = startPos + dir * startOffset;
             var endPosOffs = endPos - dir * endOffset;
-            lightningRenderer.Shoot(startPosOffs, endPosOffs);
+            renderer.Shoot(startPosOffs, endPosOffs);
         }
     }
 
@@ -214,7 +225,15 @@ public class ShieldMiniGame : AudioSyncer, IMiniGame
     {
         FireBullet();
 
-        AddShieldToMonster();
+        if (CurrentPartialBeat % (4 / Mathf.Pow(2, Level)) == 0)
+        {
+            AddShieldToMonster();
+        }
+
+        if (isActive && CurrentBeat - StartBeat > LevelBeats * (Level + 1))
+        {
+            Level = Mathf.Min(2, Level + 1);
+        }
 
         base.OnBeat();
     }

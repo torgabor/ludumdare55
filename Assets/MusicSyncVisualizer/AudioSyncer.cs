@@ -19,10 +19,10 @@ public class AudioSyncer : MonoBehaviour
     public int ClosestPartialBeat => TimeToPartialBeat(AudioSettings.dspTime);
     public int TimeToPartialBeat(double seconds) => (int)Mathf.Round((float)(seconds / 60d * AudioManager.Instance.BPM * PartialBeats));
     public double PartialBeatInterval => 60d / (AudioManager.Instance.BPM * PartialBeats);
-    public static int GetNextClosestBar(int patternLength)
+    public static int GetNextClosestBar(int beatsPerBar)
     {
         var currentBeatRelativeToStart = CurrentBeat - GameController.Instance.GameMainLoopStartBeat;
-        var startActive = ((currentBeatRelativeToStart + patternLength) / patternLength) * patternLength;
+        var startActive = ((currentBeatRelativeToStart + beatsPerBar) / beatsPerBar) * beatsPerBar;
         return startActive + GameController.Instance.GameMainLoopStartBeat;
     }
 
