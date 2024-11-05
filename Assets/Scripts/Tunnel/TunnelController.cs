@@ -25,6 +25,7 @@ public class TunnelController : AudioSyncer
     [SerializeField] private float minScale = 0.2f;          // Minimum scale of obstacles (when far away)
     [SerializeField] private float maxScale = 2f;            // Maximum scale of obstacles (when close to camera)
     
+    public AnimationCurve moveCurve;
     [SerializeField] private int lingerBeats = 1;          
 
     public float tunnelZLength => tunnelZfar - tunnelZnear;
@@ -252,9 +253,10 @@ public class TunnelController : AudioSyncer
         // Calculate overall progress for scaling
         float zProgress = 1f-(obj.zPosition / tunnelZfar);
         float currentScale = Mathf.Lerp(minScale, maxScale, zProgress);
+        float moveProgress = moveCurve.Evaluate(zProgress);
 
         // Calculate position (objects move toward edges as they get closer)
-        Vector2 newPosition = Vector2.Lerp(obj.startPosition, obj.targetPosition, zProgress);
+        Vector2 newPosition = Vector2.Lerp(obj.startPosition, obj.targetPosition, moveProgress);
 
         // Apply transformations
         obj.gameObject.transform.localPosition = newPosition;
