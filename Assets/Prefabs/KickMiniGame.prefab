@@ -194,7 +194,7 @@ MonoBehaviour:
   Startup: {fileID: 8300000, guid: ab00379288712a342b4aaec6e0d84972, type: 3}
   BassLoop: {fileID: 8300000, guid: faffb78f413d91e47b0075df553602ff, type: 3}
   BassLoop2: {fileID: 8300000, guid: 8ebf06aa882a8a94994043ff185879e7, type: 3}
-  Threshold: 0.13
+  Threshold: 0.5
   IsRunning: 0
   ProgressIndicator: {fileID: 3145658763861023177}
   BeatSpriteRenderer: {fileID: 6854048637013086213}
@@ -205,6 +205,7 @@ MonoBehaviour:
   Level: 0
   OpacitySpeed: 8
   Progress: 0
+  sphereController: {fileID: 0}
 --- !u!61 &662734064992931710
 BoxCollider2D:
   m_ObjectHideFlags: 0
