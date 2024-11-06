@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO.Compression;
 using JetBrains.Annotations;
+using UnityEngine.Timeline;
 
 public enum SpawnSide
 {
@@ -19,6 +20,11 @@ public enum State
 
 public class TunnelController : AudioSyncer
 {
+    public AudioClip FaultSound;
+    private AudioPlayerSync OneShotTrack;    
+    public List<AudioClip> TechnoLoops = new();
+
+    private List<AudioPlayerSync> TechnoLoopTracks = new(); 
 
     [SerializeField] private float tunnelWidth = 10f;        // Width of the tunnel (distance between opposite walls)
     [SerializeField] private float centerSpawnDistance = 2f; // Distance from center where objects initially spawn
@@ -68,6 +74,16 @@ public class TunnelController : AudioSyncer
     public float pulseSpeed = 2f;
     public float progressSpeed = 1.6f;
 
+    public int LevelBeats = 32;
+
+    public int startBeat = 0;
+
+    public int PatternLength = 8;
+
+    public SpriteRenderer tunnelBackground;  // Add this field
+    public float fadeSpeed = 2f;             // Add this field
+    float currentBackgroundAlpha = 0f;
+
     [System.Serializable]
     private class TunnelObject
     {
@@ -84,9 +100,9 @@ public class TunnelController : AudioSyncer
         progressBlock = new MaterialPropertyBlock();
         mainSprite.GetPropertyBlock(progressBlock);
         progressBlock.SetFloat("_Progress", 0f);
+        mpb = new MaterialPropertyBlock();
     }
-
-
+    MaterialPropertyBlock mpb;
     public override void OnUpdate()
     {
         base.OnUpdate();
@@ -96,10 +112,16 @@ public class TunnelController : AudioSyncer
 
         HandleInput();
 
+        // Consolidated visual state handling
+        float targetBackgroundAlpha = state == State.Active ? 1f : 0f;
+        currentBackgroundAlpha = Mathf.Lerp(currentBackgroundAlpha, targetBackgroundAlpha, fadeSpeed * Time.deltaTime);
+        tunnelBackground.GetPropertyBlock(mpb);
+        mpb.SetFloat("_Alpha", currentBackgroundAlpha);
+        tunnelBackground.SetPropertyBlock(mpb);
 
+        // Main sprite color handling based on state
         if (state == State.Faulted)
         {
-            // Pulse between red and black at 2Hz
             float pulseAmount = (Mathf.Sin(Time.time * Mathf.PI * 2f * pulseSpeed) + 1f) * 0.5f;
             mainSprite.color = Color.Lerp(new Color(0.0f, 0f, 0f, 0f), Color.red, pulseAmount);
         }
@@ -113,8 +135,9 @@ public class TunnelController : AudioSyncer
             mainSprite.color = Color.white;
         }
 
+        // Progress circle update
         var progress = (float)matchCount / matchMax;
-        progressCircleLevel += (progress - progressCircleLevel) * progressSpeed     * Time.deltaTime;
+        progressCircleLevel += (progress - progressCircleLevel) * progressSpeed * Time.deltaTime;
         progressBlock.SetFloat("_Progress", progressCircleLevel);
         progressCircle.SetPropertyBlock(progressBlock);
 
@@ -192,6 +215,15 @@ public class TunnelController : AudioSyncer
                 if (state == State.Stopped && matchCount == matchMax)
                 {
                     state = State.Active;
+                    startBeat = GetNextClosestBar(PatternLength);
+                    foreach (var track in TechnoLoopTracks)
+                    {
+                        track.Stop(startBeat);
+                    }
+                    for (int i = 0; i < TechnoLoopTracks.Count; i++)
+                    {
+                        TechnoLoopTracks[i].Loop(startBeat + LevelBeats * i, startBeat + i == TechnoLoopTracks.Count - 1 ? int.MaxValue : startBeat + LevelBeats * (i + 1));
+                    }
                 }
             }
             else
@@ -218,6 +250,13 @@ public class TunnelController : AudioSyncer
     {
         inputActions = new InputActions();
         inputActions.Enable();
+
+        TechnoLoopTracks.Clear();
+        for (int i = 0; i < TechnoLoops.Count; i++)
+        {
+            TechnoLoopTracks.Add(AudioManager.Instance.GetTrack(TechnoLoops[i]));
+        }
+        OneShotTrack = AudioManager.Instance.GetTrack(FaultSound);
     }
 
 
@@ -305,6 +344,10 @@ public class TunnelController : AudioSyncer
         matchCount = 0;
 
         Debug.Log("Fault triggered");
+        foreach (var track in TechnoLoopTracks)
+        {
+            track.Stop(GetNextClosestBar(PatternLength));
+        }
         foreach (var obj in tunnelObjects)
         {
             obj.gameObject.TriggerResult(false);
@@ -312,6 +355,7 @@ public class TunnelController : AudioSyncer
         tunnelObjects.Clear();
         state = State.Faulted;
         matchCount = 0;
+        OneShotTrack.Play(FaultSound);
         ScheduleAction(() =>
         {
             state = State.Stopped;

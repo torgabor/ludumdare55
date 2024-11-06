@@ -683,7 +683,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6031583873775124265
 Transform:
   m_ObjectHideFlags: 0
@@ -716,6 +716,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PartialBeats: 1
+  FaultSound: {fileID: 8300000, guid: 429667a42c8c9e84c9ccca0079db4122, type: 3}
+  TechnoLoops:
+  - {fileID: 8300000, guid: 6412b803e88d5c24aba0cd867d685863, type: 3}
+  - {fileID: 8300000, guid: b5974ff800b43b04389ae29bfdeb2d85, type: 3}
+  - {fileID: 8300000, guid: d3e916be4ce7c3d42bd5c3ac089f4ab0, type: 3}
   tunnelWidth: 3.27
   centerSpawnDistance: 0.53
   numberOfSegments: 2
@@ -776,7 +781,7 @@ MonoBehaviour:
   faultClearBeats: 4
   requiredMatches: 3
   spawnBeats: 2
-  segmentBeats: 10
+  segmentBeats: 1
   state: 0
   tunnelZfar: 20
   tunnelZnear: 10
@@ -788,6 +793,11 @@ MonoBehaviour:
   mainSprite: {fileID: 2803485870685194757}
   pulseSpeed: 1
   progressSpeed: 4
+  LevelBeats: 32
+  startBeat: 0
+  PatternLength: 8
+  tunnelBackground: {fileID: 0}
+  fadeSpeed: 2
 --- !u!114 &543130022249716815
 MonoBehaviour:
   m_ObjectHideFlags: 0

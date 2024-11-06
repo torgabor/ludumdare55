@@ -2,16 +2,19 @@ Shader "Unlit/SquareTunnel"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _MainTex ("Texture", 2D) = "white" {}        
+        _Alpha ("Alpha", Float) = 1.0
         _Color1 ("Color 1", Color) = (1, 0, 0, 1)
         _Color2 ("Color 2", Color) = (0, 1, 0, 1)
-        _Speed ("Speed", Float) = 1.0
+        _Speed ("Speed", Float) = 1.0   
     }
     
     SubShader
     {
-        Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" }
+        Tags { "RenderType"="Transparent" "RenderPipeline"="UniversalPipeline" }
         LOD 100
+        Blend SrcAlpha OneMinusSrcAlpha
+
 
         Pass
         {
@@ -39,6 +42,7 @@ Shader "Unlit/SquareTunnel"
             float4 _MainTex_ST;
             float4 _Color1;
             float4 _Color2;
+            float _Alpha;
             float _Speed;
             
             Varyings vert(Attributes IN)
@@ -65,7 +69,7 @@ Shader "Unlit/SquareTunnel"
                 
                 float3 col = lerp(_Color1.rgb, _Color2.rgb, f*(smoothstep(0.1, 0.3, max(abs(uv.x), abs(uv.y))))) * clamp(r, 0.0, 1.0);
                 
-                return float4(col, 1.0);
+                return float4(col, _Alpha);
             }
             ENDHLSL
         }
