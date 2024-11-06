@@ -1631,7 +1631,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 35273277968203794, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
       propertyPath: Threshold
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 35273277968203794, guid: 2de6d9dfa4031954799d7a49fb6f4f39, type: 3}
       propertyPath: sphereController
