@@ -26,8 +26,7 @@ public class TunnelController : AudioSyncer
     [SerializeField] private int numberOfSegments = 3;       // Number of segments the tunnel is divided into    
 
     [SerializeField] private TunnelMonoBehavior obstaclePrefab;      // Prefab to spawn as obstacles
-    [SerializeField] private float spawnInterval = 1f;       // Time between obstacle spawns
-    [SerializeField] private float minScale = 0.2f;          // Minimum scale of obstacles (when far away)
+
     [SerializeField] private float maxScale = 2f;            // Maximum scale of obstacles (when close to camera)
 
     public AnimationCurve moveCurve;
@@ -286,10 +285,10 @@ public class TunnelController : AudioSyncer
         var totalTime = numberOfSegments * segmentBeats * AudioSyncer.BeatInterval;
         var startTime = obj.startBeat * AudioSyncer.BeatInterval;
         var progress = (float)((AudioSyncer.DspTime - startTime) / totalTime);
-        int segment = (int)Mathf.Floor(progress / numberOfSegments);
-        var positionWithinSegment = (float)(progress - segment * numberOfSegments);
-        var actualPos = moveCurve.Evaluate(positionWithinSegment * numberOfSegments);
-        var adjustedZprogress = actualPos + segment * (1f / numberOfSegments);
+        int segment = Mathf.FloorToInt(progress * numberOfSegments);
+        var positionWithinSegment = (float)(progress - (float)segment / numberOfSegments);
+        var actualPos = moveCurve.Evaluate(positionWithinSegment * numberOfSegments) /numberOfSegments;
+        var adjustedZprogress = actualPos +  ((float)segment  / numberOfSegments);
         var zPosition = Mathf.Lerp(tunnelZfar, tunnelZnear, (float)adjustedZprogress);
         var scale = maxScale * tunnelZnear / zPosition;
 

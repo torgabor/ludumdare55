@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7411765, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -325,7 +325,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7411765, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -401,8 +401,8 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0.23529413, g: 0.7843138, b: 1, a: 0}
+      key1: {r: 1, g: 0.81320757, b: 0.2783019, a: 1}
+      key2: {r: 1, g: 0.7411765, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 1}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 1}
@@ -425,7 +425,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 3
       m_NumAlphaKeys: 6
     numCornerVertices: 0
@@ -571,8 +571,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e23012e0fda873240b5b1ef3042b9785, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: fddc4ce240e13ee48a338cd138150c42, type: 3}
+  m_Color: {r: 1, g: 0.7406687, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 6031583873775124265}
   - component: {fileID: 1925916423320839794}
   - component: {fileID: 543130022249716815}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tunnel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,8 +694,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.037, y: 2.719, z: 0}
-  m_LocalScale: {x: 0.7364563, y: 0.7364563, z: 0.7364563}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.41, y: 0.41, z: 0.41}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6173669694356422718}
   - {fileID: 1240483531335463346}
@@ -716,12 +716,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PartialBeats: 1
-  tunnelWidth: 3.98
+  tunnelWidth: 3.27
   centerSpawnDistance: 0.53
   numberOfSegments: 2
   obstaclePrefab: {fileID: 7835459663111160738, guid: 00d90f1740edf4f468b6e8b9a51578e4, type: 3}
-  spawnInterval: 1
-  minScale: 0.6
   maxScale: 2
   moveCurve:
     serializedVersion: 2
@@ -754,17 +752,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.598842
-      value: 0.9036637
-      inSlope: 0.9847002
-      outSlope: 0.9847002
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.68170774
-      value: 0.9541445
+      time: 0.7857371
+      value: 0.8611959
       inSlope: 0.455635
       outSlope: 0.455635
       tangentMode: 0
@@ -783,12 +772,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lingerBeats: 1
-  faultClearBeats: 0
+  lingerBeats: 0
+  faultClearBeats: 4
   requiredMatches: 3
   spawnBeats: 2
-  segmentBeats: 2
-  lastSpawnBeat: 0
+  segmentBeats: 10
   state: 0
   tunnelZfar: 20
   tunnelZnear: 10
@@ -798,8 +786,8 @@ MonoBehaviour:
   lightningController: {fileID: 543130022249716815}
   progressCircle: {fileID: 3932037245205647955}
   mainSprite: {fileID: 2803485870685194757}
-  pulseSpeed: 3.33
-  progressSpeed: 1.6
+  pulseSpeed: 1
+  progressSpeed: 4
 --- !u!114 &543130022249716815
 MonoBehaviour:
   m_ObjectHideFlags: 0

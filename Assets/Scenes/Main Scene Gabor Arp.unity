@@ -704,6 +704,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1925916423320839794, guid: c0450d0414e762944896a4d18ffb2b49, type: 3}
+      propertyPath: segmentBeats
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925916423320839794, guid: c0450d0414e762944896a4d18ffb2b49, type: 3}
       propertyPath: progressSpeed
       value: 4
       objectReference: {fileID: 0}
@@ -1626,7 +1630,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &1146247422
+--- !u!43 &1188882291
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2730,6 +2734,7 @@ MonoBehaviour:
   Noice: {fileID: 8300000, guid: 2b5349c7ef02ead4289d89c500628892, type: 3}
   Whatt: {fileID: 8300000, guid: 9873283b2ce85f648987eb1cfb2c2748, type: 3}
   ShieldMiniGame: {fileID: 1030439640}
+  TimerSeconds: 180
   GameOver: 0
   isBaseGameRunning: 0
   Sandbox: 0

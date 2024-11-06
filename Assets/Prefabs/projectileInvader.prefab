@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d7a9b27db62ad8647bac9c4b851dfe0e, type: 3}
-  m_Color: {r: 0.9622642, g: 0, b: 0.036552377, a: 1}
+  m_Color: {r: 1, g: 0.65579164, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -121,8 +121,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PartialBeats: 1
   m_settings: {fileID: 11400000, guid: 8bbcd53ac8effd445953ede915c2a27f, type: 2}
-  beatColor: {r: 1, g: 0.03424205, b: 0, a: 1}
-  restColor: {r: 0.990566, g: 0.6494749, b: 0.6494749, a: 1}
+  beatColor: {r: 1, g: 0.836526, b: 0.525, a: 1}
+  restColor: {r: 1, g: 0.654902, b: 0, a: 1}
 --- !u!114 &1576027591217831897
 MonoBehaviour:
   m_ObjectHideFlags: 0
